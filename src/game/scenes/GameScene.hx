@@ -325,8 +325,9 @@ class GameScene extends Scene {
 
             // g2.color = 0xff * 0x1000000 + getLightColor(getGridItem(world.room.lights, x, y));
 
+            // + 90 becuase we draw facing up and not to the right
             g2.pushRotation(
-                getRotDir(actor.facing),
+                getRotDir(actor.facing) + toRadians(90),
                 posX + actor.x * sizeX + 8,
                 posY + actor.y * sizeY + 8
             );

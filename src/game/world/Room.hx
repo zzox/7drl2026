@@ -1,8 +1,10 @@
 package game.world;
 
 import core.Types;
+import core.util.Util.angleFromPoints;
 import game.data.Stats;
 import game.util.Utils.checkEq;
+import game.util.Utils.getFacingAngle;
 import game.world.Actor;
 import game.world.Dna.Gene;
 import game.world.Grid;
@@ -82,8 +84,38 @@ class Room {
         if (gene == None) return;
         if (gene == Forward) tryForward(fromActor);
         if (gene == Back) tryBack(fromActor);
-        if (gene == TurnTo) fromActor.facing = (fromActor.facing + 1) % 4;
-        if (gene == TurnAway) fromActor.facing = (fromActor.facing - 1) % 4;
+        if (gene == TurnTo) tryTo(fromActor, toActor);
+        if (gene == TurnAway) tryAway(fromActor, toActor);
+    }
+
+    inline function tryTo (fromActor:Actor, toActor:Actor) {
+        var angle = angleFromPoints(toActor.x, toActor.y, fromActor.x, fromActor.y) - getFacingAngle(fromActor.facing);
+
+        // DEBUG:
+        // final angle1 = angle;
+        // final before = fromActor.facing;
+
+        if (angle < -180) {
+            angle += 360;
+        }
+
+        if (angle > 180) {
+            angle -= 360;
+        }
+
+        if (angle < -45) {
+            fromActor.facing = figureRotationMath(fromActor.facing - 1);
+        } else if (angle > 45) {
+            fromActor.facing = figureRotationMath(fromActor.facing + 1);
+        }
+        // trace(fromActor.x, fromActor.y, toActor.x, toActor.y, angle1, angle, before, fromActor.facing);
+    }
+
+    inline function tryAway (fromActor:Actor, toActor:Actor) {
+        // final angle = getFacingAngle(fromActor.facing) + angleFromPoints(fromActor.x, fromActor.y, toActor.x, toActor.y);
+        // trace(angle);
+
+        // fromActor.facing = figureRotationMath(fromActor.facing + 1);
     }
 
     inline function tryForward (actor:Actor) {

@@ -11,8 +11,8 @@ typedef Grid<T> = {
  */
 enum abstract RotationDir(Int) from Int to Int {
     var North = 0;
-    var South = 1;
-    var East = 2;
+    var East = 1;
+    var South = 2;
     var West = 3;
 }
 

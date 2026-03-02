@@ -56,9 +56,18 @@ function getDistanceDiffs (distance:Int):Array<IntVec2> {
 
 function getRotDir (dir:RotationDir):Float {
     return switch (dir) {
-        case East: toRadians(90);
-        case South: toRadians(180);
-        case West: toRadians(270);
-        case North: toRadians(0);
+        case East: toRadians(0);
+        case South: toRadians(90);
+        case West: toRadians(180);
+        case North: toRadians(270);
+    }
+}
+
+function getFacingAngle (dir:RotationDir):Float {
+    return switch (dir) {
+        case East: 0;
+        case South: 90;
+        case West: 180;
+        case North: 270;
     }
 }

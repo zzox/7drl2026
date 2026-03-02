@@ -43,11 +43,12 @@ function generateGenes ():Array<Gene> {
             dna.push(Punch);
         } else if (World.rand.GetFloat() < 0.12) {
             dna.push(Forward);
-        } else if (World.rand.GetFloat() < 0.22) {
+        } else if (World.rand.GetFloat() < 0.14) {
             dna.push(Back);
-        } else if (World.rand.GetFloat() < 0.26) {
+            // dna.push(None);
+        } else if (World.rand.GetFloat() < 0.16) {
             dna.push(TurnAway);
-        } else if (World.rand.GetFloat() < 0.3) {
+        } else if (World.rand.GetFloat() < 0.32) {
             dna.push(TurnTo);
         } else {
             dna.push(None);
