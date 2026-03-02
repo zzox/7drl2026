@@ -22,6 +22,22 @@ function dirDiff (x:Int, y:Int, rand:() -> Float):RotationDir {
     return South;
 }
 
+enum RoomEventType {
+    Gene;
+    Damage;
+    ThingEnd;
+}
+
+typedef RoomEvent = {
+    var type:RoomEventType;
+    // var actor:ActorId;
+    var ?amount:Int;
+    var ?x:Int;
+    var ?y:Int;
+    var ?thingType:ThingType;
+    var ?dir:RotationDir;
+}
+
 class Room {
     static inline final Width = 8;
     static inline final Height = 8;
@@ -34,6 +50,8 @@ class Room {
     var startGrid:Grid<Int>;
 
     public var stats:Stats;
+
+    var events:Array<RoomEvent> = [];
 
     public function new (dna1:Dna, dna2:Dna) {
         grid = makeGrid(Width, Height, 0);
@@ -87,7 +105,14 @@ class Room {
             t.time--;
         }
 
-        things = things.filter(t -> t.time > 0);
+        things = things.filter(t -> {
+            if (t.time > 0) {
+                return true;
+            }
+
+            addEvent(ThingEnd, null, t.x, t.y, t.type, t.facing);
+            return false;
+        });
 
         for (a in actors) {
             if (a.hp <= 0) {
@@ -99,6 +124,7 @@ class Room {
     }
 
     function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {
+        // addEvent(Gene, gene);
         if (gene == None) return;
         if (gene == Forward) tryForward(fromActor);
         if (gene == Back) tryBack(fromActor);
@@ -314,5 +340,17 @@ class Room {
             return actors[1];
         }
         return actors[0];
+    }
+
+    inline function addEvent (type:RoomEventType, /* ?actor:Actor, */ ?amount:Int, ?x:Int, ?y:Int, ?thingType:ThingType, dir:RotationDir) {
+#if !harnessed
+        events.push({ type: type, /*actor: actor,*/ amount: amount, x: x, y: y, thingType: thingType, dir: dir });
+#end
+    }
+
+    public function getEvents () {
+        final e = events;
+        events = [];
+        return e;
     }
 }

@@ -1,9 +1,7 @@
 package game.world;
 
 import game.data.Stats;
-import game.world.Actor;
 import game.world.Dna;
-import game.world.Thing;
 import kha.math.Random;
 
 enum abstract CommandType(Int) {

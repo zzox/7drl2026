@@ -12,6 +12,7 @@ import game.util.Debug;
 import game.util.Utils;
 import game.world.Actor;
 import game.world.Grid;
+import game.world.Room.RoomEvent;
 import game.world.Thing;
 import game.world.World;
 import haxe.Json;
@@ -45,16 +46,16 @@ typedef RenderedThing = {
     var thing:Thing;
 }
 
-// typedef Particle = {
-//   var tile:number
-//   var number?:number
-//   var time:number
-//   var x:number
-//   var y:number
-//   var collTime:number
-//   var color?:NumberColor
-// }
-
+typedef Particle = {
+  var tile:Int;
+  var time:Int;
+  var x:Int;
+  var y:Int;
+  var ?dir:RotationDir;
+  var ?collTime:Int;
+  var ?number:Int;
+  var ?color:Int;
+}
 
 class GameScene extends Scene {
     static var pulseTime:Float = 0.0;
@@ -73,7 +74,8 @@ class GameScene extends Scene {
 
     var renderedActors:Array<RenderedActor> = [];
     var renderedThings:Array<RenderedThing> = [];
-    var numbers:Array<Particle> = [];
+    // var numbers:Array<Particle> = [];
+    var particles:Array<Particle> = [];
 
     var selectedActor:Null<Actor>;
     var selectedThing:Null<Thing>;
@@ -101,9 +103,9 @@ class GameScene extends Scene {
         entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'speed', 'dindex', 'p'], 10));
         entities.push(char2 = new NumColumn(260, 24, 60, ['hp', 'speed', 'dindex', 'p'], 10));
 
-        for (_ in 0...20) {
-            numbers.push(new Particle());
-        }
+        // for (_ in 0...20) {
+        //     numbers.push(new Particle());
+        // }
 
 #if debug
         for (i in 0...8) {
@@ -155,7 +157,10 @@ class GameScene extends Scene {
             // if (uiScene.ffSpeed >= 2) steps *= 2;
             for (_ in 0...steps) {
                 world.room.step(0);
+                updateParticles();
             }
+            // WARN: overflow from too many events?
+            handleEvents(world.room.getEvents());
         }
 
         char1.setStringItem('hp', '${world.room.actors[0].hp}/${world.room.actors[0].dna.hp}');
@@ -334,8 +339,6 @@ class GameScene extends Scene {
 
             final tileIndex = i == 0 ? 101 : 102;
 
-            // g2.color = 0xff * 0x1000000 + getLightColor(getGridItem(world.room.lights, x, y));
-
             // + 90 becuase we draw facing up and not to the right
             g2.pushRotation(
                 getRotDir(actor.facing) + toRadians(90),
@@ -345,12 +348,8 @@ class GameScene extends Scene {
 
             g2.drawSubImage(
                 image,
-                // translateWorldX(x, y),
-                // translateWorldY(x, y),
                 posX + actor.x * sizeX,
                 posY + actor.y * sizeY,
-                // translateWorldX(x, y),
-                // translateWorldY(x, y),
                 (tileIndex % cols) * sizeX, Math.floor(tileIndex / cols) * sizeY, sizeX, sizeY
             );
             g2.popTransformation();
@@ -362,9 +361,6 @@ class GameScene extends Scene {
 
             final tileIndex = 160;
 
-            // g2.color = 0xff * 0x1000000 + getLightColor(getGridItem(world.room.lights, x, y));
-
-            // + 90 becuase we draw facing up and not to the right
             g2.pushRotation(
                 getRotDir(thing.facing) + toRadians(90),
                 posX + thing.x * sizeX + 8,
@@ -373,13 +369,27 @@ class GameScene extends Scene {
 
             g2.drawSubImage(
                 image,
-                // translateWorldX(x, y),
-                // translateWorldY(x, y),
                 posX + thing.x * sizeX,
                 posY + thing.y * sizeY,
-                // translateWorldX(x, y),
-                // translateWorldY(x, y),
                 (tileIndex % cols) * sizeX, Math.floor(tileIndex / cols) * sizeY, sizeX, sizeY
+            );
+            g2.popTransformation();
+        }
+
+        for (p in particles) {
+            // if (items[i].item == -1) continue;
+
+            g2.pushRotation(
+                getRotDir(p.dir) + toRadians(90),
+                posX + p.x * sizeX + 8,
+                posY + p.y * sizeY + 8
+            );
+
+            g2.drawSubImage(
+                image,
+                posX + p.x * sizeX,
+                posY + p.y * sizeY,
+                (p.tile % cols) * sizeX, Math.floor(p.tile / cols) * sizeY, sizeX, sizeY
             );
             g2.popTransformation();
         }
@@ -416,12 +426,24 @@ class GameScene extends Scene {
 #end
     }
 
-    var numIndex = -1;
-    function makeNumber (x:Float, y:Float, amount:Int, green:Bool) {
-        final num = numbers[(++numIndex % numbers.length)];
-        num.show(x, y, green ? Green : Red);
-        num.setText('$' + amount);
+    function handleEvents (events:Array<RoomEvent>) {
+        for (e in events) {
+            if (e.type == ThingEnd) {
+                particles.push({ tile: 176, x: e.x, y: e.y, dir: e.dir, time: 30 });
+            }
+        }
     }
+
+    function updateParticles () {
+        particles = particles.filter(p -> --p.time > 0);
+    }
+
+    // var numIndex = -1;
+    // function makeNumber (x:Float, y:Float, amount:Int, green:Bool) {
+    //     final num = numbers[(++numIndex % numbers.length)];
+    //     num.show(x, y, green ? Green : Red);
+    //     num.setText('$' + amount);
+    // }
 
     inline function sendLogs () {
         final req = new haxe.Http('http://localhost:4000');
