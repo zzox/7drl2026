@@ -2,10 +2,12 @@ package game.scenes;
 
 import core.Game;
 import core.Types;
+import core.gameobjects.BitmapText;
 import core.scene.Scene;
 import core.util.Util;
 import game.data.Logs;
 import game.sprites.Particle;
+import game.ui.NumColumn;
 import game.ui.UiText;
 import game.util.Debug;
 import game.util.Utils;
@@ -50,10 +52,13 @@ class GameScene extends Scene {
     public static var shortPulseOn:Bool = true;
 
     var world:World;
-    var uiScene:UiScene;
+    // var uiScene:UiScene;
     var logs:Logs;
     var worldActive:Bool = true;
     var tilePosAt:IntVec2 = new IntVec2(0, 0);
+
+    var char1:NumColumn;
+    var char2:NumColumn;
 
     var renderedActors:Array<RenderedActor> = [];
     var renderedThings:Array<RenderedThing> = [];
@@ -63,6 +68,10 @@ class GameScene extends Scene {
     var selectedThing:Null<Thing>;
 
     var gameId:String;
+
+#if debug
+    public var devTexts:Array<BitmapText> = [];
+#end
 
     override function create () {
         super.create();
@@ -75,16 +84,26 @@ class GameScene extends Scene {
 
         logs = new Logs();
 
-        uiScene = new UiScene(this, world, logs);
-        game.addScene(uiScene);
+        // uiScene = new UiScene(this, world, logs);
+        // game.addScene(uiScene);
+
+        entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'speed', 'dindex'], 10));
+        entities.push(char2 = new NumColumn(260, 24, 60, ['hp', 'speed', 'dindex'], 10));
 
         for (_ in 0...20) {
             numbers.push(new Particle());
         }
 
 #if debug
-    Debug.renderTimes = [for (i in 0...300) 0.0]; // 5 seconds on 60fps monitors
-    Debug.updateTimes = [for (i in 0...300) 0.0]; // ~5 seconds
+        for (i in 0...8) {
+            final text = makeBitmapText(0, 100 + i * 10, '');
+            entities.push(text);
+            devTexts.push(text);
+            // text.visible = false;
+        }
+
+        Debug.renderTimes = [for (i in 0...300) 0.0]; // 5 seconds on 60fps monitors
+        Debug.updateTimes = [for (i in 0...300) 0.0]; // ~5 seconds
 #end
     }
 
@@ -121,15 +140,20 @@ class GameScene extends Scene {
             // turns speed 0 into 1, speed 1 into 4 and speed 2 into 16
             // steps *= Std.int(Math.pow(2, uiScene.ffSpeed));
             // steps *= Std.int(Math.pow(2, uiScene.ffSpeed));
-            if (uiScene.ffSpeed >= 1) steps *= 2;
-            if (uiScene.ffSpeed >= 2) steps *= 2;
+            // if (uiScene.ffSpeed >= 1) steps *= 2;
+            // if (uiScene.ffSpeed >= 2) steps *= 2;
             for (_ in 0...steps) {
                 world.room.step(0);
-                // worldActive = world.step();
-                // break needed?
-                // if (!worldActive) break;
             }
         }
+
+        char1.setStringItem('hp', '${world.room.actors[0].hp}/${world.room.actors[0].dna.hp}');
+        char1.setItem('speed', world.room.actors[0].dna.speed);
+        char1.setItem('dindex', world.room.actors[0].dnaIndex);
+        char2.setStringItem('hp', '${world.room.actors[1].hp}/${world.room.actors[1].dna.hp}');
+        char2.setItem('speed', world.room.actors[1].dna.speed);
+        char2.setItem('dindex', world.room.actors[1].dnaIndex);
+
 
         pulseTime = (pulseTime + delta) % 0.5;
         pulseOn = pulseTime < 0.25;
@@ -323,9 +347,9 @@ class GameScene extends Scene {
 
         // tilePosAt = getTilePosAt(screenPosX, screenPosY, worldRotation, world.rooms[focusedRoom].grid.width, world.rooms[focusedRoom].grid.height);
 #if debug
-        uiScene.devTexts[0].setText('${Game.mouse.position.x},${Game.mouse.position.y}, ${screenPosX},${screenPosY}');
+        devTexts[0].setText('${Game.mouse.position.x},${Game.mouse.position.y}, ${screenPosX},${screenPosY}');
 
-        uiScene.devTexts[1].setText('${tilePosAt.x},${tilePosAt.y}');
+        devTexts[1].setText('${tilePosAt.x},${tilePosAt.y}');
         // uiScene.setMiddleText('${camCenterX()} ${camCenterY()} ${minX} ${minY} ${maxX} ${maxY}', 1.0);
 #end
 
@@ -340,7 +364,7 @@ class GameScene extends Scene {
 
 #if debug
         // TODO: bottom text
-        uiScene.devTexts[7].setText(text);
+        devTexts[7].setText(text);
 #end
     }
 

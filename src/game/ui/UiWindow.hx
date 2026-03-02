@@ -27,18 +27,18 @@ typedef OChildElement = {
     var y:Int;
 }
 
-typedef NumColumnItem = {
-    var name:String;
-    var num:String;
-}
-typedef NumColumn = {
-    var x:Int;
-    var y:Int;
-    var width:Int;
-    var items:Array<NumColumnItem>;
-    var yadv:Int;
-    var textItem:BitmapText;
-}
+// typedef NumColumnItem = {
+//     var name:String;
+//     var num:String;
+// }
+// typedef NumColumn = {
+//     var x:Int;
+//     var y:Int;
+//     var width:Int;
+//     var items:Array<NumColumnItem>;
+//     var yadv:Int;
+//     var textItem:BitmapText;
+// }
 
 // a collection of gameobjects all rendered to a relative position
 class UiWindow {
@@ -133,46 +133,46 @@ class UiWindow {
         return barEl;
     }
 
-    // NOTE: uses the right edge from `width` for now, may need a proper value in the future
-    inline function makeNumColumn (x:Int, y:Int, width:Int, items:Array<String>, yadv:Int = 10):NumColumn {
-        final column = [];
-        for (item in items) {
-            column.push({
-                name: item,
-                num: '0'
-            });
-        }
-        return {
-            x: x, y: y,
-            width: width,
-            textItem: makeBlackText(),
-            yadv: yadv,
-            items: column
-        }
-    }
+    // // NOTE: uses the right edge from `width` for now, may need a proper value in the future
+    // inline function makeNumColumn (x:Int, y:Int, width:Int, items:Array<String>, yadv:Int = 10):NumColumn {
+    //     final column = [];
+    //     for (item in items) {
+    //         column.push({
+    //             name: item,
+    //             num: '0'
+    //         });
+    //     }
+    //     return {
+    //         x: x, y: y,
+    //         width: width,
+    //         textItem: makeBlackText(),
+    //         yadv: yadv,
+    //         items: column
+    //     }
+    // }
 
-    inline function setNumColumn (column:NumColumn, prop:String, val:Int) {
-        final item = column.items.filter(item -> item.name == prop)[0];
-        item.num = val + '';
-    }
+    // inline function setNumColumn (column:NumColumn, prop:String, val:Int) {
+    //     final item = column.items.filter(item -> item.name == prop)[0];
+    //     item.num = val + '';
+    // }
 
-    inline function setNumColumnString (column:NumColumn, prop:String, val:String) {
-        final item = column.items.filter(item -> item.name == prop)[0];
-        item.num = val;
-    }
+    // inline function setNumColumnString (column:NumColumn, prop:String, val:String) {
+    //     final item = column.items.filter(item -> item.name == prop)[0];
+    //     item.num = val;
+    // }
 
-    inline function renderNumColumn (column:NumColumn, x:Int, y:Int, g2:Graphics, cam:Camera) {
-        var y = y + column.y;
-        for (i in 0...column.items.length) {
-            column.textItem.setText(column.items[i].name);
-            column.textItem.setPosition(x + column.x, y);
-            column.textItem.render(g2, cam);
-            column.textItem.setText(column.items[i].num);
-            column.textItem.setPosition(x + column.width - column.textItem.textWidth - 4, y);
-            column.textItem.render(g2, cam);
-            y += column.yadv;
-        }
-    }
+    // inline function renderNumColumn (column:NumColumn, x:Int, y:Int, g2:Graphics, cam:Camera) {
+    //     var y = y + column.y;
+    //     for (i in 0...column.items.length) {
+    //         column.textItem.setText(column.items[i].name);
+    //         column.textItem.setPosition(x + column.x, y);
+    //         column.textItem.render(g2, cam);
+    //         column.textItem.setText(column.items[i].num);
+    //         column.textItem.setPosition(x + column.width - column.textItem.textWidth - 4, y);
+    //         column.textItem.render(g2, cam);
+    //         y += column.yadv;
+    //     }
+    // }
 
     function addUiTextButton (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, text:String, callback:Void -> Void):TextButton {
         final uiButton = makeUiTextButton(0, 0, width, height, tileIndex, text, callback);

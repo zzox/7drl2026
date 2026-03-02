@@ -22,6 +22,8 @@ class Actor {
     public var y:Int;
     public var facing:RotationDir = North;
     public var time:Int = 1;
+    public var hp:Int;
+    public var dnaIndex:Int = 0;
 
     public function new (dna:Dna, pos:Int) {
         id = curId++;
@@ -36,6 +38,7 @@ class Actor {
         }
 
         this.dna = dna;
+        hp = dna.hp;
     }
 
     public inline function isAt (x:Int, y:Int):Bool {

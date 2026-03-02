@@ -61,17 +61,8 @@ class Room {
             if (a.time > 0) continue;
 
             if (a.time == 0) {
-                if (World.rand.GetFloat() < 0.1) {
-                    tryMove(a, East);
-                } else if (World.rand.GetFloat() < 0.2) {
-                    tryMove(a, South);
-                } else if (World.rand.GetFloat() < 0.3) {
-                    tryMove(a, West);
-                } else if (World.rand.GetFloat() < 0.4) {
-                    tryMove(a, North);
-                }
-
-                a.time = a.dna.speed;
+                a.time = (128 - a.dna.speed);
+                a.dnaIndex = (a.dnaIndex + 1) % a.dna.genes.length;
             }
 
 #if debug

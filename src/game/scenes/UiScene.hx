@@ -11,7 +11,6 @@ import game.data.Logs;
 import game.ui.AlertWindow;
 import game.ui.ConfirmWindow;
 import game.ui.LogWindow;
-import game.ui.StatsWindow;
 import game.ui.UiButtons;
 import game.ui.UiElement;
 import game.ui.UiText;
@@ -63,7 +62,6 @@ class UiScene extends Scene {
     public var buttonPressed:Bool = false;
     public var bringFront:Int = -1;
     public var logWindow:LogWindow;
-    public var statsWindow:StatsWindow;
 
     var mouseX:Int;
     var mouseY:Int;
@@ -127,11 +125,11 @@ class UiScene extends Scene {
         // windows.push(window2);
 
         logWindow = new LogWindow(320, 100, logs);
-        statsWindow = new StatsWindow(240, WinTop, world);
+        // statsWindow = new StatsWindow(240, WinTop, world);
         // leftPanel = new LeftPanel(0, WinTop, handleUpdateRoom);
         // windows.push(leftPanel);
         windows.push(logWindow);
-        windows.push(statsWindow);
+        // windows.push(statsWindow);
 
         // launchLogsWindow();
 
