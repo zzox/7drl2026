@@ -5,7 +5,6 @@ import core.Types;
 import core.gameobjects.BitmapText;
 import core.scene.Scene;
 import core.util.Util;
-import game.data.Logs;
 import game.sprites.Particle;
 import game.ui.NumColumn;
 import game.ui.UiText;
@@ -46,14 +45,26 @@ typedef RenderedThing = {
     var thing:Thing;
 }
 
+// typedef Particle = {
+//   var tile:number
+//   var number?:number
+//   var time:number
+//   var x:number
+//   var y:number
+//   var collTime:number
+//   var color?:NumberColor
+// }
+
+
 class GameScene extends Scene {
     static var pulseTime:Float = 0.0;
     public static var pulseOn:Bool = true;
     public static var shortPulseOn:Bool = true;
 
     var world:World;
+    // var particles:Particle;
     // var uiScene:UiScene;
-    var logs:Logs;
+    // var logs:Logs;
     var worldActive:Bool = true;
     var tilePosAt:IntVec2 = new IntVec2(0, 0);
 
@@ -82,7 +93,7 @@ class GameScene extends Scene {
         gameId = (Math.random() + '').split('.')[1];
         world = new World();
 
-        logs = new Logs();
+        // logs = new Logs();
 
         // uiScene = new UiScene(this, world, logs);
         // game.addScene(uiScene);
@@ -193,7 +204,7 @@ class GameScene extends Scene {
         g2.pushTranslation(-camera.scrollX, -camera.scrollY);
         g2.pushScale(camera.scale, camera.scale);
 
-        renderMap(g2);
+        renderRoom(g2);
 
         final charXDiff = 0;
         final charYDiff = 20;
@@ -288,7 +299,7 @@ class GameScene extends Scene {
 #end
     }
 
-    function renderMap (g2:Graphics) {
+    function renderRoom (g2:Graphics) {
         final sizeX = 16;
         final sizeY = 16;
 
@@ -338,6 +349,34 @@ class GameScene extends Scene {
                 // translateWorldY(x, y),
                 posX + actor.x * sizeX,
                 posY + actor.y * sizeY,
+                // translateWorldX(x, y),
+                // translateWorldY(x, y),
+                (tileIndex % cols) * sizeX, Math.floor(tileIndex / cols) * sizeY, sizeX, sizeY
+            );
+            g2.popTransformation();
+        }
+
+        for (i in 0...world.room.things.length) {
+            // if (items[i].item == -1) continue;
+            final thing = world.room.things[i];
+
+            final tileIndex = 160;
+
+            // g2.color = 0xff * 0x1000000 + getLightColor(getGridItem(world.room.lights, x, y));
+
+            // + 90 becuase we draw facing up and not to the right
+            g2.pushRotation(
+                getRotDir(thing.facing) + toRadians(90),
+                posX + thing.x * sizeX + 8,
+                posY + thing.y * sizeY + 8
+            );
+
+            g2.drawSubImage(
+                image,
+                // translateWorldX(x, y),
+                // translateWorldY(x, y),
+                posX + thing.x * sizeX,
+                posY + thing.y * sizeY,
                 // translateWorldX(x, y),
                 // translateWorldY(x, y),
                 (tileIndex % cols) * sizeX, Math.floor(tileIndex / cols) * sizeY, sizeX, sizeY

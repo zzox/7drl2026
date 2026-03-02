@@ -1,5 +1,7 @@
 package game.world;
 
+import game.data.Names;
+
 enum abstract Gene(Int) {
     var None = 0;
     var Forward = 1;
@@ -15,13 +17,24 @@ enum abstract Gene(Int) {
     var Deflect = 8;
 }
 
+typedef DId = Int;
+
 class Dna {
+    public static var curId:Int;
+
+    // static vals
+    public final id:DId;
+    public final name:String;
+
     public var speed:Int; // how fast each step is
     public var hp:Int;
 
     public var genes:Array<Gene>;
 
     public function new () {
+        id = curId++;
+        name = makeName();
+
         hp = 64 + World.rand.GetUpTo(64);
         speed = World.rand.GetUpTo(64);
         // dex = World.rand.GetUpTo(64);
@@ -39,7 +52,7 @@ function generateGenes ():Array<Gene> {
         final rand = World.rand.GetFloat();
         if (rand < 0.01) {
             dna.push(Pierce);
-        } else if (rand < 0.02) {
+        } else if (rand < 0.06) {
             dna.push(Punch);
         } else if (rand < 0.12) {
             dna.push(Forward);

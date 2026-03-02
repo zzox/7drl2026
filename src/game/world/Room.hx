@@ -1,15 +1,13 @@
 package game.world;
 
 import core.Types;
-import core.util.Util.angleFromPoints;
+import core.util.Util;
 import game.data.Stats;
-import game.util.Utils.checkEq;
-import game.util.Utils.getFacingAngle;
+import game.util.Utils;
 import game.world.Actor;
 import game.world.Dna.Gene;
 import game.world.Grid;
 import game.world.Thing;
-import game.world.WorldEvent;
 
 function indexDiff (x:Int, y:Int, rand:() -> Float):Int {
     if (rand() * 8.0 < 1.0) return 1;
@@ -36,7 +34,6 @@ class Room {
     var startGrid:Grid<Int>;
 
     public var stats:Stats;
-    public var events:Array<Event> = [];
 
     public function new (dna1:Dna, dna2:Dna) {
         grid = makeGrid(Width, Height, 0);
@@ -71,10 +68,31 @@ class Room {
 
 #if debug
             if (a.time == 0) {
-                trace(a.name);
+                trace(a.dna.name);
                 throw 'Illegal `state`';
             }
 #end
+        }
+
+        // check things
+
+        for (t in things) {
+            for (a in actors) {
+                if (checkEq(t.x, t.y, a.x, a.y)) {
+                    a.hp -= 10;
+                    t.time = -1;
+                }
+            }
+
+            t.time--;
+        }
+
+        things = things.filter(t -> t.time > 0);
+
+        for (a in actors) {
+            if (a.hp <= 0) {
+                throw 'Game over';
+            }
         }
 
         updateLights(time);
@@ -86,6 +104,20 @@ class Room {
         if (gene == Back) tryBack(fromActor);
         if (gene == TurnTo) tryTurnTo(fromActor, toActor);
         if (gene == TurnAway) tryTurnAway(fromActor, toActor);
+        if (gene == Pierce) launchProj(fromActor, Pierce);
+    }
+
+    function launchProj (fromActor:Actor, type:Gene) {
+        final thingType = getThingType(type);
+
+        final thing = {
+            type: thingType,
+            x: getLaunchX(fromActor),
+            y: getLaunchY(fromActor),
+            facing: fromActor.facing,
+            time: 30
+        }
+        things.push(thing);
     }
 
     inline function tryTurnTo (fromActor:Actor, toActor:Actor) {
@@ -273,9 +305,9 @@ class Room {
         }
     }
 
-    inline function addEvent (type:EventType, ?actor:Actor, ?amount:Int, ?thing:Thing) {
-        events.push({ type: type, actor: actor, amount: amount, thing: thing });
-    }
+    // inline function addEvent (type:EventType, ?actor:Actor, ?amount:Int, ?thing:Thing) {
+    //     events.push({ type: type, actor: actor, amount: amount, thing: thing });
+    // }
 
     inline function getEnemy (actor:Actor) {
         if (actor == actors[0]) {

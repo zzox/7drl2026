@@ -1,7 +1,6 @@
 package game.util;
 
 import core.util.BitmapFont;
-import game.world.Actor.ActorState;
 
 class TextUtil {
     // format the text into correct line widths
@@ -68,10 +67,10 @@ class TextUtil {
         return '' + int; 
     }
 
-    public static inline function formatActorState (state:ActorState):String {
-        return switch (state:ActorState) {
-            case None: '';
-            case _: 'no';
-        }
-    }
+    // public static inline function formatActorState (state:ActorState):String {
+    //     return switch (state:ActorState) {
+    //         case None: '';
+    //         case _: 'no';
+    //     }
+    // }
 }

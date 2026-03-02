@@ -1,33 +1,28 @@
 package game.world;
 
-enum abstract ThingType(Int) {
-    var TestType;
+import game.world.Dna;
+import game.world.Grid;
+
+enum ThingType {
+    Pierce;
 }
 
-typedef ThingData = {
-    var name:String;
+typedef Thing = {
+    var x:Int;
+    var y:Int;
+    var type:ThingType;
+    var facing:RotationDir;
+    // var from:Actor;
+    var time:Int;
 }
 
-typedef ThingId = Int;
+final thingMoves:Map<ThingType, Bool> = [
+    Pierce => false
+];
 
-// one or more pieces. an inanimate object.
-class Thing {
-    public static var curId:Int;
-
-    // static vals
-    public final id:ThingId;
-    public var x:Int;
-    public var y:Int;
-
-    public var name:String;
-    public var type:ThingType;
-
-    public function new (type:ThingType, name:String, x:Int, y:Int) {
-        id = curId++;
-
-        this.type = type;
-        this.name = name;
-        this.x = x;
-        this.y = y;
+function getThingType (gene:Gene):ThingType {
+    switch (gene) {
+        case Pierce: return Pierce;
+        default: throw 'Cant get thing';
     }
 }

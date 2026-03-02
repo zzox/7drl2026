@@ -7,10 +7,8 @@ import core.gameobjects.NineSlice;
 import core.gameobjects.Sprite;
 import core.scene.Scene;
 import core.util.Util;
-import game.data.Logs;
 import game.ui.AlertWindow;
 import game.ui.ConfirmWindow;
-import game.ui.LogWindow;
 import game.ui.UiButtons;
 import game.ui.UiElement;
 import game.ui.UiText;
@@ -41,7 +39,6 @@ class UiScene extends Scene {
 
     var gameScene:GameScene;
     var world:World;
-    var logs:Logs;
 
     var dayText:BitmapText;
     var dateText:BitmapText;
@@ -61,7 +58,7 @@ class UiScene extends Scene {
     public var hovered:Bool = false;
     public var buttonPressed:Bool = false;
     public var bringFront:Int = -1;
-    public var logWindow:LogWindow;
+    // public var logWindow:LogWindow;
 
     var mouseX:Int;
     var mouseY:Int;
@@ -72,11 +69,10 @@ class UiScene extends Scene {
     public var devTexts:Array<BitmapText> = [];
 #end
 
-    public function new (gameScene:GameScene, world:World, logs:Logs) {
+    public function new (gameScene:GameScene, world:World) {
         super();
         this.gameScene = gameScene;
         this.world = world;
-        this.logs = logs;
     }
 
     override function create () {
@@ -124,11 +120,11 @@ class UiScene extends Scene {
         // final window2 = new TestWindow(16, 16);
         // windows.push(window2);
 
-        logWindow = new LogWindow(320, 100, logs);
+        // logWindow = new LogWindow(320, 100, logs);
         // statsWindow = new StatsWindow(240, WinTop, world);
         // leftPanel = new LeftPanel(0, WinTop, handleUpdateRoom);
         // windows.push(leftPanel);
-        windows.push(logWindow);
+        // windows.push(logWindow);
         // windows.push(statsWindow);
 
         // launchLogsWindow();

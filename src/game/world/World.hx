@@ -2,8 +2,8 @@ package game.world;
 
 import game.data.Stats;
 import game.world.Actor;
+import game.world.Dna;
 import game.world.Thing;
-import game.world.WorldEvent;
 import kha.math.Random;
 
 enum abstract CommandType(Int) {
@@ -13,13 +13,13 @@ enum abstract CommandType(Int) {
 typedef Command = {
     var type:CommandType;
     // TODO: turn optional props into union type
-    var ?actorId:ActorId;
+    var ?dId:DId;
 }
 
-function makeTempCommand (actorId:ActorId):Command {
+function makeTempCommand (dId:DId):Command {
     return {
         type: TempCommand,
-        actorId: actorId
+        dId: dId
     }
 }
 
@@ -33,7 +33,6 @@ class World {
     public var money:Int = 1000;
 
     public var room:Room;
-    public var events:Array<Event> = [];
 
     public var commands:Array<{ step:Int, command: Command }> = [];
 
@@ -48,7 +47,7 @@ class World {
         this.seed = startSeed ?? Math.floor(Math.random() * 123456);
         rand = new kha.math.Random(seed);
         placeRand = new kha.math.Random(1312);
-        Actor.curId = 0;
+        Dna.curId = 0;
 
         room = new Room(new Dna(), new Dna());
     }
@@ -65,11 +64,5 @@ class World {
 
     public static function randomItem <T>(items:Array<T>):T {
         return items[randomInt(items.length)];
-    }
-
-    // public function getThing (id:ThingId):Thing {}
-
-    inline function addEvent (type:EventType, ?actor:Actor, ?amount:Int, ?thing:Thing) {
-        events.push({ type: type, actor: actor, amount: amount, thing: thing });
     }
 }

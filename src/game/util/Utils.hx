@@ -2,7 +2,8 @@ package game.util;
 
 import core.Types.IntVec2;
 import core.util.Util;
-import game.world.Grid.RotationDir;
+import game.world.Actor;
+import game.world.Grid;
 
 inline function checkEq (x1:Int, y1:Int, x2:Int, y2:Int) {
     return x1 == x2 && y1 == y2;
@@ -69,5 +70,23 @@ function getFacingAngle (dir:RotationDir):Float {
         case South: 90;
         case West: 180;
         case North: 270;
+    }
+}
+
+function getLaunchX (actor:Actor):Int {
+    return switch (actor.facing) {
+        case East: actor.x + 1;
+        case South: actor.x;
+        case West: actor.x - 1;
+        case North: actor.x;
+    }
+}
+
+function getLaunchY (actor:Actor):Int {
+    return switch (actor.facing) {
+        case East: actor.y;
+        case South: actor.y + 1;
+        case West: actor.y;
+        case North: actor.y - 1;
     }
 }

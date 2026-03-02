@@ -3,7 +3,6 @@ package game.scenes;
 import core.Game;
 import core.gameobjects.BitmapText;
 import core.scene.Scene;
-import game.data.Logs;
 import game.ui.UiText;
 import game.util.Debug;
 import game.util.TextUtil;
@@ -16,7 +15,6 @@ final json = '[{ temp: 1 }]';
 
 class HarnessScene extends Scene {
     var world:World;
-    var logs:Logs;
     var worldActive:Bool = true;
 
     var devTexts:Array<BitmapText> = [];
@@ -37,7 +35,6 @@ class HarnessScene extends Scene {
         final parsed = Json.parse(json);
         world = new World(parsed.seed);
 
-        logs = new Logs();
         // trace(Std.isOfType(replayCommands, Array<{ step:Int, command: Command }>));
 #if debug
     Debug.updateTimes = [for (i in 0...300) 0.0]; // ~5 seconds

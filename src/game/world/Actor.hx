@@ -1,20 +1,8 @@
 package game.world;
 
-import game.data.Names;
 import game.world.Grid;
 
-enum ActorState {
-    None; // ready for our task.
-}
-
-typedef ActorId = Int;
-
 class Actor {
-    public static var curId:Int;
-    // static vals
-    public final id:ActorId;
-    public final name:String;
-
     public var dna:Dna;
 
     // dynamic vals
@@ -26,9 +14,6 @@ class Actor {
     public var dnaIndex:Int = 0;
 
     public function new (dna:Dna, pos:Int) {
-        id = curId++;
-        name = makeName();
-
         if (pos == 0) {
             x = 1;
             y = 6;

@@ -4,16 +4,8 @@ import core.system.Camera;
 import game.data.Logs;
 import game.scenes.UiScene;
 import game.ui.UiText;
-import game.world.WorldEvent;
 import kha.Assets;
 import kha.graphics2.Graphics;
-
-function getLogColor (type:EventType) {
-    return switch (type) {
-        case Arrive: UiScene.Red;
-        case Leave: UiScene.Green;
-    }
-}
 
 class LogWindow extends UiWindow {
     var logs:Array<LogData>;
