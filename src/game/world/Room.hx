@@ -84,11 +84,11 @@ class Room {
         if (gene == None) return;
         if (gene == Forward) tryForward(fromActor);
         if (gene == Back) tryBack(fromActor);
-        if (gene == TurnTo) tryTo(fromActor, toActor);
-        if (gene == TurnAway) tryAway(fromActor, toActor);
+        if (gene == TurnTo) tryTurnTo(fromActor, toActor);
+        if (gene == TurnAway) tryTurnAway(fromActor, toActor);
     }
 
-    inline function tryTo (fromActor:Actor, toActor:Actor) {
+    inline function tryTurnTo (fromActor:Actor, toActor:Actor) {
         var angle = angleFromPoints(toActor.x, toActor.y, fromActor.x, fromActor.y) - getFacingAngle(fromActor.facing);
 
         // DEBUG:
@@ -111,11 +111,23 @@ class Room {
         // trace(fromActor.x, fromActor.y, toActor.x, toActor.y, angle1, angle, before, fromActor.facing);
     }
 
-    inline function tryAway (fromActor:Actor, toActor:Actor) {
-        // final angle = getFacingAngle(fromActor.facing) + angleFromPoints(fromActor.x, fromActor.y, toActor.x, toActor.y);
-        // trace(angle);
+    inline function tryTurnAway (fromActor:Actor, toActor:Actor) {
+        var angle = angleFromPoints(toActor.x, toActor.y, fromActor.x, fromActor.y) - getFacingAngle(fromActor.facing);
 
-        // fromActor.facing = figureRotationMath(fromActor.facing + 1);
+        if (angle < -180) {
+            angle += 360;
+        }
+
+        if (angle > 180) {
+            angle -= 360;
+        }
+
+        if (angle > 135 || angle < -135) {
+        } else if (angle < 0) {
+            fromActor.facing = figureRotationMath(fromActor.facing + 1);
+        } else if (angle > 0) {
+            fromActor.facing = figureRotationMath(fromActor.facing - 1);
+        }
     }
 
     inline function tryForward (actor:Actor) {
