@@ -4,6 +4,7 @@ import core.Types;
 import game.data.Stats;
 import game.util.Utils.checkEq;
 import game.world.Actor;
+import game.world.Dna.Gene;
 import game.world.Grid;
 import game.world.Thing;
 import game.world.WorldEvent;
@@ -61,6 +62,7 @@ class Room {
             if (a.time > 0) continue;
 
             if (a.time == 0) {
+                actorDo(a.dna.genes[a.dnaIndex], a, getEnemy(a));
                 a.time = (128 - a.dna.speed);
                 a.dnaIndex = (a.dnaIndex + 1) % a.dna.genes.length;
             }
@@ -76,6 +78,28 @@ class Room {
         updateLights(time);
     }
 
+    function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {
+        if (gene == None) return;
+        if (gene == Forward) tryForward(fromActor);
+        if (gene == Back) tryBack(fromActor);
+        if (gene == TurnTo) fromActor.facing = (fromActor.facing + 1) % 4;
+        if (gene == TurnAway) fromActor.facing = (fromActor.facing - 1) % 4;
+    }
+
+    inline function tryForward (actor:Actor) {
+        if (actor.facing == North && !checkCollision(actor.x, actor.y - 1)) actor.y--;
+        if (actor.facing == South && !checkCollision(actor.x, actor.y + 1)) actor.y++;
+        if (actor.facing == East && !checkCollision(actor.x + 1, actor.y)) actor.x++;
+        if (actor.facing == West && !checkCollision(actor.x - 1, actor.y)) actor.x--;
+    }
+
+    inline function tryBack (actor:Actor) {
+        if (actor.facing == North && !checkCollision(actor.x, actor.y + 1)) actor.y++;
+        if (actor.facing == South && !checkCollision(actor.x, actor.y - 1)) actor.y--;
+        if (actor.facing == East && !checkCollision(actor.x - 1, actor.y)) actor.x--;
+        if (actor.facing == West && !checkCollision(actor.x + 1, actor.y)) actor.x++;
+    }
+
     // returns true if there is a collision at this position
     function checkCollision (x:Int, y:Int/*, actor:Actor*/):Bool {
         for (a in actors) {
@@ -83,13 +107,6 @@ class Room {
         }
         final item = getGridItem(grid, x, y);
         return item == null;
-    }
-
-    function tryMove (actor:Actor, dir:RotationDir) {
-        if (dir == North && !checkCollision(actor.x, actor.y - 1)) actor.y--;
-        if (dir == South && !checkCollision(actor.x, actor.y + 1)) actor.y++;
-        if (dir == East && !checkCollision(actor.x + 1, actor.y)) actor.x++;
-        if (dir == West && !checkCollision(actor.x - 1, actor.y)) actor.x--;
     }
 
     // TODO: move to grid
@@ -214,5 +231,12 @@ class Room {
 
     inline function addEvent (type:EventType, ?actor:Actor, ?amount:Int, ?thing:Thing) {
         events.push({ type: type, actor: actor, amount: amount, thing: thing });
+    }
+
+    inline function getEnemy (actor:Actor) {
+        if (actor == actors[0]) {
+            return actors[1];
+        }
+        return actors[0];
     }
 }

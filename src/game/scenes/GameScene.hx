@@ -87,8 +87,8 @@ class GameScene extends Scene {
         // uiScene = new UiScene(this, world, logs);
         // game.addScene(uiScene);
 
-        entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'speed', 'dindex'], 10));
-        entities.push(char2 = new NumColumn(260, 24, 60, ['hp', 'speed', 'dindex'], 10));
+        entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'speed', 'dindex', 'p'], 10));
+        entities.push(char2 = new NumColumn(260, 24, 60, ['hp', 'speed', 'dindex', 'p'], 10));
 
         for (_ in 0...20) {
             numbers.push(new Particle());
@@ -150,10 +150,11 @@ class GameScene extends Scene {
         char1.setStringItem('hp', '${world.room.actors[0].hp}/${world.room.actors[0].dna.hp}');
         char1.setItem('speed', world.room.actors[0].dna.speed);
         char1.setItem('dindex', world.room.actors[0].dnaIndex);
+        char1.setStringItem('p', '${world.room.actors[0].x},${world.room.actors[0].y},${world.room.actors[0].facing}');
         char2.setStringItem('hp', '${world.room.actors[1].hp}/${world.room.actors[1].dna.hp}');
         char2.setItem('speed', world.room.actors[1].dna.speed);
         char2.setItem('dindex', world.room.actors[1].dnaIndex);
-
+        char2.setStringItem('p', '${world.room.actors[1].x},${world.room.actors[1].y},${world.room.actors[1].facing}');
 
         pulseTime = (pulseTime + delta) % 0.5;
         pulseOn = pulseTime < 0.25;
@@ -324,6 +325,12 @@ class GameScene extends Scene {
 
             // g2.color = 0xff * 0x1000000 + getLightColor(getGridItem(world.room.lights, x, y));
 
+            g2.pushRotation(
+                getRotDir(actor.facing),
+                posX + actor.x * sizeX + 8,
+                posY + actor.y * sizeY + 8
+            );
+
             g2.drawSubImage(
                 image,
                 // translateWorldX(x, y),
@@ -334,6 +341,7 @@ class GameScene extends Scene {
                 // translateWorldY(x, y),
                 (tileIndex % cols) * sizeX, Math.floor(tileIndex / cols) * sizeY, sizeX, sizeY
             );
+            g2.popTransformation();
         }
         // tilemap.g2.end();
     }

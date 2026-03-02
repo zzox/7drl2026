@@ -20,8 +20,8 @@ class Actor {
     // dynamic vals
     public var x:Int;
     public var y:Int;
-    public var facing:RotationDir = North;
-    public var time:Int = 1;
+    public var facing:RotationDir;
+    public var time:Int = 60;
     public var hp:Int;
     public var dnaIndex:Int = 0;
 
@@ -32,9 +32,11 @@ class Actor {
         if (pos == 0) {
             x = 1;
             y = 6;
+            facing = North;
         } else {
             x = 6;
             y = 1;
+            facing = South;
         }
 
         this.dna = dna;

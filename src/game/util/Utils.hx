@@ -2,6 +2,7 @@ package game.util;
 
 import core.Types.IntVec2;
 import core.util.Util;
+import game.world.Grid.RotationDir;
 
 inline function checkEq (x1:Int, y1:Int, x2:Int, y2:Int) {
     return x1 == x2 && y1 == y2;
@@ -51,4 +52,13 @@ function getDistanceDiffs (distance:Int):Array<IntVec2> {
     }
 
     return distanceDiffs[distance - 2];
+}
+
+function getRotDir (dir:RotationDir):Float {
+    return switch (dir) {
+        case East: toRadians(90);
+        case South: toRadians(180);
+        case West: toRadians(270);
+        case North: toRadians(0);
+    }
 }
