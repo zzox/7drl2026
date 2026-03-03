@@ -52,12 +52,14 @@ typedef Particle = {
   var x:Int;
   var y:Int;
   var ?dir:RotationDir;
-  var ?collTime:Int;
+//   var ?collTime:Int;
   var ?number:Int;
   var ?color:Int;
 }
 
 class GameScene extends Scene {
+    public static final White:Int = 256 * 0x1000000 + 0xffffffff;
+
     static var pulseTime:Float = 0.0;
     public static var pulseOn:Bool = true;
     public static var shortPulseOn:Bool = true;
@@ -114,7 +116,7 @@ class GameScene extends Scene {
         entities.push(char2 = new NumColumn(240, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
 
         entities.push(genes1 = new GenesDisplay(16, 108, world.room.actors[0].dna.genes));
-        entities.push(genes2 = new GenesDisplay(240, 108, world.room.actors[1].dna.genes));
+        entities.push(genes2 = new GenesDisplay(230, 108, world.room.actors[1].dna.genes));
 
         // for (_ in 0...20) {
         //     numbers.push(new Particle());
@@ -233,7 +235,7 @@ class GameScene extends Scene {
         g2.begin(true, camera.bgColor);
 
         // g2.color = Math.floor(alpha * 256) * 0x1000000 + color;
-        g2.color = 256 * 0x1000000 + 0xffffffff;
+        g2.color = White;
 
         g2.pushTranslation(-camera.scrollX, -camera.scrollY);
         g2.pushScale(camera.scale, camera.scale);
@@ -439,7 +441,10 @@ class GameScene extends Scene {
             g2.popTransformation();
         }
 
-        for (p in particles) {
+        final numberParticles = particles.filter(p -> p.number != null);
+        final nonNumberParticles = particles.filter(p -> p.number == null);
+
+        for (p in nonNumberParticles) {
             // if (items[i].item == -1) continue;
 
             g2.pushRotation(
@@ -455,6 +460,22 @@ class GameScene extends Scene {
                 (p.tile % cols) * sizeX, Math.floor(p.tile / cols) * sizeY, sizeX, sizeY
             );
             g2.popTransformation();
+        }
+
+        final numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        for (p in numberParticles) {
+            g2.color = p.color;
+            final numString = (p.number + '').split('');
+            for (i in 0...numString.length) {
+                final num = numString[i];
+                g2.drawSubImage(
+                    image,
+                    posX + (p.x * sizeX) + i * 4 + ((4 - numString.length) * 2),
+                    posY + p.y * sizeY,
+                    numbers.indexOf(num) * 8, 8, 5, 8
+                );
+            }
+            g2.color = White;
         }
         // tilemap.g2.end();
     }
@@ -493,6 +514,9 @@ class GameScene extends Scene {
         for (e in events) {
             if (e.type == ThingEnd) {
                 particles.push({ tile: 176, x: e.x, y: e.y, dir: e.dir, time: 30 });
+            }
+            if (e.type == Damage) {
+                particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 60, color: 0xffb4202a });
             }
         }
     }

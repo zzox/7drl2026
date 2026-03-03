@@ -30,12 +30,13 @@ enum RoomEventType {
 
 typedef RoomEvent = {
     var type:RoomEventType;
-    // var actor:ActorId;
+    // var actor;
     var ?amount:Int;
     var ?x:Int;
     var ?y:Int;
     var ?thingType:ThingType;
     var ?dir:RotationDir;
+    var ?gene:Gene;
 }
 
 class Room {
@@ -102,7 +103,9 @@ class Room {
         for (t in things) {
             for (a in actors) {
                 if (checkEq(t.x, t.y, a.x, a.y)) {
-                    a.hp -= 10;
+                    final damage = 10;
+                    a.hp -= damage;
+                    addEvent(Damage, damage, t.x, t.y);
                     t.time = 0;
                 }
             }
@@ -135,7 +138,7 @@ class Room {
     }
 
     function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {
-        // addEvent(Gene, gene);
+        addEvent(Gene, null, null, null, null, null, gene);
         if (gene == None) return;
         if (gene == Forward) tryForward(fromActor);
         if (gene == Back) tryBack(fromActor);
@@ -342,10 +345,6 @@ class Room {
         }
     }
 
-    // inline function addEvent (type:EventType, ?actor:Actor, ?amount:Int, ?thing:Thing) {
-    //     events.push({ type: type, actor: actor, amount: amount, thing: thing });
-    // }
-
     inline function getEnemy (actor:Actor) {
         if (actor == actors[0]) {
             return actors[1];
@@ -353,7 +352,7 @@ class Room {
         return actors[0];
     }
 
-    inline function addEvent (type:RoomEventType, /* ?actor:Actor, */ ?amount:Int, ?x:Int, ?y:Int, ?thingType:ThingType, dir:RotationDir) {
+    inline function addEvent (type:RoomEventType, /* ?actor:Actor, */ ?amount:Int, ?x:Int, ?y:Int, ?thingType:ThingType, ?dir:RotationDir, ?gene:Gene) {
 #if !harnessed
         events.push({ type: type, /*actor: actor,*/ amount: amount, x: x, y: y, thingType: thingType, dir: dir });
 #end

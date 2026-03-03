@@ -10,8 +10,8 @@ class GenesDisplay extends GameObject {
     static inline final Width = 8;
 
     public var genes:Array<Gene>;
-    public var dIndex:Int = 0;
-    
+    public var dIndex:Int = -1;
+
     public function new (x:Int, y:Int, genes:Array<Gene>) {
         this.x = x;
         this.y = y;
