@@ -15,8 +15,8 @@ project.addAssets('assets/index.html');
 
 project.addShaders('shaders/**');
 project.addSources('src');
-project.addDefine('harness');
-project.addDefine('logging');
+// project.addDefine('harness');
+// project.addDefine('logging');
 
 // project.addDefine('is_ng');
 // project.addLibrary('newgrounds');

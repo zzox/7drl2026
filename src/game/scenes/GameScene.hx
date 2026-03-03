@@ -167,7 +167,7 @@ class GameScene extends Scene {
                     break;
                 }
                 // DEBUG: for testing tournaments we speed through it
-                if (world.checkSkip()) {
+                if (world.room.checkSkip()) {
                     nextRoom(true);
                 }
             }

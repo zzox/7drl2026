@@ -1,6 +1,7 @@
 import core.Game;
 import game.scenes.GameScene;
 import game.scenes.HarnessScene;
+import game.scenes.SpeedScene;
 
 #if kha_html5
 import js.Browser.document;
@@ -17,7 +18,7 @@ class Main {
             '7drl2026',
             1280, 720,
             PixelPerfect,
-            new HarnessScene(),
+            new SpeedScene(),
             320, 180,
         );
 #else

@@ -137,6 +137,12 @@ class Room {
         return over;
     }
 
+    // returns true if we did too many steps or too many steps with no damage
+    public function checkSkip ():Bool {
+        final damage = Lambda.fold(actors, (a, res) -> (a.dna.hp - a.hp) + res, 0);
+        return steps == 100000 || (steps == 50000 && damage == 0);
+    }
+
     function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {
         addEvent(Gene, null, null, null, null, null, gene);
         if (gene == None) return;

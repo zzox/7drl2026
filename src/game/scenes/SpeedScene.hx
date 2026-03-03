@@ -3,6 +3,7 @@ package game.scenes;
 import core.Game;
 import core.gameobjects.BitmapText;
 import core.scene.Scene;
+import core.util.Util;
 import game.ui.GenesDisplay;
 import game.ui.UiText;
 import game.util.Debug;
@@ -13,7 +14,7 @@ import kha.input.KeyCode;
 
 final json = '[{ temp: 1 }]';
 
-class HarnessScene extends Scene {
+class SpeedScene extends Scene {
     var world:World;
     // var worldActive:Bool = true;
 
@@ -60,26 +61,21 @@ class HarnessScene extends Scene {
             game.changeScene(new HarnessScene());
         }
 
-        var steps = 100000;
+        var steps = 1;
         if (Game.keys.pressed(KeyCode.S)) {
             steps = 0;
         }
 
         if (Game.keys.pressed(KeyCode.D)) {
-            steps = 16;
+            steps = 10;
         }
 
-        for (_ in 0...steps) {
-            world.room.step(0);
-            final dead = world.room.checkDead();
-            if (dead > 0) {
-                if (dead == 2) throw 'Both Dead';
+        if (steps > 0) {
+            for (_ in 0...steps) {
+                while (world.room.checkDead() == 0 && !world.room.checkSkip()) {
+                    world.room.step(0);
+                }
                 world.nextRoom();
-                break;
-            }
-            if (world.room.checkSkip()) {
-                world.nextRoom();
-                break;
             }
         }
 
@@ -89,9 +85,9 @@ class HarnessScene extends Scene {
         genes1.genes = world.room.actors[0].dna.genes;
         genes2.genes = world.room.actors[1].dna.genes;
 
-        devTexts[0].setText('${world.matches}');
-        devTexts[1].setText('${world.dnas.length}');
-        devTexts[2].setText('${world.room.actors[0].dna.id},${world.room.actors[1].dna.id}');
+        devTexts[0].setText('Matches: ${world.matches}');
+        devTexts[1].setText('Remains: ${world.dnas.length}');
+        devTexts[2].setText('${world.room.actors[0].dna.id} vs.${world.room.actors[1].dna.id}');
         devTexts[3].setText('${world.room.steps}');
 
         super.update(delta);
@@ -110,6 +106,8 @@ class HarnessScene extends Scene {
                 break;
             }
         }
+
+        devTexts[4].setText('UPS: ${Debug.updateFrames.length}, avg: ${Math.round(average(Debug.updateTimes) * 1000)}ms');
 #end
     }
 }

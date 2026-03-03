@@ -59,6 +59,7 @@ class World {
         matches++;
     }
 
+    // DEBUG:
     function getNextDna ():Dna {
         dnaIndex = (dnaIndex + 1) % dnas.length;
         return dnas[dnaIndex];
@@ -77,18 +78,10 @@ class World {
 
         makeRoom(getNextDna(), getNextDna());
     }
-
     public function makeMany () {
-        for (_ in 0...1000) {
+        for (_ in 0...10000) {
             dnas.push(new Dna());
         }
-    }
-
-    public function checkSkip ():Bool {
-        final damage = Lambda.fold(room.actors, (a, res) -> {
-            return (a.dna.hp - a.hp) + res;
-        }, 0);
-        return room.steps == 100000 || (room.steps == 50000 && damage == 0);
     }
 
     public function doCommand (command:Command):Bool {
