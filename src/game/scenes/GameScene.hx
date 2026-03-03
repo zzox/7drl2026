@@ -4,9 +4,8 @@ import core.Game;
 import core.Types;
 import core.gameobjects.BitmapText;
 import core.scene.Scene;
-import core.util.BitmapFont;
 import core.util.Util;
-import game.sprites.Particle;
+import game.ui.GenesDisplay;
 import game.ui.NumColumn;
 import game.ui.UiText;
 import game.util.Debug;
@@ -70,10 +69,12 @@ class GameScene extends Scene {
     var worldActive:Bool = true;
     var tilePosAt:IntVec2 = new IntVec2(0, 0);
 
-    var char1:NumColumn;
-    var char2:NumColumn;
     var stepText:BitmapText;
     var winsText:BitmapText;
+    var char1:NumColumn;
+    var char2:NumColumn;
+    var genes1:GenesDisplay;
+    var genes2:GenesDisplay;
 
     var renderedActors:Array<RenderedActor> = [];
     var renderedThings:Array<RenderedThing> = [];
@@ -110,7 +111,10 @@ class GameScene extends Scene {
         entities.push(stepText = makeBitmapText(160, 16, 'Steps: 0'));
 
         entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
-        entities.push(char2 = new NumColumn(260, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
+        entities.push(char2 = new NumColumn(240, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
+
+        entities.push(genes1 = new GenesDisplay(16, 108, world.room.actors[0].dna.genes));
+        entities.push(genes2 = new GenesDisplay(240, 108, world.room.actors[1].dna.genes));
 
         // for (_ in 0...20) {
         //     numbers.push(new Particle());
@@ -118,7 +122,7 @@ class GameScene extends Scene {
 
 #if debug
         for (i in 0...8) {
-            final text = makeBitmapText(0, 100 + i * 10, '');
+            final text = makeBitmapText(0, 74 + i * 10, '');
             entities.push(text);
             devTexts.push(text);
             // text.visible = false;
@@ -180,6 +184,9 @@ class GameScene extends Scene {
             handleEvents(world.room.getEvents());
         }
 
+        winsText.setText('Wins: ${wins}');
+        stepText.setText('Steps: ${world.room.steps}');
+
         char1.setStringItem('hp', '${world.room.actors[0].hp}/${world.room.actors[0].dna.hp}');
         char1.setItem('speed', world.room.actors[0].dna.speed);
         char1.setItem('dindex', world.room.actors[0].dnaIndex);
@@ -191,8 +198,8 @@ class GameScene extends Scene {
         char2.setStringItem('p', '${world.room.actors[1].x},${world.room.actors[1].y},${world.room.actors[1].facing}');
         char2.setItem('id', world.room.actors[1].dna.id);
 
-        winsText.setText('Wins: ${wins}');
-        stepText.setText('Steps: ${world.room.steps}');
+        genes1.dIndex = world.room.actors[0].dnaIndex;
+        genes2.dIndex = world.room.actors[1].dnaIndex;
 
         pulseTime = (pulseTime + delta) % 0.5;
         pulseOn = pulseTime < 0.25;
@@ -330,6 +337,7 @@ class GameScene extends Scene {
         if (tied) {
             wins = 0;
             world.makeRoom(null, null);
+            makeGenes();
             return;
         }
         final winningDna = world.room.actors.filter(a -> a.hp > 0)[0].dna;
@@ -340,6 +348,12 @@ class GameScene extends Scene {
             wins = 0;
         }
         world.makeRoom(winningDna, null);
+        makeGenes();
+    }
+
+    function makeGenes () {
+        genes1.genes = world.room.actors[0].dna.genes;
+        genes2.genes = world.room.actors[1].dna.genes;
     }
 
     function checkSkip () {

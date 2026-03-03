@@ -14,7 +14,7 @@ class Main {
         setFullWindowCanvas();
 #if harness
         new Game(
-            'br',
+            '7drl2026',
             1280, 720,
             PixelPerfect,
             new HarnessScene(),
@@ -22,7 +22,7 @@ class Main {
         );
 #else
         new Game(
-            'br',
+            '7drl2026',
             1280, 720,
             PixelPerfect,
             new GameScene(),
