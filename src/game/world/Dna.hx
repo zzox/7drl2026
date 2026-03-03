@@ -46,6 +46,35 @@ class Dna {
 }
 
 function generateGenes ():Array<Gene> {
+    while (true) {
+        final genes = makeRandomGenes();
+
+        var attacks = 0;
+        var forwards = 0;
+        var turns = 0;
+        for (g in genes) {
+            if (g == Pierce) {
+                attacks++;
+            }
+
+            if (g == TurnAway || g == TurnTo) {
+                turns++;
+            }
+
+            if (g == Forward) {
+                forwards++;
+            }
+        }
+
+        if (attacks > 0 && forwards > 0 && turns > 0) {
+            return genes;
+        }
+
+        trace('trying again');
+    }
+}
+
+function makeRandomGenes ():Array<Gene> {
     final dna = [];
 
     for (_ in 0...24) {
