@@ -27,12 +27,14 @@ class World {
     public static var placeRand:Random;
     public var stats:Stats = newEmptyStats();
 
-    public var time:Int = 0;
-    public var money:Int = 1000;
-
     public var room:Room;
 
     public var commands:Array<{ step:Int, command: Command }> = [];
+
+    // DEBUG:
+    public var dnas:Array<Dna> = [];
+    public var dnaIndex:Int;
+    public var matches:Int = -1;
 
     public function new (?startSeed:Int) {
         // final ttt = Timer.stamp();
@@ -47,16 +49,51 @@ class World {
         placeRand = new kha.math.Random(1312);
         Dna.curId = 0;
 
-        makeRoom(null, null);
+        makeMany();
+        makeRoom(dnas[0], dnas[1]);
+        dnaIndex = 1;
     }
 
     public function makeRoom (dna1:Null<Dna>, dna2:Null<Dna>) {
         room = new Room(dna1 ?? new Dna(), dna2 ?? new Dna());
+        matches++;
+    }
+
+    function getNextDna ():Dna {
+        dnaIndex = (dnaIndex + 1) % dnas.length;
+        return dnas[dnaIndex];
+    }
+    public function nextRoom () {
+        var losers = [];
+        if (room.checkDead() == 0) {
+            losers = [room.actors[0].dna.id, room.actors[1].dna.id];
+        } else if (room.actors[0].hp <= 0) {
+            losers = [room.actors[0].dna.id];
+        } else if (room.actors[1].hp <= 0) {
+            losers = [room.actors[1].dna.id];
+        }
+
+        dnas = dnas.filter(d -> !losers.contains(d.id));
+
+        makeRoom(getNextDna(), getNextDna());
+    }
+
+    public function makeMany () {
+        for (_ in 0...1000) {
+            dnas.push(new Dna());
+        }
+    }
+
+    public function checkSkip ():Bool {
+        final damage = Lambda.fold(room.actors, (a, res) -> {
+            return (a.dna.hp - a.hp) + res;
+        }, 0);
+        return room.steps == 100000 || (room.steps == 50000 && damage == 0);
     }
 
     public function doCommand (command:Command):Bool {
         if (command.type == TempCommand) {}
-        commands.push({ step: time, command: command });
+        commands.push({ step: 0, command: command });
         return true;
     }
 

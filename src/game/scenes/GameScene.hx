@@ -133,22 +133,22 @@ class GameScene extends Scene {
         }
 
         if (Game.keys.justPressed(KeyCode.O)) {
-            trace(Json.stringify({ time: world.time, seed: world.seed, commands: world.commands }));
+            trace(getData());
         }
 
         if (Game.keys.justPressed(KeyCode.P)) {
             worldActive = !worldActive;
         }
 
-        var steps = 1;
+        var steps = 4;
         if (Game.keys.pressed(KeyCode.J)) {
-            steps += 2048;
+            steps += 4096;
         } else if (Game.keys.pressed(KeyCode.H)) {
-            steps += 256;
+            steps += 512;
         } else if (Game.keys.pressed(KeyCode.G)) {
-            steps += 64;
+            steps += 128;
         } else if (Game.keys.pressed(KeyCode.F)) {
-            steps += 3;
+            steps += 16;
         }
 
         if (worldActive) {
@@ -167,7 +167,9 @@ class GameScene extends Scene {
                     break;
                 }
                 // DEBUG: for testing tournaments we speed through it
-                checkSkip();
+                if (world.checkSkip()) {
+                    nextRoom(true);
+                }
             }
             // WARN: overflow from too many events?
             handleEvents(world.room.getEvents());
@@ -345,17 +347,6 @@ class GameScene extends Scene {
         genes2.genes = world.room.actors[1].dna.genes;
     }
 
-    function checkSkip () {
-        final damage = Lambda.fold(world.room.actors, (a, res) -> {
-            return (a.dna.hp - a.hp) + res;
-        }, 0);
-        if (world.room.steps == 100000) {
-            nextRoom(true);
-        } else if (world.room.steps == 50000 && damage == 0) {
-            nextRoom(true);
-        }
-    }
-
     function handlePointer (delta:Float) {
         var text = '';
 
@@ -427,7 +418,6 @@ class GameScene extends Scene {
     inline function getData ():String {
         return Json.stringify({
             gameId: gameId,
-            time: world.time,
             seed: world.seed,
             commands: world.commands
         });

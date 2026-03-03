@@ -18,7 +18,7 @@ class Main {
             1280, 720,
             PixelPerfect,
             new HarnessScene(),
-            640, 360
+            320, 180,
         );
 #else
         new Game(

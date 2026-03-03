@@ -60,7 +60,7 @@ class Room {
         lights = makeGrid(Width, Height, 1.0);
 
         grid = mapGI(grid, (x, y, item) -> {
-            return Math.random() < 0.1 ? 1 : 0;
+            return World.placeRand.GetFloat() < 0.1 ? 1 : 0;
         });
 
         stats = newEmptyStats();
@@ -353,7 +353,7 @@ class Room {
     }
 
     inline function addEvent (type:RoomEventType, /* ?actor:Actor, */ ?amount:Int, ?x:Int, ?y:Int, ?thingType:ThingType, ?dir:RotationDir, ?gene:Gene) {
-#if !harnessed
+#if !harness
         events.push({ type: type, /*actor: actor,*/ amount: amount, x: x, y: y, thingType: thingType, dir: dir });
 #end
     }

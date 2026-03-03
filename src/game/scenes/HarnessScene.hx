@@ -30,10 +30,12 @@ class HarnessScene extends Scene {
         for (i in 0...20) {
             final text = makeBitmapText(4, 4 + i * 10, '');
             entities.push(text);
-            devTexts.push(text);        }
+            devTexts.push(text);
+        }
 
-        final parsed = Json.parse(json);
-        world = new World(parsed.seed);
+        // final parsed = Json.parse(json);
+        // world = new World(parsed.seed);
+        world = new World();
 
         // trace(Std.isOfType(replayCommands, Array<{ step:Int, command: Command }>));
 #if debug
@@ -52,34 +54,28 @@ class HarnessScene extends Scene {
             game.changeScene(new HarnessScene());
         }
 
-        var steps = 1;
-        if (Game.keys.justPressed(KeyCode.J)) {
-            steps += 10000;
-        } else if (Game.keys.justPressed(KeyCode.H)) {
-            steps += 1000;
-        } else if (Game.keys.justPressed(KeyCode.G)) {
-            steps += 200;
-        } else if (Game.keys.justPressed(KeyCode.F)) {
-            steps += 50;
-        }
+        var steps = 100000;
 
         if (worldActive) {
             for (_ in 0...steps) {
-                var nextItem = replayCommands[0];
-
-                while (nextItem != null && world.time == nextItem.step) {
-                    final item = replayCommands.shift();
-                    world.doCommand(item.command);
-                    nextItem = replayCommands[0];
+                world.room.step(0);
+                final dead = world.room.checkDead();
+                if (dead > 0) {
+                    if (dead == 2) throw 'Both Dead';
+                    world.nextRoom();
+                    break;
                 }
-                // worldActive = world.step();
-                // break needed?
-                // if (!worldActive) break;
+                if (world.checkSkip()) {
+                    world.nextRoom();
+                    break;
+                }
             }
         }
 
-        devTexts[2].setText(world.time + '');
-        devTexts[3].setText(TextUtil.formatMoney(world.money));
+        devTexts[0].setText('${world.matches}');
+        devTexts[1].setText('${world.dnas.length}');
+        devTexts[2].setText('${world.room.actors[0].dna.id},${world.room.actors[1].dna.id}');
+        devTexts[3].setText('${world.room.steps}');
 
         super.update(delta);
 

@@ -147,10 +147,10 @@ class UiScene extends Scene {
 
         // dateText.setText('Day ${world.day + 1}');
         dateText.setPosition(DayTimeWidth - dateText.textWidth - 8, dateText.y);
-        timeText.setText(world.time + '');
+        // timeText.setText(world.time + '');
 
-        dollarText.setText(TextUtil.formatMoney(world.money));
-        dollarText.setPosition(Math.floor(rightEdge - dollarText.textWidth - 8), dollarText.y);
+        // dollarText.setText(TextUtil.formatMoney(world.money));
+        // dollarText.setPosition(Math.floor(rightEdge - dollarText.textWidth - 8), dollarText.y);
         dollarBg.setPosition(rightEdge - dollarBg.elementSizeX, 0);
         // leftPanel.panel.elementSizeY = Math.floor(bottomEdge - WinTop);
 
