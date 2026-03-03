@@ -333,6 +333,7 @@ class GameScene extends Scene {
             return;
         }
         final winningDna = world.room.actors.filter(a -> a.hp > 0)[0].dna;
+        trace(winningDna.genes);
         if (winningDna == world.room.actors[0].dna) {
             wins++;
         } else {

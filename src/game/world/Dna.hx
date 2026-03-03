@@ -2,19 +2,19 @@ package game.world;
 
 import game.data.Names;
 
-enum abstract Gene(Int) {
-    var None = 0;
-    var Forward = 1;
-    var Back = 2;
-    var TurnTo = 3;
-    var TurnAway = 4;
+enum Gene {
+    None;// = 0;
+    Forward;// = 1;
+    Back;// = 2;
+    TurnTo;// = 3;
+    TurnAway;// = 4;
 
     // Attack Types
-    var Pierce = 5;
-    var Punch = 6;
-    var Spit = 7;
+    Pierce;// = 5;
+    Punch;// = 6;
+    Spit;// = 7;
 
-    var Deflect = 8;
+    Deflect;// = 8;
 }
 
 typedef DId = Int;
