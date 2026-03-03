@@ -47,7 +47,11 @@ class World {
         placeRand = new kha.math.Random(1312);
         Dna.curId = 0;
 
-        room = new Room(new Dna(), new Dna());
+        makeRoom(null, null);
+    }
+
+    public function makeRoom (dna1:Null<Dna>, dna2:Null<Dna>) {
+        room = new Room(dna1 ?? new Dna(), dna2 ?? new Dna());
     }
 
     public function doCommand (command:Command):Bool {

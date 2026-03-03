@@ -50,7 +50,7 @@ function generateGenes ():Array<Gene> {
 
     for (_ in 0...24) {
         final rand = World.rand.GetFloat();
-        if (rand < 0.01) {
+        if (rand < 0.06) {
             dna.push(Pierce);
         } else if (rand < 0.06) {
             dna.push(Punch);

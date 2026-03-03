@@ -100,8 +100,8 @@ class GameScene extends Scene {
         // uiScene = new UiScene(this, world, logs);
         // game.addScene(uiScene);
 
-        entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'speed', 'dindex', 'p'], 10));
-        entities.push(char2 = new NumColumn(260, 24, 60, ['hp', 'speed', 'dindex', 'p'], 10));
+        entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
+        entities.push(char2 = new NumColumn(260, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
 
         // for (_ in 0...20) {
         //     numbers.push(new Particle());
@@ -158,6 +158,11 @@ class GameScene extends Scene {
             for (_ in 0...steps) {
                 world.room.step(0);
                 updateParticles();
+                final dead = world.room.checkDead();
+                if (dead > 0) {
+                    nextRoom();
+                    break;
+                }
             }
             // WARN: overflow from too many events?
             handleEvents(world.room.getEvents());
@@ -167,10 +172,12 @@ class GameScene extends Scene {
         char1.setItem('speed', world.room.actors[0].dna.speed);
         char1.setItem('dindex', world.room.actors[0].dnaIndex);
         char1.setStringItem('p', '${world.room.actors[0].x},${world.room.actors[0].y},${world.room.actors[0].facing}');
+        char1.setItem('id', world.room.actors[0].dna.id);
         char2.setStringItem('hp', '${world.room.actors[1].hp}/${world.room.actors[1].dna.hp}');
         char2.setItem('speed', world.room.actors[1].dna.speed);
         char2.setItem('dindex', world.room.actors[1].dnaIndex);
         char2.setStringItem('p', '${world.room.actors[1].x},${world.room.actors[1].y},${world.room.actors[1].facing}');
+        char2.setItem('id', world.room.actors[1].dna.id);
 
         pulseTime = (pulseTime + delta) % 0.5;
         pulseOn = pulseTime < 0.25;
@@ -302,6 +309,11 @@ class GameScene extends Scene {
             }
         }
 #end
+    }
+
+    function nextRoom () {
+        final winningDna = world.room.actors.filter(a -> a.hp > 0)[0].dna;
+        world.makeRoom(winningDna, null);
     }
 
     function renderRoom (g2:Graphics) {

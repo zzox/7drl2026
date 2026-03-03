@@ -67,19 +67,21 @@ class Room {
         actors.push(new Actor(dna2, 1));
     }
 
-    public function step (time:Int) {
+    public function step (time:Int):Bool {
         for (a in actors) {}
 
         if (World.rand.GetFloat() < 1 / 1000) {}
 
         // if there's issues, recheck collision here
 
+        var moved = false;
         for (a in actors) {
             a.time--;
             if (a.time > 0) continue;
 
             if (a.time == 0) {
                 actorDo(a.dna.genes[a.dnaIndex], a, getEnemy(a));
+                moved = true;
                 a.time = (128 - a.dna.speed);
                 a.dnaIndex = (a.dnaIndex + 1) % a.dna.genes.length;
             }
@@ -114,13 +116,19 @@ class Room {
             return false;
         });
 
+        updateLights(time);
+
+        return moved;
+    }
+
+    public function checkDead ():Int {
+        var over = 0;
         for (a in actors) {
             if (a.hp <= 0) {
-                throw 'Game over';
+                over++;
             }
         }
-
-        updateLights(time);
+        return over;
     }
 
     function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {
