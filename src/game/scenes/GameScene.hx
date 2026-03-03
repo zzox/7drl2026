@@ -7,17 +7,15 @@ import core.scene.Scene;
 import core.util.Util;
 import game.ui.GenesDisplay;
 import game.ui.NumColumn;
+import game.ui.RoomRender;
 import game.ui.UiText;
 import game.util.Debug;
-import game.util.Utils;
 import game.world.Actor;
-import game.world.Grid;
 import game.world.Room.RoomEvent;
 import game.world.Thing;
 import game.world.World;
 import haxe.Json;
 import haxe.Timer;
-import kha.Assets;
 import kha.graphics2.Graphics;
 import kha.input.KeyCode;
 import kha.input.Mouse;
@@ -44,17 +42,6 @@ typedef RenderedThing = {
     var x:Float;
     var y:Float;
     var thing:Thing;
-}
-
-typedef Particle = {
-  var tile:Int;
-  var time:Int;
-  var x:Int;
-  var y:Int;
-  var ?dir:RotationDir;
-//   var ?collTime:Int;
-  var ?number:Int;
-  var ?color:Int;
 }
 
 class GameScene extends Scene {
@@ -240,7 +227,7 @@ class GameScene extends Scene {
         g2.pushTranslation(-camera.scrollX, -camera.scrollY);
         g2.pushScale(camera.scale, camera.scale);
 
-        renderRoom(g2);
+        roomRender(g2, 100, 32, world.room, particles);
 
         final charXDiff = 0;
         final charYDiff = 20;
@@ -367,117 +354,6 @@ class GameScene extends Scene {
         } else if (world.room.steps == 50000 && damage == 0) {
             nextRoom(true);
         }
-    }
-
-    function renderRoom (g2:Graphics) {
-        final sizeX = 16;
-        final sizeY = 16;
-
-        final posX = 100;
-        final posY = 32;
-
-        final image = Assets.images.ui;
-        final cols = Std.int(image.width / sizeX);
-        // for (i in 0...items.length) {
-        forEachGI(world.room.grid, (x, y, item) -> {
-            // if (items[i].item == -1) continue;
-
-            final tileIndex = item == 0 ? 97 : 98;
-
-            // g2.color = 0xff * 0x1000000 + getLightColor(getGridItem(world.room.lights, x, y));
-
-            g2.drawSubImage(
-                image,
-                // translateWorldX(x, y),
-                // translateWorldY(x, y),
-                posX + x * sizeX,
-                posY + y * sizeY,
-                // translateWorldX(x, y),
-                // translateWorldY(x, y),
-                (tileIndex % cols) * sizeX, Math.floor(tileIndex / cols) * sizeY, sizeX, sizeY
-            );
-        });
-
-        for (i in 0...world.room.actors.length) {
-            // if (items[i].item == -1) continue;
-            final actor = world.room.actors[i];
-
-            final tileIndex = i == 0 ? 101 : 102;
-
-            // + 90 becuase we draw facing up and not to the right
-            g2.pushRotation(
-                getRotDir(actor.facing) + toRadians(90),
-                posX + actor.x * sizeX + 8,
-                posY + actor.y * sizeY + 8
-            );
-
-            g2.drawSubImage(
-                image,
-                posX + actor.x * sizeX,
-                posY + actor.y * sizeY,
-                (tileIndex % cols) * sizeX, Math.floor(tileIndex / cols) * sizeY, sizeX, sizeY
-            );
-            g2.popTransformation();
-        }
-
-        for (i in 0...world.room.things.length) {
-            // if (items[i].item == -1) continue;
-            final thing = world.room.things[i];
-
-            final tileIndex = 160;
-
-            g2.pushRotation(
-                getRotDir(thing.facing) + toRadians(90),
-                posX + thing.x * sizeX + 8,
-                posY + thing.y * sizeY + 8
-            );
-
-            g2.drawSubImage(
-                image,
-                posX + thing.x * sizeX,
-                posY + thing.y * sizeY,
-                (tileIndex % cols) * sizeX, Math.floor(tileIndex / cols) * sizeY, sizeX, sizeY
-            );
-            g2.popTransformation();
-        }
-
-        final numberParticles = particles.filter(p -> p.number != null);
-        final nonNumberParticles = particles.filter(p -> p.number == null);
-
-        for (p in nonNumberParticles) {
-            // if (items[i].item == -1) continue;
-
-            g2.pushRotation(
-                getRotDir(p.dir) + toRadians(90),
-                posX + p.x * sizeX + 8,
-                posY + p.y * sizeY + 8
-            );
-
-            g2.drawSubImage(
-                image,
-                posX + p.x * sizeX,
-                posY + p.y * sizeY,
-                (p.tile % cols) * sizeX, Math.floor(p.tile / cols) * sizeY, sizeX, sizeY
-            );
-            g2.popTransformation();
-        }
-
-        final numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-        for (p in numberParticles) {
-            g2.color = p.color;
-            final numString = (p.number + '').split('');
-            for (i in 0...numString.length) {
-                final num = numString[i];
-                g2.drawSubImage(
-                    image,
-                    posX + (p.x * sizeX) + i * 4 + ((4 - numString.length) * 2),
-                    posY + p.y * sizeY,
-                    numbers.indexOf(num) * 8, 8, 5, 8
-                );
-            }
-            g2.color = White;
-        }
-        // tilemap.g2.end();
     }
 
     function handlePointer (delta:Float) {
