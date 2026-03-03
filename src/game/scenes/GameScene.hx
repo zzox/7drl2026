@@ -4,6 +4,7 @@ import core.Game;
 import core.Types;
 import core.gameobjects.BitmapText;
 import core.scene.Scene;
+import core.util.BitmapFont;
 import core.util.Util;
 import game.sprites.Particle;
 import game.ui.NumColumn;
@@ -71,6 +72,8 @@ class GameScene extends Scene {
 
     var char1:NumColumn;
     var char2:NumColumn;
+    var stepText:BitmapText;
+    var winsText:BitmapText;
 
     var renderedActors:Array<RenderedActor> = [];
     var renderedThings:Array<RenderedThing> = [];
@@ -81,6 +84,9 @@ class GameScene extends Scene {
     var selectedThing:Null<Thing>;
 
     var gameId:String;
+
+    // DEBUG:
+    var wins:Int = 0;
 
 #if debug
     public var devTexts:Array<BitmapText> = [];
@@ -99,6 +105,9 @@ class GameScene extends Scene {
 
         // uiScene = new UiScene(this, world, logs);
         // game.addScene(uiScene);
+
+        entities.push(winsText = makeBitmapText(100, 16, 'Wins: 0'));
+        entities.push(stepText = makeBitmapText(160, 16, 'Steps: 0'));
 
         entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
         entities.push(char2 = new NumColumn(260, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
@@ -140,11 +149,11 @@ class GameScene extends Scene {
 
         var steps = 1;
         if (Game.keys.pressed(KeyCode.J)) {
-            steps += 256;
+            steps += 2048;
         } else if (Game.keys.pressed(KeyCode.H)) {
-            steps += 64;
+            steps += 256;
         } else if (Game.keys.pressed(KeyCode.G)) {
-            steps += 16;
+            steps += 64;
         } else if (Game.keys.pressed(KeyCode.F)) {
             steps += 3;
         }
@@ -160,9 +169,12 @@ class GameScene extends Scene {
                 updateParticles();
                 final dead = world.room.checkDead();
                 if (dead > 0) {
-                    nextRoom();
+                    if (dead == 2) throw 'Both Dead';
+                    nextRoom(false);
                     break;
                 }
+                // DEBUG: for testing tournaments we speed through it
+                checkSkip();
             }
             // WARN: overflow from too many events?
             handleEvents(world.room.getEvents());
@@ -178,6 +190,9 @@ class GameScene extends Scene {
         char2.setItem('dindex', world.room.actors[1].dnaIndex);
         char2.setStringItem('p', '${world.room.actors[1].x},${world.room.actors[1].y},${world.room.actors[1].facing}');
         char2.setItem('id', world.room.actors[1].dna.id);
+
+        winsText.setText('Wins: ${wins}');
+        stepText.setText('Steps: ${world.room.steps}');
 
         pulseTime = (pulseTime + delta) % 0.5;
         pulseOn = pulseTime < 0.25;
@@ -311,9 +326,30 @@ class GameScene extends Scene {
 #end
     }
 
-    function nextRoom () {
+    function nextRoom (tied:Bool) {
+        if (tied) {
+            wins = 0;
+            world.makeRoom(null, null);
+            return;
+        }
         final winningDna = world.room.actors.filter(a -> a.hp > 0)[0].dna;
+        if (winningDna == world.room.actors[0].dna) {
+            wins++;
+        } else {
+            wins = 0;
+        }
         world.makeRoom(winningDna, null);
+    }
+
+    function checkSkip () {
+        final damage = Lambda.fold(world.room.actors, (a, res) -> {
+            return (a.dna.hp - a.hp) + res;
+        }, 0);
+        if (world.room.steps == 100000) {
+            nextRoom(true);
+        } else if (world.room.steps == 50000 && damage == 0) {
+            nextRoom(true);
+        }
     }
 
     function renderRoom (g2:Graphics) {

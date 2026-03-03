@@ -42,6 +42,7 @@ class Room {
     static inline final Width = 8;
     static inline final Height = 8;
 
+    public var steps:Int = 0;
     public var grid:Grid<Int>;
     public var things:Array<Thing> = [];
     public var actors:Array<Actor> = [];
@@ -69,6 +70,8 @@ class Room {
 
     public function step (time:Int):Bool {
         for (a in actors) {}
+
+        steps++;
 
         if (World.rand.GetFloat() < 1 / 1000) {}
 
@@ -100,7 +103,7 @@ class Room {
             for (a in actors) {
                 if (checkEq(t.x, t.y, a.x, a.y)) {
                     a.hp -= 10;
-                    t.time = -1;
+                    t.time = 0;
                 }
             }
 
