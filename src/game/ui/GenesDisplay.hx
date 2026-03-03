@@ -7,15 +7,17 @@ import kha.Assets;
 import kha.graphics2.Graphics;
 
 class GenesDisplay extends GameObject {
-    static inline final Width = 8;
+    static inline final DefaultWidth = 8;
 
     public var genes:Array<Gene>;
     public var dIndex:Int = -1;
+    public var width:Int;
 
-    public function new (x:Int, y:Int, genes:Array<Gene>) {
+    public function new (x:Int, y:Int, genes:Array<Gene>, width:Int = DefaultWidth) {
         this.x = x;
         this.y = y;
         this.genes = genes;
+        this.width = width;
     }
 
     override function update (delta:Float) {}
@@ -26,11 +28,11 @@ class GenesDisplay extends GameObject {
         final sizeY = 8;
 
         for (i in 0...genes.length) {
-            final evenRow = Math.floor(i / Width) % 2 == 0;
-            final col = i % Width;
+            final evenRow = Math.floor(i / width) % 2 == 0;
+            final col = i % width;
 
-            final xx = evenRow ? col : (Width - col + 1);
-            final yy = Math.floor(i / Width);
+            final xx = evenRow ? col : (width - col + 1);
+            final yy = Math.floor(i / width);
 
             if (i == dIndex) {
                 g2.drawSubImage(

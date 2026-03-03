@@ -3,9 +3,9 @@ package game.scenes;
 import core.Game;
 import core.gameobjects.BitmapText;
 import core.scene.Scene;
+import game.ui.GenesDisplay;
 import game.ui.UiText;
 import game.util.Debug;
-import game.util.TextUtil;
 import game.world.World;
 import haxe.Json;
 import haxe.Timer;
@@ -15,9 +15,12 @@ final json = '[{ temp: 1 }]';
 
 class HarnessScene extends Scene {
     var world:World;
-    var worldActive:Bool = true;
+    // var worldActive:Bool = true;
 
     var devTexts:Array<BitmapText> = [];
+
+    var genes1:GenesDisplay;
+    var genes2:GenesDisplay;
 
     var replayCommands:Array<{ step:Int, command: Command }>;
 
@@ -37,6 +40,9 @@ class HarnessScene extends Scene {
         // world = new World(parsed.seed);
         world = new World();
 
+        entities.push(genes1 = new GenesDisplay(4, 60, world.room.actors[0].dna.genes, 24));
+        entities.push(genes2 = new GenesDisplay(4, 70, world.room.actors[1].dna.genes, 24));
+
         // trace(Std.isOfType(replayCommands, Array<{ step:Int, command: Command }>));
 #if debug
     Debug.updateTimes = [for (i in 0...300) 0.0]; // ~5 seconds
@@ -55,22 +61,33 @@ class HarnessScene extends Scene {
         }
 
         var steps = 100000;
+        if (Game.keys.pressed(KeyCode.S)) {
+            steps = 0;
+        }
 
-        if (worldActive) {
-            for (_ in 0...steps) {
-                world.room.step(0);
-                final dead = world.room.checkDead();
-                if (dead > 0) {
-                    if (dead == 2) throw 'Both Dead';
-                    world.nextRoom();
-                    break;
-                }
-                if (world.checkSkip()) {
-                    world.nextRoom();
-                    break;
-                }
+        if (Game.keys.pressed(KeyCode.D)) {
+            steps = 16;
+        }
+
+        for (_ in 0...steps) {
+            world.room.step(0);
+            final dead = world.room.checkDead();
+            if (dead > 0) {
+                if (dead == 2) throw 'Both Dead';
+                world.nextRoom();
+                break;
+            }
+            if (world.checkSkip()) {
+                world.nextRoom();
+                break;
             }
         }
+
+        genes1.dIndex = world.room.actors[0].dnaIndex;
+        genes2.dIndex = world.room.actors[1].dnaIndex;
+
+        genes1.genes = world.room.actors[0].dna.genes;
+        genes2.genes = world.room.actors[1].dna.genes;
 
         devTexts[0].setText('${world.matches}');
         devTexts[1].setText('${world.dnas.length}');
