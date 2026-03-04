@@ -31,7 +31,7 @@ class GenesDisplay extends GameObject {
             final evenRow = Math.floor(i / width) % 2 == 0;
             final col = i % width;
 
-            final xx = evenRow ? col : (width - col + 1);
+            final xx = evenRow ? col : (width - col - 1);
             final yy = Math.floor(i / width);
 
             if (i == dIndex) {
