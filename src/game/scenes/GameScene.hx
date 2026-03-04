@@ -173,6 +173,8 @@ class GameScene extends Scene {
             }
             // WARN: overflow from too many events?
             handleEvents(world.room.getEvents());
+        } else {
+            updateParticles();
         }
 
         winsText.setText('Wins: ${wins}');
@@ -325,21 +327,22 @@ class GameScene extends Scene {
     }
 
     function nextRoom (tied:Bool) {
-        if (tied) {
-            wins = 0;
-            world.makeRoom(null, null);
-            makeGenes();
-            return;
-        }
-        final winningDna = world.room.actors.filter(a -> a.hp > 0)[0].dna;
-        trace(winningDna.genes);
-        if (winningDna == world.room.actors[0].dna) {
-            wins++;
-        } else {
-            wins = 0;
-        }
-        world.makeRoom(winningDna, null);
-        makeGenes();
+        worldActive = false;
+        // if (tied) {
+        //     wins = 0;
+        //     world.makeRoom(null, null);
+        //     makeGenes();
+        //     return;
+        // }
+        // final winningDna = world.room.actors.filter(a -> a.hp > 0)[0].dna;
+        // trace(winningDna.genes);
+        // if (winningDna == world.room.actors[0].dna) {
+        //     wins++;
+        // } else {
+        //     wins = 0;
+        // }
+        // world.makeRoom(winningDna, null);
+        // makeGenes();
     }
 
     function makeGenes () {

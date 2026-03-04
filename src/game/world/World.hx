@@ -136,7 +136,7 @@ class World {
         }
 
         if (pool.length < 2) {
-            if (generation < 10 && winners.length < 333) {
+            if (generation < 10 && winners.length < 666) {
                 makeChildren();
                 makeRandomCopy();
             } else if (winners.length > 2) {

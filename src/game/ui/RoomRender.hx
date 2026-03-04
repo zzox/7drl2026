@@ -47,8 +47,6 @@ function roomRender (g2:Graphics, posX:Int, posY:Int, room:Room, particles:Array
         // if (items[i].item == -1) continue;
         final actor = room.actors[i];
 
-        final tileIndex = i == 0 ? 101 : 102;
-
         // + 90 becuase we draw facing up and not to the right
         g2.pushRotation(
             getRotDir(actor.facing) + toRadians(90),
@@ -56,6 +54,15 @@ function roomRender (g2:Graphics, posX:Int, posY:Int, room:Room, particles:Array
             posY + actor.y * sizeY + 8
         );
 
+        final tileIndex = 112 + actor.dna.body;
+        g2.drawSubImage(
+            image,
+            posX + actor.x * sizeX,
+            posY + actor.y * sizeY,
+            (tileIndex % cols) * sizeX, Math.floor(tileIndex / cols) * sizeY, sizeX, sizeY
+        );
+
+        final tileIndex = (actor.hp > 0 ? 128 : 144) + actor.dna.eyes;
         g2.drawSubImage(
             image,
             posX + actor.x * sizeX,
