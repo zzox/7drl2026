@@ -159,7 +159,7 @@ class Room {
             return false;
         });
 
-        updateLights(time);
+        // updateLights(time);
 
         return moved;
     }
