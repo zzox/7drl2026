@@ -380,7 +380,7 @@ class GameScene extends Scene {
     function handleEvents (events:Array<RoomEvent>) {
         for (e in events) {
             if (e.type == ThingEnd) {
-                particles.push({ tile: 176, x: e.x, y: e.y, dir: e.dir, time: 30 });
+                particles.push({ tile: 176 + e.thingType, x: e.x, y: e.y, dir: e.dir, time: 30 });
             }
             if (e.type == Damage) {
                 particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 60, color: 0xffb4202a });

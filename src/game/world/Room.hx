@@ -99,18 +99,25 @@ class Room {
         }
 
         // check things
-
         for (t in things) {
+            final data = thingData.get(t.type);
             for (a in actors) {
                 if (checkEq(t.x, t.y, a.x, a.y)) {
-                    final damage = 10;
+                    final damage = data.damage;
                     a.hp -= damage;
+                    // handle special stuff here
+
                     addEvent(Damage, damage, t.x, t.y);
                     t.time = 0;
                 }
             }
 
             t.time--;
+            if (t.time == 0 && data.moves) {
+                t.time = 30;
+                t.x = getLaunchX(t.x, t.facing);
+                t.y = getLaunchY(t.y, t.facing);
+            }
         }
 
         things = things.filter(t -> {
@@ -151,6 +158,8 @@ class Room {
         if (gene == TurnTo) tryTurnTo(fromActor, toActor);
         if (gene == TurnAway) tryTurnAway(fromActor, toActor);
         if (gene == Pierce) launchProj(fromActor, Pierce);
+        if (gene == Punch) launchProj(fromActor, Punch);
+        if (gene == Spit) launchProj(fromActor, Spit);
     }
 
     function launchProj (fromActor:Actor, type:Gene) {
@@ -158,8 +167,8 @@ class Room {
 
         final thing = {
             type: thingType,
-            x: getLaunchX(fromActor),
-            y: getLaunchY(fromActor),
+            x: getLaunchX(fromActor.x, fromActor.facing),
+            y: getLaunchY(fromActor.y, fromActor.facing),
             facing: fromActor.facing,
             time: 30
         }

@@ -73,20 +73,20 @@ function getFacingAngle (dir:RotationDir):Float {
     }
 }
 
-function getLaunchX (actor:Actor):Int {
-    return switch (actor.facing) {
-        case East: actor.x + 1;
-        case South: actor.x;
-        case West: actor.x - 1;
-        case North: actor.x;
+function getLaunchX (fromX:Int, facing:RotationDir):Int {
+    return switch (facing) {
+        case East: fromX + 1;
+        case South: fromX;
+        case West: fromX - 1;
+        case North: fromX;
     }
 }
 
-function getLaunchY (actor:Actor):Int {
-    return switch (actor.facing) {
-        case East: actor.y;
-        case South: actor.y + 1;
-        case West: actor.y;
-        case North: actor.y - 1;
+function getLaunchY (fromY:Int, facing:RotationDir):Int {
+    return switch (facing) {
+        case East: fromY;
+        case South: fromY + 1;
+        case West: fromY;
+        case North: fromY - 1;
     }
 }

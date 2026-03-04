@@ -69,7 +69,7 @@ function roomRender (g2:Graphics, posX:Int, posY:Int, room:Room, particles:Array
         // if (items[i].item == -1) continue;
         final thing = room.things[i];
 
-        final tileIndex = 160;
+        final tileIndex = 160 + thing.type;
 
         g2.pushRotation(
             getRotDir(thing.facing) + toRadians(90),

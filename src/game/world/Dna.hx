@@ -53,7 +53,7 @@ function generateGenes ():Array<Gene> {
         var forwards = 0;
         var turns = 0;
         for (g in genes) {
-            if (g == Pierce) {
+            if (g == Pierce || g == Punch || g == Spit) {
                 attacks++;
             }
 
@@ -79,18 +79,20 @@ function makeRandomGenes ():Array<Gene> {
 
     for (_ in 0...24) {
         final rand = World.rand.GetFloat();
-        if (rand < 0.06) {
+        if (rand < 0.04) {
             dna.push(Pierce);
-        } else if (rand < 0.06) {
+        } else if (rand < 0.08) {
             dna.push(Punch);
         } else if (rand < 0.12) {
+            dna.push(Spit);
+        } else if (rand < 0.20) {
             dna.push(Forward);
-        } else if (rand < 0.14) {
+        } else if (rand < 0.26) {
             dna.push(Back);
-        } else if (rand < 0.18) {
-            dna.push(TurnAway);
-        } else if (rand < 0.25) {
+        } else if (rand < 0.3) {
             dna.push(TurnTo);
+        } else if (rand < 0.33) {
+            dna.push(TurnAway);
         } else {
             dna.push(None);
         }
