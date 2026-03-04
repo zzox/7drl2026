@@ -40,6 +40,8 @@ class World {
     public var stepdads:Int = 0;
     public var matches:Int = -1;
 
+    public var geneCopies:Array<Dna> = [];
+
     public function new (?startSeed:Int) {
         // final ttt = Timer.stamp();
         // final rand = new kha.math.Random(1000);
@@ -97,8 +99,10 @@ class World {
     function makeChildren () {
         var children = [];
 
-        final mutRate = generation > 10 ? 1 : 20 - generation;
+        final mutRate = Math.max(5 - generation / 4, 1.0);
         final offspring = Math.round(Math.max(16 - generation / 2, 4));
+
+        final w = winners.length;
 
         while (winners.length < 2) {
             stepdads++;
@@ -118,9 +122,11 @@ class World {
         }
         pool = children;
         generation++;
+
+        trace('genned', w, children.length);
     }
 
-    public function nextRoom () {
+    public function nextRoom ():Bool {
         // var losers = [];
         if (room.checkDead() == 0) {
         } else if (room.actors[0].hp <= 0) {
@@ -130,16 +136,26 @@ class World {
         }
 
         if (pool.length < 2) {
-            if (winners.length < 100) {
+            if (generation < 10 && winners.length < 333) {
                 makeChildren();
-            } else {
+                makeRandomCopy();
+            } else if (winners.length > 2) {
                 shuffle(winners, rand);
                 pool = winners;
+                makeRandomCopy();
+            } else {
+                return false;
             }
         }
 
         makeRoom(pool.shift(), pool.shift());
+        return true;
     }
+
+    function makeRandomCopy () {
+        geneCopies.push(randomItem(pool));
+    }
+
     // public function makeMany () {
     //     for (_ in 0...10000) {
     //         dnas.push(new Dna());

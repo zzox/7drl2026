@@ -84,13 +84,13 @@ function makeRandomGenes ():Array<Gene> {
 
     for (_ in 0...24) {
         final rand = World.rand.GetFloat();
-        if (rand < 0.01) {
+        if (rand < 0.003) {
             dna.push(Pierce);
-        } else if (rand < 0.02) {
+        } else if (rand < 0.006) {
             dna.push(Punch);
-        } else if (rand < 0.03) {
+        } else if (rand < 0.01) {
             dna.push(Spit);
-        } else if (rand < 0.10) {
+        } else if (rand < 0.09) {
             dna.push(Forward);
         } else if (rand < 0.16) {
             dna.push(Back);

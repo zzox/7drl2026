@@ -25,6 +25,8 @@ class SpeedScene extends Scene {
 
     var replayCommands:Array<{ step:Int, command: Command }>;
 
+    var canGo:Bool = true;
+
     override function create () {
         super.create();
 
@@ -78,12 +80,15 @@ class SpeedScene extends Scene {
             steps = 1000;
         }
 
-        if (steps > 0) {
+        if (canGo && steps > 0) {
             for (_ in 0...steps) {
                 while (world.room.checkDead() == 0 && !world.room.checkSkip()) {
                     world.room.step(0);
                 }
-                world.nextRoom();
+                canGo = world.nextRoom();
+                if (!canGo) {
+                    showGenes();
+                }
             }
         }
 
@@ -94,7 +99,7 @@ class SpeedScene extends Scene {
         genes2.genes = world.room.actors[1].dna.genes;
 
         devTexts[0].setText('Matches: ${world.matches}');
-        devTexts[1].setText('Remains: ${world.pool.length}');
+        devTexts[1].setText('Remains: ${world.pool.length + world.winners.length}');
         devTexts[2].setText('Gen: ${world.generation}');
         devTexts[3].setText('step: ${world.stepdads}');
         devTexts[4].setText('${world.room.actors[0].dna.id} vs ${world.room.actors[1].dna.id}');
@@ -120,5 +125,16 @@ class SpeedScene extends Scene {
         final highest = Lambda.fold(Debug.updateTimes, (frame, res) -> Math.max(frame, res), 0);
         devTexts[6].setText('UPS: ${Debug.updateFrames.length}, avg: ${Math.round(average(Debug.updateTimes) * 1000)}ms, hi: ${Math.round(highest * 1000)}ms');
 #end
+    }
+
+    function showGenes () {
+        // ;p;
+        entities = entities.filter(e -> e != genes1 && e != genes2);
+
+        for (i in 0...world.geneCopies.length) {
+            final gene = world.geneCopies[i];
+            entities.push(makeBitmapText(4, 76 + 10 * i, i + ''));
+            entities.push(genes1 = new GenesDisplay(12, 80 + 10 * i, gene.genes, 24));
+        }
     }
 }
