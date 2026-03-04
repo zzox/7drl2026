@@ -139,6 +139,7 @@ class SpeedScene extends Scene {
             final gene = world.geneCopies[i];
             entities.push(makeBitmapText(4, 76 + 10 * i, i + ''));
             entities.push(genes1 = new GenesDisplay(12, 80 + 10 * i, gene.genes, 24));
+            entities.push(makeBitmapText(204, 76 + 10 * i, 'hp: ${gene.hp}, sp: ${gene.speed}'));
         }
     }
 }

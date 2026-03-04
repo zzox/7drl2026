@@ -1,6 +1,5 @@
 import core.Game;
 import game.scenes.GameScene;
-import game.scenes.HarnessScene;
 import game.scenes.SpeedScene;
 
 #if kha_html5

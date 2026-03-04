@@ -1,5 +1,6 @@
 package game.world;
 
+import core.util.Util.average;
 import game.data.Names;
 
 enum abstract Gene(Int) to Int {
@@ -34,18 +35,17 @@ class Dna {
 
     public var genes:Array<Gene>;
 
-    public function new (?genes:Array<Gene>, generation:Int = 0) {
+    public function new (?genes:Array<Gene>, ?generation:Int = 0, ?hp:Null<Int>, ?speed:Null<Int>) {
         id = curId++;
         name = makeName();
 
-        hp = 64 + World.rand.GetUpTo(64);
-        speed = World.rand.GetUpTo(64);
         // dex = World.rand.GetUpTo(64);
         // attack = World.rand.GetUpTo(64);
         // defense = World.rand.GetUpTo(64);
 
         this.genes = genes ?? generateGenes();
-
+        this.hp = hp ?? 64 + World.rand.GetUpTo(64);
+        this.speed = speed ?? World.rand.GetUpTo(64);
         this.generation = generation;
     }
 }
@@ -139,7 +139,13 @@ function combineDna (dad1:Dna, dad2:Dna, mutRate:Float, offspring:Int):Array<Dna
             genes.push(genes.shift());
         }
 
-        sons.push(new Dna(genes, Std.int(Math.max(dad1.generation + 1, dad2.generation + 1))));
+        sons.push(
+            new Dna(genes,
+                Std.int(Math.max(dad1.generation + 1, dad2.generation + 1)),
+                Math.round((dad1.hp + dad2.hp) / 2),
+                Math.round((dad1.speed + dad2.speed) / 2),
+            )
+        );
     }
 
     return sons;
