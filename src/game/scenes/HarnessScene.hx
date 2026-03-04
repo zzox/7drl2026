@@ -90,7 +90,7 @@ class HarnessScene extends Scene {
         genes2.genes = world.room.actors[1].dna.genes;
 
         devTexts[0].setText('${world.matches}');
-        devTexts[1].setText('${world.dnas.length}');
+        devTexts[1].setText('${world.pool.length}');
         devTexts[2].setText('${world.room.actors[0].dna.id},${world.room.actors[1].dna.id}');
         devTexts[3].setText('${world.room.steps}');
 

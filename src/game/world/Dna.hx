@@ -17,6 +17,8 @@ enum abstract Gene(Int) to Int {
     var Deflect = 8;
 }
 
+final mutItems = [Pierce, Punch, Spit, Deflect];
+
 typedef DId = Int;
 
 class Dna {
@@ -25,13 +27,14 @@ class Dna {
     // static vals
     public final id:DId;
     public final name:String;
+    public var generation:Int;
 
     public var speed:Int; // how fast each step is
     public var hp:Int;
 
     public var genes:Array<Gene>;
 
-    public function new () {
+    public function new (?genes:Array<Gene>, generation:Int = 0) {
         id = curId++;
         name = makeName();
 
@@ -41,7 +44,9 @@ class Dna {
         // attack = World.rand.GetUpTo(64);
         // defense = World.rand.GetUpTo(64);
 
-        genes = generateGenes();
+        this.genes = genes ?? generateGenes();
+
+        this.generation = generation;
     }
 }
 
@@ -49,7 +54,7 @@ function generateGenes ():Array<Gene> {
     while (true) {
         final genes = makeRandomGenes();
 
-        var attacks = 0;
+        var attacks = 1;
         var forwards = 0;
         var turns = 0;
         for (g in genes) {
@@ -79,19 +84,19 @@ function makeRandomGenes ():Array<Gene> {
 
     for (_ in 0...24) {
         final rand = World.rand.GetFloat();
-        if (rand < 0.04) {
+        if (rand < 0.01) {
             dna.push(Pierce);
-        } else if (rand < 0.08) {
+        } else if (rand < 0.02) {
             dna.push(Punch);
-        } else if (rand < 0.12) {
+        } else if (rand < 0.03) {
             dna.push(Spit);
-        } else if (rand < 0.20) {
+        } else if (rand < 0.10) {
             dna.push(Forward);
-        } else if (rand < 0.26) {
+        } else if (rand < 0.16) {
             dna.push(Back);
-        } else if (rand < 0.3) {
+        } else if (rand < 0.22) {
             dna.push(TurnTo);
-        } else if (rand < 0.33) {
+        } else if (rand < 0.27) {
             dna.push(TurnAway);
         } else {
             dna.push(None);
@@ -100,3 +105,43 @@ function makeRandomGenes ():Array<Gene> {
 
     return dna;
 }
+
+function combineDna (dad1:Dna, dad2:Dna, mutRate:Float, offspring:Int):Array<Dna> {
+    if (dad1.genes.length != dad2.genes.length) throw 'Inequal DNA length!';
+    if (dad1.id == dad2.id) throw 'Same!';
+
+    final sons = [];
+    for (_ in 0...offspring) {
+        final genes = [];
+        for (i in 0...dad1.genes.length) {
+            final rand = World.rand.GetFloat();
+            final mutRand = World.rand.GetFloat();
+            final item = if (mutRand < 0.01 * mutRate) {
+                trace('mutation');
+                World.randomItem(mutItems);
+            } else if (rand < 0.5) {
+                dad1.genes[i];
+            } else {
+                dad2.genes[i];
+            }
+            genes.push(item);
+        }
+
+        if (World.rand.GetFloat() < 0.01 * mutRate) {
+            genes.push(genes.shift());
+        }
+
+        if (World.rand.GetFloat() < 0.01 * mutRate) {
+            genes.push(genes.shift());
+        }
+
+        if (World.rand.GetFloat() < 0.01 * mutRate) {
+            genes.push(genes.shift());
+        }
+
+        sons.push(new Dna(genes, Std.int(Math.max(dad1.generation + 1, dad2.generation + 1))));
+    }
+
+    return sons;
+}
+

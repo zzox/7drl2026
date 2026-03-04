@@ -41,8 +41,8 @@ class SpeedScene extends Scene {
         // world = new World(parsed.seed);
         world = new World();
 
-        entities.push(genes1 = new GenesDisplay(4, 60, world.room.actors[0].dna.genes, 24));
-        entities.push(genes2 = new GenesDisplay(4, 70, world.room.actors[1].dna.genes, 24));
+        entities.push(genes1 = new GenesDisplay(4, 80, world.room.actors[0].dna.genes, 24));
+        entities.push(genes2 = new GenesDisplay(4, 90, world.room.actors[1].dna.genes, 24));
 
         // trace(Std.isOfType(replayCommands, Array<{ step:Int, command: Command }>));
 #if debug
@@ -58,7 +58,7 @@ class SpeedScene extends Scene {
         // handlePointer(delta);
 
         if (Game.keys.justPressed(KeyCode.R)) {
-            game.changeScene(new HarnessScene());
+            game.changeScene(new SpeedScene());
         }
 
         var steps = 1;
@@ -68,6 +68,14 @@ class SpeedScene extends Scene {
 
         if (Game.keys.pressed(KeyCode.D)) {
             steps = 10;
+        }
+
+        if (Game.keys.pressed(KeyCode.F)) {
+            steps = 100;
+        }
+
+        if (Game.keys.pressed(KeyCode.G)) {
+            steps = 1000;
         }
 
         if (steps > 0) {
@@ -86,9 +94,11 @@ class SpeedScene extends Scene {
         genes2.genes = world.room.actors[1].dna.genes;
 
         devTexts[0].setText('Matches: ${world.matches}');
-        devTexts[1].setText('Remains: ${world.dnas.length}');
-        devTexts[2].setText('${world.room.actors[0].dna.id} vs.${world.room.actors[1].dna.id}');
-        devTexts[3].setText('${world.room.steps}');
+        devTexts[1].setText('Remains: ${world.pool.length}');
+        devTexts[2].setText('Gen: ${world.generation}');
+        devTexts[3].setText('step: ${world.stepdads}');
+        devTexts[4].setText('${world.room.actors[0].dna.id} vs ${world.room.actors[1].dna.id}');
+        devTexts[5].setText('${world.room.steps}');
 
         super.update(delta);
 
@@ -108,7 +118,7 @@ class SpeedScene extends Scene {
         }
 
         final highest = Lambda.fold(Debug.updateTimes, (frame, res) -> Math.max(frame, res), 0);
-        devTexts[4].setText('UPS: ${Debug.updateFrames.length}, avg: ${Math.round(average(Debug.updateTimes) * 1000)}ms, hi: ${Math.round(highest * 1000)}ms');
+        devTexts[6].setText('UPS: ${Debug.updateFrames.length}, avg: ${Math.round(average(Debug.updateTimes) * 1000)}ms, hi: ${Math.round(highest * 1000)}ms');
 #end
     }
 }

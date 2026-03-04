@@ -1,6 +1,7 @@
 package core.util;
 
 import core.Types;
+import kha.math.Random;
 
 function clamp (value:Float, min:Float, max:Float) {
     return Math.max(Math.min(value, max), min);
@@ -75,4 +76,15 @@ function nanZeroDiv (num:Float, denom:Float):Float {
     }
 
     return num / denom;
+}
+
+function shuffle<T> (items:Array<T>, rand:Random):Array<T> {
+    for (i in 0...items.length) {
+        final index = Math.floor(rand.GetFloat() * items.length);
+        final temp = items[i];
+        items[i] = items[index];
+        items[index] = temp;
+    }
+
+    return items;
 }
