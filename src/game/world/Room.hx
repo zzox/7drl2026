@@ -112,6 +112,11 @@ class Room {
                 }
             }
 
+            // out of bounds check
+            if (t.x < 0 || t.x >= grid.width || t.y < 0 || t.y >= grid.height) {
+                t.time = -1;
+            }
+
             t.time--;
             if (t.time == 0 && data.moves) {
                 t.time = 30;
