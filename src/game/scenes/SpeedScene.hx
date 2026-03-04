@@ -4,6 +4,7 @@ import core.Game;
 import core.gameobjects.BitmapText;
 import core.scene.Scene;
 import core.util.Util;
+import game.data.Names.names;
 import game.ui.GenesDisplay;
 import game.ui.UiText;
 import game.util.Debug;
@@ -11,6 +12,7 @@ import game.world.World;
 import haxe.Json;
 import haxe.Timer;
 import kha.input.KeyCode;
+import kha.math.Random;
 
 final json = '[{ temp: 1 }]';
 
@@ -38,6 +40,8 @@ class SpeedScene extends Scene {
             entities.push(text);
             devTexts.push(text);
         }
+
+        // trace(names.map(n -> shuffle(n.split(''), new Random(666)).join('')));
 
         // final parsed = Json.parse(json);
         // world = new World(parsed.seed);
