@@ -98,17 +98,42 @@ class Room {
 #end
         }
 
-        // check things
+        // check collision amongst things
         for (t in things) {
+            for (tt in things) {
+                if (t != tt && checkEq(t.x, t.y, tt.x, tt.y)) {
+                    if (t.type == TPunch && tt.type == TSpit) {
+                        tt.time = -1;
+                    } else if (tt.type == TPunch && t.type == TSpit) {
+                        t.time = -1;
+                    }
+                }
+            }
+        }
+
+        // check things
+        // we set things to -1 if there's a collision and the thing needs to stop
+        for (t in things) {
+            if (t.time < 0) continue;
+
             final data = thingData.get(t.type);
             for (a in actors) {
                 if (checkEq(t.x, t.y, a.x, a.y)) {
-                    final damage = data.damage;
+                    var damage = data.damage;
+                    // pierces to incremental damage
+                    if (t.type == TPierce) {
+                        a.pierces++;
+                        damage = a.pierces;
+                    }
                     a.hp -= damage;
-                    // handle special stuff here
 
-                    addEvent(Damage, damage, t.x, t.y);
-                    t.time = 0;
+                    // a punch will push someone back
+                    if (t.type == TPunch) {
+                        tryPush(t, a);
+                    }
+
+                    addEvent(Damage, damage, a.x, a.y);
+                    t.time = -1;
                 }
             }
 
@@ -220,6 +245,13 @@ class Room {
         } else if (angle > 0) {
             fromActor.facing = figureRotationMath(fromActor.facing - 1);
         }
+    }
+
+    inline function tryPush (thing:Thing, actor:Actor) {
+        if (actor.facing == North && !checkCollision(actor.x, actor.y - 1)) actor.y--;
+        if (actor.facing == South && !checkCollision(actor.x, actor.y + 1)) actor.y++;
+        if (actor.facing == East && !checkCollision(actor.x + 1, actor.y)) actor.x++;
+        if (actor.facing == West && !checkCollision(actor.x - 1, actor.y)) actor.x--;
     }
 
     inline function tryForward (actor:Actor) {

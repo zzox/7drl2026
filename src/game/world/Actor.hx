@@ -12,6 +12,7 @@ class Actor {
     public var time:Int = 60;
     public var hp:Int;
     public var dnaIndex:Int = 0;
+    public var pierces:Int = 0;
 
     public function new (dna:Dna, pos:Int) {
         if (pos == 0) {
