@@ -13,19 +13,19 @@ import game.ui.UiText;
 import kha.Assets;
 import kha.graphics2.Graphics;
 
-typedef ChildElements = {
-    var el:UiElement;
-    // var el:GameObject;
-    var x:Int;
-    var y:Int;
-}
-// TODO: combine these somehow
-typedef OChildElement = {
-    // var el:UiElement;
-    var el:GameObject;
-    var x:Int;
-    var y:Int;
-}
+// typedef ChildElements = {
+//     var el:UiElement;
+//     // var el:GameObject;
+//     var x:Int;
+//     var y:Int;
+// }
+// // TODO: combine these somehow
+// typedef OChildElement = {
+//     // var el:UiElement;
+//     var el:GameObject;
+//     var x:Int;
+//     var y:Int;
+// }
 
 // typedef NumColumnItem = {
 //     var name:String;
@@ -56,10 +56,10 @@ class UiWindow {
 
     public var heldPos:Null<IntVec2>;
 
-    public var children:Array<ChildElements> = [];
+    // public var children:Array<ChildElements> = [];
     public var grabbable:Null<UiElement>;
     public var cancel:Null<UiElement>;
-    var oChildren:Array<OChildElement> = [];
+    // var oChildren:Array<OChildElement> = [];
 
     public var flashTime:Float = 0.0;
 
@@ -69,43 +69,43 @@ class UiWindow {
         this.name = name;
 
         // TODO: scoot right for top bar images
-        if (showName) addUpChild(4, 2, makeWhiteText(name));
+        // if (showName) addUpChild(4, 2, makeWhiteText(name));
     }
 
     public function update (delta:Float) {
-        for (c in children) c.el.update(delta);
-        for (c in oChildren) c.el.update(delta);
-        flashTime -= delta;
+        // for (c in children) c.el.update(delta);
+        // for (c in oChildren) c.el.update(delta);
+        // flashTime -= delta;
     }
 
     public function render (g2:Graphics, cam:Camera) {
-        for (c in children) {
-            c.el.x = x + c.x;
-            c.el.y = y + c.y;
-            if (c.el.visible) c.el.render(g2, cam);
-        }
-        for (c in oChildren) {
-            c.el.x = x + c.x;
-            c.el.y = y + c.y;
-            if (c.el.visible) c.el.render(g2, cam);
-        }
+        // for (c in children) {
+        //     c.el.x = x + c.x;
+        //     c.el.y = y + c.y;
+        //     if (c.el.visible) c.el.render(g2, cam);
+        // }
+        // for (c in oChildren) {
+        //     c.el.x = x + c.x;
+        //     c.el.y = y + c.y;
+        //     if (c.el.visible) c.el.render(g2, cam);
+        // }
 
-        if (flashTime > 0.0 && grabbable != null) {
-            grabbable.tileIndex = GameScene.shortPulseOn ? 12 : 13;
-        }
+        // if (flashTime > 0.0 && grabbable != null) {
+        //     grabbable.tileIndex = GameScene.shortPulseOn ? 12 : 13;
+        // }
     }
 
     function addChild (x:Int, y:Int, el:UiElement) {
-        children.push({ x: x, y: y, el: el });
+        // children.push({ x: x, y: y, el: el });
         width = Std.int(Math.max(width, x + el.elementSizeX));
         height = Std.int(Math.max(height, y + el.elementSizeY));
     }
 
-    function addUpChild (x:Int, y:Int, el:GameObject):OChildElement {
-        final o = { x: x, y: y, el: el };
-        oChildren.push(o);
-        return o;
-    }
+    // function addUpChild (x:Int, y:Int, el:GameObject):OChildElement {
+    //     final o = { x: x, y: y, el: el };
+    //     oChildren.push(o);
+    //     return o;
+    // }
 
     inline function makeTopBottom(width:Int, height:Int) {
         // these are all at 0,0 because they'll be positioned in `render`
@@ -177,7 +177,7 @@ class UiWindow {
     function addUiTextButton (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, text:String, callback:Void -> Void):TextButton {
         final uiButton = makeUiTextButton(0, 0, width, height, tileIndex, text, callback);
         addChild(x, y, uiButton.button);
-        addUpChild(Std.int(x + uiButton.text.x), Std.int(y + uiButton.text.y), uiButton.text);
+        // addUpChild(Std.int(x + uiButton.text.x), Std.int(y + uiButton.text.y), uiButton.text);
         return uiButton;
     }
 

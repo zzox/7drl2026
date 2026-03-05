@@ -203,14 +203,14 @@ class UiScene extends Scene {
         for (i in 0...topWindows.length) {
             final win = topWindows[i];
             if (!hovered) {
-                checkWindow(win, i);
+                // checkWindow(win, i);
             } else {
-                for (c in win.children) {
-                    if (!c.el.disabled) {
-                        c.el.hovered = false;
-                        c.el.setIndexFromState();
-                    }
-                }
+                // for (c in win.children) {
+                //     if (!c.el.disabled) {
+                //         c.el.hovered = false;
+                //         c.el.setIndexFromState();
+                //     }
+                // }
             }
 
             if (win.grabbable != null && win.flashTime < 0.0) {
@@ -237,15 +237,15 @@ class UiScene extends Scene {
             // if we are over any of these ui elements, we can't do anything to the next element under us
             // or if we are dealing with a confirmWindow
             if (!hovered && topWindows.length == 0) {
-                checkWindow(win, w);
+                // checkWindow(win, w);
             } else {
                 // TODO: unhover the rest of the buttons of the screens under if we are hovered
-                for (c in win.children) {
-                    if (!c.el.disabled) {
-                        c.el.hovered = false;
-                        c.el.setIndexFromState();
-                    }
-                }
+                // for (c in win.children) {
+                //     if (!c.el.disabled) {
+                //         c.el.hovered = false;
+                //         c.el.setIndexFromState();
+                //     }
+                // }
             }
 
             if (win.grabbable != null) {
@@ -302,57 +302,57 @@ class UiScene extends Scene {
     }
 
     inline function checkWindow (win:UiWindow, index:Int) {
-        for (c in win.children) {
-            // for every button update state and set the tile index if it has a onclick,
-            // we assume it is a button.
-            if (!c.el.disabled && c.el.visible) {
-                c.el.checkPointer(mouseX, mouseY);
-                if (c.el.onClick != null) {
-                    c.el.setIndexFromState();
-                    if (c.el.hovered) {
-                        Mouse.get().setSystemCursor(MouseCursor.Pointer);
-                    }
-                    if (c.el.pressed) {
-                        buttonPressed = true;
-                        Mouse.get().setSystemCursor(MouseCursor.Pointer);
-                    }
-                }
-            } else if (c.el.disabled) {
-                c.el.setIndexFromState();
-            }
+        // for (c in win.children) {
+        //     // for every button update state and set the tile index if it has a onclick,
+        //     // we assume it is a button.
+        //     if (!c.el.disabled && c.el.visible) {
+        //         c.el.checkPointer(mouseX, mouseY);
+        //         if (c.el.onClick != null) {
+        //             c.el.setIndexFromState();
+        //             if (c.el.hovered) {
+        //                 Mouse.get().setSystemCursor(MouseCursor.Pointer);
+        //             }
+        //             if (c.el.pressed) {
+        //                 buttonPressed = true;
+        //                 Mouse.get().setSystemCursor(MouseCursor.Pointer);
+        //             }
+        //         }
+        //     } else if (c.el.disabled) {
+        //         c.el.setIndexFromState();
+        //     }
 
-            // if we're over the grabbable item (and we aren't pressing a button)
-            if (c.el == win.grabbable && c.el.hovered && !buttonPressed) {
-                Mouse.get().setSystemCursor(MouseCursor.Grab);
-                if (Game.mouse.justPressed(0)) {
-                    win.heldPos = new IntVec2(Math.floor(mouseX - win.x), Math.floor(mouseY - win.y));
-                }
-            }
+        //     // if we're over the grabbable item (and we aren't pressing a button)
+        //     if (c.el == win.grabbable && c.el.hovered && !buttonPressed) {
+        //         Mouse.get().setSystemCursor(MouseCursor.Grab);
+        //         if (Game.mouse.justPressed(0)) {
+        //             win.heldPos = new IntVec2(Math.floor(mouseX - win.x), Math.floor(mouseY - win.y));
+        //         }
+        //     }
 
-            // mark if we hovered over any of these or if an item was pressed
-            if (c.el.hovered || c.el.pressed) {
-                hovered = true;
-            }
+        //     // mark if we hovered over any of these or if an item was pressed
+        //     if (c.el.hovered || c.el.pressed) {
+        //         hovered = true;
+        //     }
 
-            if (c.el.hovered && c.el.pressed) {
-                bringFront = index;
-            }
-        }
+        //     if (c.el.hovered && c.el.pressed) {
+        //         bringFront = index;
+        //     }
+        // }
 
-        if (win.heldPos != null) {
-            // unset if we are also pressing a button
-            if (buttonPressed) {
-                win.heldPos = null;
-            } else {
-                // win.y = mouseY - win.heldPos.y;
-                win.x = Std.int(clamp(mouseX - win.heldPos.x, DayTimeWidth, width - win.width));
-                win.y = Std.int(clamp(mouseY - win.heldPos.y, WinTop, height - win.height));
-                if (Game.mouse.justReleased(0)) {
-                    win.heldPos = null;
-                }
-                Mouse.get().setSystemCursor(MouseCursor.Grabbing);
-            }
-        }
+        // if (win.heldPos != null) {
+        //     // unset if we are also pressing a button
+        //     if (buttonPressed) {
+        //         win.heldPos = null;
+        //     } else {
+        //         // win.y = mouseY - win.heldPos.y;
+        //         win.x = Std.int(clamp(mouseX - win.heldPos.x, DayTimeWidth, width - win.width));
+        //         win.y = Std.int(clamp(mouseY - win.heldPos.y, WinTop, height - win.height));
+        //         if (Game.mouse.justReleased(0)) {
+        //             win.heldPos = null;
+        //         }
+        //         Mouse.get().setSystemCursor(MouseCursor.Grabbing);
+        //     }
+        // }
     }
 
     public function setMiddleText (text:String, time:Float) {

@@ -19,8 +19,8 @@ class ConfirmWindow extends UiWindow {
         final mainText = makeBlackText(headerText);
         final bylineText = makeBitmapText(0, 0, subtext, UiScene.Grey);
 
-        addUpChild(Math.round((Width - mainText.textWidth) / 2), UiWindow.TopHeight + 16, mainText);
-        addUpChild(Math.round((Width - bylineText.textWidth) / 2), UiWindow.TopHeight + 30, bylineText);
+        // addUpChild(Math.round((Width - mainText.textWidth) / 2), UiWindow.TopHeight + 16, mainText);
+        // addUpChild(Math.round((Width - bylineText.textWidth) / 2), UiWindow.TopHeight + 30, bylineText);
         // addUpChild(240, UiWindow.TopHeight + 28, salaryText = makeBlackText());
 
         addUiTextButton(50, UiWindow.TopHeight + 60, 60, 16, 0, 'Confirm', () -> {

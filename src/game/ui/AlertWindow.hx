@@ -21,8 +21,8 @@ class AlertWindow extends UiWindow {
         makeTopBottom(w, Height);
         makeXButton();
 
-        addUpChild(Math.round((width - mainText.textWidth) / 2), UiWindow.TopHeight + 16, mainText);
-        addUpChild(Math.round((width - bylineText.textWidth) / 2), UiWindow.TopHeight + 30, bylineText);
+        // addUpChild(Math.round((width - mainText.textWidth) / 2), UiWindow.TopHeight + 16, mainText);
+        // addUpChild(Math.round((width - bylineText.textWidth) / 2), UiWindow.TopHeight + 30, bylineText);
 
         addUiTextButton(Math.round((width - 60) / 2), UiWindow.TopHeight + 60, 60, 16, 0, 'Ok', () -> {
             handleClose();
