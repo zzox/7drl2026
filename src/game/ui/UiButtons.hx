@@ -11,12 +11,12 @@ typedef TextButton = {
 }
 
 function makeUiButton (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, callback:Void -> Void):UiElement {
-    final button = new UiElement(x, y, 16, 16, 3, 3, 13, 13, width, height, tileIndex, Assets.images.ui, callback);
+    final button = new UiElement(x, y, 16, 16, 4, 4, 12, 12, width, height, tileIndex, Assets.images.ui, callback);
     return button;
 }
 
 function makeUiTextButton (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, text:String, callback:Void -> Void):TextButton {
-    final button = new UiElement(x, y, 16, 16, 3, 3, 13, 13, width, height, tileIndex, Assets.images.ui, callback);
+    final button = new UiElement(x, y, 16, 16, 4, 4, 12, 12, width, height, tileIndex, Assets.images.ui, callback);
     final text = makeBlackText(text);
     text.setPosition(x + Math.floor((width - text.textWidth) / 2), y);
     return { button: button, text: text };

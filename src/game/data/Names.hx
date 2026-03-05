@@ -4,7 +4,7 @@ import game.world.Run;
 
 final letters = 'ABCDEFGHIJKLLMNOPQRSTUVWXYZ'.split('');
 
-function makeName () return '${Run.inst.randomItem(names)} ${Run.inst.randomItem(letters)}';
+function makeName () return '${Run.inst.randomItem(mixedNames)} ${Run.inst.randomItem(mixedNames)}';
 
 final names = [
   // m
