@@ -5,7 +5,7 @@ import core.gameobjects.BitmapText;
 import core.gameobjects.GameObject;
 import core.system.Camera;
 import game.scenes.GameScene;
-import game.scenes.UiScene;
+import game.scenes.OldUiScene;
 import game.ui.BarEl;
 import game.ui.UiButtons;
 import game.ui.UiElement;

@@ -25,7 +25,7 @@ typedef TopButton = {
     var icon:Sprite;
 }
 
-class UiScene extends Scene {
+class OldUiScene extends Scene {
     public static inline final WinTop:Int = 32;
     public static inline final DayTimeWidth:Int = 128;
 
@@ -87,10 +87,10 @@ class UiScene extends Scene {
 
         entities.push(dayTimeBg);
         entities.push(dollarBg);
-        entities.push(dayText = makeBitmapText(6, 4, '', UiScene.Black));
-        entities.push(dateText = makeBitmapText(6, 4, '', UiScene.Black));
-        entities.push(timeText = makeBitmapText(6, 14, '', UiScene.Black));
-        entities.push(dollarText = makeBitmapText(camera.width, 9, '', UiScene.Black));
+        entities.push(dayText = makeBitmapText(6, 4, '', OldUiScene.Black));
+        entities.push(dateText = makeBitmapText(6, 4, '', OldUiScene.Black));
+        entities.push(timeText = makeBitmapText(6, 14, '', OldUiScene.Black));
+        entities.push(dollarText = makeBitmapText(camera.width, 9, '', OldUiScene.Black));
         entities.push(middleText = makeBitmapText(0, 64, ''));
         entities.push(middleSubtext = makeBitmapText(0, 80, ''));
 

@@ -1,6 +1,6 @@
 package game.ui;
 
-import game.scenes.UiScene;
+import game.scenes.OldUiScene;
 import game.ui.UiText;
 import game.ui.UiWindow;
 
@@ -14,7 +14,7 @@ class AlertWindow extends UiWindow {
         super(x, y, 'Alert');
 
         final mainText = makeBlackText(headerText);
-        final bylineText = makeBitmapText(0, 0, subtext, UiScene.Grey);
+        final bylineText = makeBitmapText(0, 0, subtext, OldUiScene.Grey);
 
         final w = Std.int(Math.max(Math.max(mainText.textWidth, bylineText.textWidth), Width) + 16);
 

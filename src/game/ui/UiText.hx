@@ -2,7 +2,7 @@ package game.ui;
 
 import core.gameobjects.BitmapText;
 import core.util.BitmapFont;
-import game.scenes.UiScene;
+import game.scenes.OldUiScene;
 import kha.Assets;
 
 class UiText {
@@ -46,9 +46,9 @@ function makeSmallText (posX:Int, posY:Int, text:String = ''):BitmapText {
 }
 
 function makeWhiteText (str:String = '') {
-    return makeBitmapText(0, 0, str, UiScene.White);
+    return makeBitmapText(0, 0, str, OldUiScene.White);
 }
 
 function makeBlackText (str:String = '') {
-    return makeBitmapText(0, 0, str, UiScene.Black);
+    return makeBitmapText(0, 0, str, OldUiScene.Black);
 }

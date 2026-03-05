@@ -60,7 +60,7 @@ class Room {
         lights = makeGrid(Width, Height, 1.0);
 
         grid = mapGI(grid, (x, y, item) -> {
-            return World.placeRand.GetFloat() < 0.1 ? 1 : 0;
+            return Run.inst.placeRand.GetFloat() < 0.1 ? 1 : 0;
         });
 
         stats = newEmptyStats();
@@ -74,7 +74,7 @@ class Room {
 
         steps++;
 
-        if (World.rand.GetFloat() < 1 / 1000) {}
+        if (Run.inst.rand.GetFloat() < 1 / 1000) {}
 
         // if there's issues, recheck collision here
 

@@ -12,8 +12,8 @@ import game.ui.UiText;
 import game.util.Debug;
 import game.world.Actor;
 import game.world.Room.RoomEvent;
+import game.world.Run;
 import game.world.Thing;
-import game.world.World;
 import haxe.Json;
 import haxe.Timer;
 import kha.graphics2.Graphics;
@@ -51,8 +51,6 @@ class GameScene extends Scene {
     public static var pulseOn:Bool = true;
     public static var shortPulseOn:Bool = true;
 
-    var world:World;
-    // var particles:Particle;
     // var uiScene:UiScene;
     // var logs:Logs;
     var worldActive:Bool = true;
@@ -88,8 +86,11 @@ class GameScene extends Scene {
         // WARN: should go in first scene in the game to initialize these items
         new UiText();
 
+        // TEMP:
+        new Run();
+
         gameId = (Math.random() + '').split('.')[1];
-        world = new World();
+        // world = new World();
 
         // logs = new Logs();
 
@@ -102,8 +103,8 @@ class GameScene extends Scene {
         entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
         entities.push(char2 = new NumColumn(240, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
 
-        entities.push(genes1 = new GenesDisplay(16, 108, world.room.actors[0].dna.genes));
-        entities.push(genes2 = new GenesDisplay(230, 108, world.room.actors[1].dna.genes));
+        entities.push(genes1 = new GenesDisplay(16, 108, Run.inst.room.actors[0].dna.genes));
+        entities.push(genes2 = new GenesDisplay(230, 108, Run.inst.room.actors[1].dna.genes));
 
         // for (_ in 0...20) {
         //     numbers.push(new Particle());
@@ -151,6 +152,8 @@ class GameScene extends Scene {
             steps += 16;
         }
 
+        final room = Run.inst.room;
+
         if (worldActive) {
             // turns speed 0 into 1, speed 1 into 4 and speed 2 into 16
             // steps *= Std.int(Math.pow(2, uiScene.ffSpeed));
@@ -158,41 +161,41 @@ class GameScene extends Scene {
             // if (uiScene.ffSpeed >= 1) steps *= 2;
             // if (uiScene.ffSpeed >= 2) steps *= 2;
             for (_ in 0...steps) {
-                world.room.step(0);
+                room.step(0);
                 updateParticles();
-                final dead = world.room.checkDead();
+                final dead = room.checkDead();
                 if (dead > 0) {
                     if (dead == 2) throw 'Both Dead';
                     nextRoom(false);
                     break;
                 }
                 // DEBUG: for testing tournaments we speed through it
-                if (world.room.checkSkip()) {
+                if (room.checkSkip()) {
                     nextRoom(true);
                 }
             }
             // WARN: overflow from too many events?
-            handleEvents(world.room.getEvents());
+            handleEvents(room.getEvents());
         } else {
             updateParticles();
         }
 
         winsText.setText('Wins: ${wins}');
-        stepText.setText('Steps: ${world.room.steps}');
+        stepText.setText('Steps: ${room.steps}');
 
-        char1.setStringItem('hp', '${world.room.actors[0].hp}/${world.room.actors[0].dna.hp}');
-        char1.setItem('speed', world.room.actors[0].dna.speed);
-        char1.setItem('dindex', world.room.actors[0].dnaIndex);
-        char1.setStringItem('p', '${world.room.actors[0].x},${world.room.actors[0].y},${world.room.actors[0].facing}');
-        char1.setItem('id', world.room.actors[0].dna.id);
-        char2.setStringItem('hp', '${world.room.actors[1].hp}/${world.room.actors[1].dna.hp}');
-        char2.setItem('speed', world.room.actors[1].dna.speed);
-        char2.setItem('dindex', world.room.actors[1].dnaIndex);
-        char2.setStringItem('p', '${world.room.actors[1].x},${world.room.actors[1].y},${world.room.actors[1].facing}');
-        char2.setItem('id', world.room.actors[1].dna.id);
+        char1.setStringItem('hp', '${room.actors[0].hp}/${room.actors[0].dna.hp}');
+        char1.setItem('speed', room.actors[0].dna.speed);
+        char1.setItem('dindex', room.actors[0].dnaIndex);
+        char1.setStringItem('p', '${room.actors[0].x},${room.actors[0].y},${room.actors[0].facing}');
+        char1.setItem('id', room.actors[0].dna.id);
+        char2.setStringItem('hp', '${room.actors[1].hp}/${room.actors[1].dna.hp}');
+        char2.setItem('speed', room.actors[1].dna.speed);
+        char2.setItem('dindex', room.actors[1].dnaIndex);
+        char2.setStringItem('p', '${room.actors[1].x},${room.actors[1].y},${room.actors[1].facing}');
+        char2.setItem('id', room.actors[1].dna.id);
 
-        genes1.dIndex = world.room.actors[0].dnaIndex;
-        genes2.dIndex = world.room.actors[1].dnaIndex;
+        genes1.dIndex = room.actors[0].dnaIndex;
+        genes2.dIndex = room.actors[1].dnaIndex;
 
         pulseTime = (pulseTime + delta) % 0.5;
         pulseOn = pulseTime < 0.25;
@@ -231,7 +234,7 @@ class GameScene extends Scene {
         g2.pushTranslation(-camera.scrollX, -camera.scrollY);
         g2.pushScale(camera.scale, camera.scale);
 
-        roomRender(g2, 100, 32, world.room, particles);
+        roomRender(g2, 100, 32, Run.inst.room, particles);
 
         final charXDiff = 0;
         final charYDiff = 20;
@@ -345,10 +348,10 @@ class GameScene extends Scene {
         // makeGenes();
     }
 
-    function makeGenes () {
-        genes1.genes = world.room.actors[0].dna.genes;
-        genes2.genes = world.room.actors[1].dna.genes;
-    }
+    // function makeGenes () {
+    //     genes1.genes = world.room.actors[0].dna.genes;
+    //     genes2.genes = world.room.actors[1].dna.genes;
+    // }
 
     function handlePointer (delta:Float) {
         var text = '';
@@ -421,7 +424,7 @@ class GameScene extends Scene {
     inline function getData ():String {
         return Json.stringify({
             gameId: gameId,
-            seed: world.seed,
+            seed: Run.inst.seed,
             // commands: world.commands
         });
     }

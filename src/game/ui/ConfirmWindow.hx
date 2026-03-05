@@ -1,6 +1,6 @@
 package game.ui;
 
-import game.scenes.UiScene;
+import game.scenes.OldUiScene;
 import game.ui.UiText;
 import game.ui.UiWindow;
 
@@ -17,7 +17,7 @@ class ConfirmWindow extends UiWindow {
         makeXButton();
 
         final mainText = makeBlackText(headerText);
-        final bylineText = makeBitmapText(0, 0, subtext, UiScene.Grey);
+        final bylineText = makeBitmapText(0, 0, subtext, OldUiScene.Grey);
 
         // addUpChild(Math.round((Width - mainText.textWidth) / 2), UiWindow.TopHeight + 16, mainText);
         // addUpChild(Math.round((Width - bylineText.textWidth) / 2), UiWindow.TopHeight + 30, bylineText);

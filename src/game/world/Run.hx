@@ -68,6 +68,9 @@ class R {
         final steve = new Dna();
 
         pool = combineDna(adam, steve, 20, 8);
+
+        // TEMP:
+        makeRoom(pool[0], pool[1]);
     }
 
     public function makeRoom (dna1:Dna, dna2:Dna) {
