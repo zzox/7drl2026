@@ -4,7 +4,6 @@ import core.Game;
 import core.gameobjects.BitmapText;
 import core.scene.Scene;
 import core.util.Util;
-import game.data.Names.names;
 import game.ui.GenesDisplay;
 import game.ui.UiText;
 import game.util.Debug;
@@ -25,7 +24,7 @@ class SpeedScene extends Scene {
     var genes1:GenesDisplay;
     var genes2:GenesDisplay;
 
-    var replayCommands:Array<{ step:Int, command: Command }>;
+    // var replayCommands:Array<{ step:Int, command: Command }>;
 
     var canGo:Bool = true;
 

@@ -422,7 +422,7 @@ class GameScene extends Scene {
         return Json.stringify({
             gameId: gameId,
             seed: world.seed,
-            commands: world.commands
+            // commands: world.commands
         });
     }
 }

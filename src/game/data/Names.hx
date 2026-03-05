@@ -1,10 +1,10 @@
 package game.data;
 
-import game.world.World;
+import game.world.Run;
 
 final letters = 'ABCDEFGHIJKLLMNOPQRSTUVWXYZ'.split('');
 
-function makeName () return '${World.randomItem(names)} ${World.randomItem(letters)}';
+function makeName () return '${Run.inst.randomItem(names)} ${Run.inst.randomItem(letters)}';
 
 final names = [
   // m

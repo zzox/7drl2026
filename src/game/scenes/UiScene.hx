@@ -278,7 +278,7 @@ class UiScene extends Scene {
         
         // @:privateAccess
         // devTexts[5].setText('payroll: O:${world.payroll.owedActors.length} S:${world.payroll.sortedActors.length}');
-        devTexts[5].setText('Comm:${world.commands.length}');
+        // devTexts[5].setText('Comm:${world.commands.length}');
 
         // devTexts[6].setText('C:${world.room?.actors.length}');
 #end

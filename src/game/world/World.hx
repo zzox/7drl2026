@@ -5,23 +5,6 @@ import game.data.Stats;
 import game.world.Dna;
 import kha.math.Random;
 
-enum abstract CommandType(Int) {
-    var TempCommand = 0;
-}
-
-typedef Command = {
-    var type:CommandType;
-    // TODO: turn optional props into union type
-    var ?dId:DId;
-}
-
-function makeTempCommand (dId:DId):Command {
-    return {
-        type: TempCommand,
-        dId: dId
-    }
-}
-
 class World {
     public var seed:Int;
     public static var rand:Random;
@@ -30,7 +13,7 @@ class World {
 
     public var room:Room;
 
-    public var commands:Array<{ step:Int, command: Command }> = [];
+    // public var commands:Array<{ step:Int, command: Command }> = [];
 
     // DEBUG:
     public var pool:Array<Dna> = [];
@@ -161,12 +144,6 @@ class World {
     //         dnas.push(new Dna());
     //     }
     // }
-
-    public function doCommand (command:Command):Bool {
-        if (command.type == TempCommand) {}
-        commands.push({ step: 0, command: command });
-        return true;
-    }
 
     public static function randomInt (num:Int):Int {
         return rand.GetUpTo(num - 1);

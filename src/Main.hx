@@ -1,6 +1,7 @@
 import core.Game;
 import game.scenes.GameScene;
 import game.scenes.SpeedScene;
+import game.scenes.SyncScene;
 
 #if kha_html5
 import js.Browser.document;
@@ -25,7 +26,8 @@ class Main {
             '7drl2026',
             1280, 720,
             PixelPerfect,
-            new GameScene(),
+            new SyncScene(),
+            // new GameScene(),
             320, 180,
         );
 #end

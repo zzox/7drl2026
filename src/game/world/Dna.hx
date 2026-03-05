@@ -48,12 +48,12 @@ class Dna {
         // defense = World.rand.GetUpTo(64);
 
         this.genes = genes ?? generateGenes();
-        this.hp = hp ?? 64 + World.rand.GetUpTo(64);
-        this.speed = speed ?? World.rand.GetUpTo(64);
+        this.hp = hp ?? 64 + Run.inst.rand.GetUpTo(64);
+        this.speed = speed ?? Run.inst.rand.GetUpTo(64);
         this.generation = generation;
 
-        body = World.rand.GetUpTo(3);
-        eyes = World.rand.GetUpTo(3);
+        body = Run.inst.rand.GetUpTo(3);
+        eyes = Run.inst.rand.GetUpTo(3);
     }
 }
 
@@ -90,7 +90,7 @@ function makeRandomGenes ():Array<Gene> {
     final dna = [];
 
     for (_ in 0...24) {
-        final rand = World.rand.GetFloat();
+        final rand = Run.inst.rand.GetFloat();
         if (rand < 0.003) {
             dna.push(Pierce);
         } else if (rand < 0.006) {
@@ -121,11 +121,10 @@ function combineDna (dad1:Dna, dad2:Dna, mutRate:Float, offspring:Int):Array<Dna
     for (_ in 0...offspring) {
         final genes = [];
         for (i in 0...dad1.genes.length) {
-            final rand = World.rand.GetFloat();
-            final mutRand = World.rand.GetFloat();
+            final rand = Run.inst.rand.GetFloat();
+            final mutRand = Run.inst.rand.GetFloat();
             final item = if (mutRand < 0.01 * mutRate) {
-                trace('mutation');
-                World.randomItem(mutItems);
+                Run.inst.randomItem(mutItems);
             } else if (rand < 0.5) {
                 dad1.genes[i];
             } else {
@@ -134,26 +133,26 @@ function combineDna (dad1:Dna, dad2:Dna, mutRate:Float, offspring:Int):Array<Dna
             genes.push(item);
         }
 
-        if (World.rand.GetFloat() < 0.01 * mutRate) {
+        if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
             genes.push(genes.shift());
         }
 
-        if (World.rand.GetFloat() < 0.01 * mutRate) {
+        if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
             genes.push(genes.shift());
         }
 
-        if (World.rand.GetFloat() < 0.01 * mutRate) {
+        if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
             genes.push(genes.shift());
         }
 
-        final hp = if (World.rand.GetFloat() < 0.01 * mutRate) {
-            Math.round((dad1.hp + dad2.hp) / 2) - World.randomInt(15) + 5;
+        final hp = if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
+            Math.round((dad1.hp + dad2.hp) / 2) - Run.inst.randomInt(15) + 5;
         } else {
             Math.round((dad1.hp + dad2.hp) / 2);
         }
 
-        final speed = if (World.rand.GetFloat() < 0.01 * mutRate) {
-            Math.round((dad1.speed + dad2.speed) / 2) - World.randomInt(15) + 5;
+        final speed = if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
+            Math.round((dad1.speed + dad2.speed) / 2) - Run.inst.randomInt(15) + 5;
         } else {
             Math.round((dad1.speed + dad2.speed) / 2);
         }
