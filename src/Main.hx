@@ -26,8 +26,8 @@ class Main {
             '7drl2026',
             1280, 720,
             PixelPerfect,
-            // new SyncScene(),
-            new GameScene(),
+            new SyncScene(),
+            // new GameScene(),
             320, 180,
         );
 #end

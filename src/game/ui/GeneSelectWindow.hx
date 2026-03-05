@@ -54,7 +54,9 @@ class GeneSelectWindow {
 
     public var flashTime:Float = 0.0;
 
-    public function new (x:Int, y:Int, name:String) {
+    var onSet:(num:Int) -> Void;
+
+    public function new (x:Int, y:Int, name:String, onSet:(num:Int) -> Void) {
         this.x = x;
         this.y = y;
         this.name = name;
@@ -74,6 +76,8 @@ class GeneSelectWindow {
         nameText = addUpChild(0, 16, makeWhiteText(''));
 
         genes = addUpChild(14, 35, new GenesDisplay(0, 0, [], 24));
+
+        this.onSet = onSet;
     }
 
     function makeIcons () {
@@ -108,10 +112,13 @@ class GeneSelectWindow {
         child.x = 256 - nameText.textWidth;
 
         genes.genes = item.genes;
+
+        onSet(num);
     }
 
     public function deselect () {
         selectedIndex = -1;
+        onSet(-1);
     }
 
     public function update (delta:Float) {
@@ -152,12 +159,12 @@ class GeneSelectWindow {
         return el;
     }
 
-    function addUiTextButton (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, text:String, callback:Void -> Void):TextButton {
-        final uiButton = makeUiTextButton(0, 0, width, height, tileIndex, text, callback);
-        addChild(x, y, uiButton.button);
-        addUpChild(Std.int(x + uiButton.text.x), Std.int(y + uiButton.text.y), uiButton.text);
-        return uiButton;
-    }
+    // function addUiTextButton (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, text:String, callback:Void -> Void):TextButton {
+    //     final uiButton = makeUiTextButton(0, 0, width, height, tileIndex, text, callback);
+    //     addChild(x, y, uiButton.button);
+    //     addUpChild(Std.int(x + uiButton.text.x), Std.int(y + uiButton.text.y), uiButton.text);
+    //     return uiButton;
+    // }
 }
 
 class GuyIcon extends GameObject {

@@ -15,7 +15,7 @@ function makeUiButton (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, callb
     return button;
 }
 
-function makeUiTextButton (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, text:String, callback:Void -> Void):TextButton {
+function makeUiTextButtonOld (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, text:String, callback:Void -> Void):TextButton {
     final button = new UiElement(x, y, 16, 16, 4, 4, 12, 12, width, height, tileIndex, Assets.images.ui, callback);
     final text = makeBlackText(text);
     text.setPosition(x + Math.floor((width - text.textWidth) / 2), y);

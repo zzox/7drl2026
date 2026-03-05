@@ -175,7 +175,7 @@ class UiWindow {
     // }
 
     function addUiTextButton (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, text:String, callback:Void -> Void):TextButton {
-        final uiButton = makeUiTextButton(0, 0, width, height, tileIndex, text, callback);
+        final uiButton = makeUiTextButtonOld(0, 0, width, height, tileIndex, text, callback);
         addChild(x, y, uiButton.button);
         // addUpChild(Std.int(x + uiButton.text.x), Std.int(y + uiButton.text.y), uiButton.text);
         return uiButton;
