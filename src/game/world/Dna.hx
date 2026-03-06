@@ -52,8 +52,8 @@ class Dna {
         this.speed = speed ?? Run.inst.rand.GetUpTo(64);
         this.generation = generation;
 
-        body = Run.inst.rand.GetUpTo(3);
-        eyes = Run.inst.rand.GetUpTo(3);
+        body = Run.inst.rand.GetUpTo(7);
+        eyes = Run.inst.rand.GetUpTo(7);
     }
 }
 
