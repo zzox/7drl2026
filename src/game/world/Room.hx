@@ -80,22 +80,8 @@ class Room {
 
         var moved = false;
         for (a in actors) {
-            a.time--;
-            if (a.time > 0) continue;
-
-            if (a.time == 0) {
-                actorDo(a.dna.genes[a.dnaIndex], a, getEnemy(a));
-                moved = true;
-                a.time = (128 - a.dna.speed);
-                a.dnaIndex = (a.dnaIndex + 1) % a.dna.genes.length;
-            }
-
-#if debug
-            if (a.time == 0) {
-                trace(a.dna.name);
-                throw 'Illegal `state`';
-            }
-#end
+            actorDo(a.dna.genes[a.dnaIndex], a, getEnemy(a));
+            a.dnaIndex = (a.dnaIndex + 1) % a.dna.genes.length;
         }
 
         // check collision amongst things
@@ -103,9 +89,9 @@ class Room {
             for (tt in things) {
                 if (t != tt && checkEq(t.x, t.y, tt.x, tt.y)) {
                     if (t.type == TPunch && tt.type == TSpit) {
-                        tt.time = -1;
+                        tt.alive = false;
                     } else if (tt.type == TPunch && t.type == TSpit) {
-                        t.time = -1;
+                        t.alive = false;
                     }
                 }
             }
@@ -114,11 +100,9 @@ class Room {
         // check things
         // we set things to -1 if there's a collision and the thing needs to stop
         for (t in things) {
-            if (t.time < 0) continue;
-
             final data = thingData.get(t.type);
             for (a in actors) {
-                if (checkEq(t.x, t.y, a.x, a.y)) {
+                if (t.alive && checkEq(t.x, t.y, a.x, a.y)) {
                     var damage = data.damage;
                     // pierces to incremental damage
                     if (t.type == TPierce) {
@@ -133,25 +117,25 @@ class Room {
                     }
 
                     addEvent(Damage, damage, a.x, a.y);
-                    t.time = -1;
+                    t.alive = false;
                 }
             }
 
             // out of bounds check
             if (t.x < 0 || t.x >= grid.width || t.y < 0 || t.y >= grid.height) {
-                t.time = -1;
+                t.alive = false;
             }
 
-            t.time--;
-            if (t.time == 0 && data.moves) {
-                t.time = 30;
+            if (t.alive && data.moves) {
                 t.x = getLaunchX(t.x, t.facing);
                 t.y = getLaunchY(t.y, t.facing);
+            } else {
+                t.alive = false;
             }
         }
 
         things = things.filter(t -> {
-            if (t.time > 0) {
+            if (t.alive) {
                 return true;
             }
 
@@ -177,7 +161,7 @@ class Room {
     // returns true if we did too many steps or too many steps with no damage
     public function checkSkip ():Bool {
         final damage = Lambda.fold(actors, (a, res) -> (a.dna.hp - a.hp) + res, 0);
-        return steps == 100000 || (steps == 50000 && damage == 0);
+        return steps == 10000 || (steps == 5000 && damage == 0);
     }
 
     function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {
@@ -200,7 +184,7 @@ class Room {
             x: getLaunchX(fromActor.x, fromActor.facing),
             y: getLaunchY(fromActor.y, fromActor.facing),
             facing: fromActor.facing,
-            time: 30
+            alive: true
         }
         things.push(thing);
     }

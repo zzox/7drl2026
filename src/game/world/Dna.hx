@@ -32,15 +32,16 @@ class Dna {
     public var generation:Int;
     public var wins:Int = 0;
 
-    public var speed:Int; // how fast each step is
+    // public var speed:Int; // how fast each step is
     public var hp:Int;
+    public var rad:Int = 0;
 
     public var body:Int;
     public var eyes:Int;
 
     public var genes:Array<Gene>;
 
-    public function new (?genes:Array<Gene>, ?generation:Int = 0, ?hp:Null<Int>, ?speed:Null<Int>) {
+    public function new (?genes:Array<Gene>, ?generation:Int = 0, ?hp:Null<Int>) {
         id = curId++;
         name = makeName();
 
@@ -50,7 +51,7 @@ class Dna {
 
         this.genes = genes ?? generateGenes();
         this.hp = hp ?? 64 + Run.inst.rand.GetUpTo(64);
-        this.speed = speed ?? Run.inst.rand.GetUpTo(64);
+        // this.speed = speed ?? Run.inst.rand.GetUpTo(64);
         this.generation = generation;
 
         body = Run.inst.rand.GetUpTo(7);
@@ -152,17 +153,17 @@ function combineDna (dad1:Dna, dad2:Dna, mutRate:Float, offspring:Int):Array<Dna
             Math.round((dad1.hp + dad2.hp) / 2);
         }
 
-        final speed = if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
-            Math.round((dad1.speed + dad2.speed) / 2) - Run.inst.randomInt(15) + 5;
-        } else {
-            Math.round((dad1.speed + dad2.speed) / 2);
-        }
+        // final speed = if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
+        //     Math.round((dad1.speed + dad2.speed) / 2) - Run.inst.randomInt(15) + 5;
+        // } else {
+        //     Math.round((dad1.speed + dad2.speed) / 2);
+        // }
 
         sons.push(
             new Dna(genes,
                 Std.int(Math.max(dad1.generation + 1, dad2.generation + 1)),
                 Std.int(clamp(hp, 0, 128)),
-                Std.int(clamp(speed, 0, 128)),
+                // Std.int(clamp(speed, 0, 128)),
             )
         );
     }

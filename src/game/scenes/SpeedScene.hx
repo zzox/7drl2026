@@ -7,6 +7,7 @@ import core.util.Util;
 import game.ui.GenesDisplay;
 import game.ui.UiText;
 import game.util.Debug;
+import game.world.Run;
 import game.world.World;
 import haxe.Json;
 import haxe.Timer;
@@ -44,6 +45,7 @@ class SpeedScene extends Scene {
 
         // final parsed = Json.parse(json);
         // world = new World(parsed.seed);
+        new Run();
         world = new World();
 
         entities.push(genes1 = new GenesDisplay(4, 80, world.room.actors[0].dna.genes, 24));
@@ -138,7 +140,7 @@ class SpeedScene extends Scene {
             final gene = world.geneCopies[i];
             entities.push(makeBitmapText(4, 76 + 10 * i, i + ''));
             entities.push(genes1 = new GenesDisplay(12, 80 + 10 * i, gene.genes, 24));
-            entities.push(makeBitmapText(204, 76 + 10 * i, 'hp: ${gene.hp}, sp: ${gene.speed}'));
+            entities.push(makeBitmapText(204, 76 + 10 * i, 'hp: ${gene.hp}, rad: ${gene.rad}'));
         }
     }
 }

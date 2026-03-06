@@ -9,7 +9,7 @@ class Actor {
     public var x:Int;
     public var y:Int;
     public var facing:RotationDir;
-    public var time:Int = 60;
+    // public var time:Int = 60;
     public var hp:Int;
     public var dnaIndex:Int = 0;
     public var pierces:Int = 0;

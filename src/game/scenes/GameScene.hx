@@ -184,12 +184,12 @@ class GameScene extends Scene {
         stepText.setText('Steps: ${room.steps}');
 
         char1.setStringItem('hp', '${room.actors[0].hp}/${room.actors[0].dna.hp}');
-        char1.setItem('speed', room.actors[0].dna.speed);
+        // char1.setItem('speed', room.actors[0].dna.speed);
         char1.setItem('dindex', room.actors[0].dnaIndex);
         char1.setStringItem('p', '${room.actors[0].x},${room.actors[0].y},${room.actors[0].facing}');
         char1.setItem('id', room.actors[0].dna.id);
         char2.setStringItem('hp', '${room.actors[1].hp}/${room.actors[1].dna.hp}');
-        char2.setItem('speed', room.actors[1].dna.speed);
+        // char2.setItem('speed', room.actors[1].dna.speed);
         char2.setItem('dindex', room.actors[1].dnaIndex);
         char2.setStringItem('p', '${room.actors[1].x},${room.actors[1].y},${room.actors[1].facing}');
         char2.setItem('id', room.actors[1].dna.id);

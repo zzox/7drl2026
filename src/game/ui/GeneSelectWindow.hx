@@ -74,10 +74,9 @@ class GeneSelectWindow {
 
         guy = addUpChild(10, 10, new GuyIcon());
         hpText = addUpChild(28, 6, makeWhiteText(''));
-        spText = addUpChild(28, 16, makeWhiteText(''));
+        rdText = addUpChild(28, 16, makeWhiteText(''));
         winText = addUpChild(80, 6, makeWhiteText(''));
         genText = addUpChild(80, 16, makeWhiteText(''));
-        // rdText = addUpChild(20, 0, makeWhiteText(''));
         nameText = addUpChild(0, 10, makeWhiteText(''));
 
         genes = addUpChild(16, 28, new GenesDisplay(0, 0, [], 24));
@@ -108,7 +107,7 @@ class GeneSelectWindow {
         final item = Run.inst.pool[num];
         guy.dna = item;
         hpText.setText('hp: ${item.hp}');
-        spText.setText('sp: ${item.speed}');
+        rdText.setText('rd: ${item.rad}');
 
         winText.setText('win: ${item.wins}');
         genText.setText('gen: ${item.generation}');
@@ -130,8 +129,7 @@ class GeneSelectWindow {
 
         guy.dna = null;
         hpText.setText('');
-        spText.setText('');
-        // rdText.setText('rd: ${67}');
+        rdText.setText('');
 
         nameText.setText('');
 

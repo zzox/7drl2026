@@ -14,8 +14,8 @@ typedef Thing = {
     var y:Int;
     var type:ThingType;
     var facing:RotationDir;
+    var alive:Bool;
     // var from:Actor;
-    var time:Int;
 }
 
 final thingData:Map<ThingType, { moves:Bool, damage:Int }> = [

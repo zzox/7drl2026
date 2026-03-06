@@ -9,7 +9,7 @@ class MenuScene extends ButtonScene {
 
         new UiText();
 
-        final text = makeBitmapText(0, 60, 'SONS');
+        entities.push(makeBitmapText(0, 60, 'SONS'));
 
         final startButton = makeUiTextButton(148, 100, 64, 16, 16, 'STRT', () -> {
             new Run();

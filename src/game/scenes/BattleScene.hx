@@ -32,6 +32,8 @@ class BattleScene extends Scene {
     var worldActive:Bool = true;
     var tilePosAt:IntVec2 = new IntVec2(0, 0);
 
+    var stepCounter:Int = 0;
+
     var stepText:BitmapText;
     // var winsText:BitmapText;
     var char1:NumColumn;
@@ -63,8 +65,8 @@ class BattleScene extends Scene {
 
         entities.push(stepText = makeBitmapText(160, 16, 'Steps: 0'));
 
-        entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
-        entities.push(char2 = new NumColumn(240, 24, 60, ['hp', 'speed', 'dindex', 'p', 'id'], 10));
+        entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
+        entities.push(char2 = new NumColumn(240, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
 
         entities.push(genes1 = new GenesDisplay(16, 108, Run.inst.room.actors[0].dna.genes));
         entities.push(genes2 = new GenesDisplay(230, 108, Run.inst.room.actors[1].dna.genes));
@@ -99,21 +101,24 @@ class BattleScene extends Scene {
             worldActive = !worldActive;
         }
 
-        var steps = 4;
+        var steps = 1;
         if (Game.keys.pressed(KeyCode.J)) {
-            steps += 4096;
+            steps += 256;
         } else if (Game.keys.pressed(KeyCode.H)) {
-            steps += 512;
+            steps += 64;
         } else if (Game.keys.pressed(KeyCode.G)) {
-            steps += 128;
-        } else if (Game.keys.pressed(KeyCode.F)) {
             steps += 16;
+        } else if (Game.keys.pressed(KeyCode.F)) {
+            steps += 4;
         }
 
         final room = Run.inst.room;
 
+        var roomSpeed = 60;
+
         if (worldActive) {
-            for (_ in 0...steps) {
+            stepCounter += steps;
+            while (stepCounter > roomSpeed) {
                 room.step(0);
                 updateParticles();
                 final dead = room.checkDead();
@@ -126,22 +131,24 @@ class BattleScene extends Scene {
                     gameOver();
                     break;
                 }
+
+                stepCounter -= roomSpeed;
             }
             // WARN: overflow from too many events?
             handleEvents(room.getEvents());
-        } else {
-            updateParticles();
+        // } else {
+        //     updateParticles();
         }
 
         stepText.setText('Steps: ${room.steps}');
 
         char1.setStringItem('hp', '${room.actors[0].hp}/${room.actors[0].dna.hp}');
-        char1.setItem('speed', room.actors[0].dna.speed);
+        char1.setItem('rad', room.actors[0].dna.rad);
         char1.setItem('dindex', room.actors[0].dnaIndex);
         char1.setStringItem('p', '${room.actors[0].x},${room.actors[0].y},${room.actors[0].facing}');
         char1.setItem('id', room.actors[0].dna.id);
         char2.setStringItem('hp', '${room.actors[1].hp}/${room.actors[1].dna.hp}');
-        char2.setItem('speed', room.actors[1].dna.speed);
+        char2.setItem('rad', room.actors[1].dna.rad);
         char2.setItem('dindex', room.actors[1].dnaIndex);
         char2.setStringItem('p', '${room.actors[1].x},${room.actors[1].y},${room.actors[1].facing}');
         char2.setItem('id', room.actors[1].dna.id);
@@ -217,10 +224,10 @@ class BattleScene extends Scene {
     function handleEvents (events:Array<RoomEvent>) {
         for (e in events) {
             if (e.type == ThingEnd) {
-                particles.push({ tile: 176 + e.thingType, x: e.x, y: e.y, dir: e.dir, time: 30 });
+                particles.push({ tile: 176 + e.thingType, x: e.x, y: e.y, dir: e.dir, time: 1 });
             }
             if (e.type == Damage) {
-                particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 60, color: 0xffb4202a });
+                particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 2, color: 0xffb4202a });
             }
         }
     }
