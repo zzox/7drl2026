@@ -1,0 +1,30 @@
+package game.scenes;
+
+import core.Game;
+import game.ui.GeneSelectWindow.GuyIcon;
+import game.ui.GenesDisplay;
+import game.ui.UiText;
+import game.world.Run;
+
+class NurseryScene extends ButtonScene {
+    override function create () {
+        super.create();
+        new UiText();
+
+        final text = makeBitmapText(0, 72, 'Click to focus window');
+        text.setPosition(160 - Math.floor(text.textWidth / 2), text.y);
+        entities.push(text);
+    }
+
+    override function update (delta:Float) {
+        super.update(delta);
+
+        if (Game.mouse.pressed(0)) {
+            launchNextScene();
+        }
+    }
+
+    public function launchNextScene () {
+        game.changeScene(new MenuScene());
+    }
+}
