@@ -14,8 +14,6 @@ class PreBattleScene extends UiScene {
     var runButton:UiElement;
 
     override function create () {
-        new UiText();
-
         trace(Run.inst.pool);
 
         makeTopButtons(0);
@@ -30,26 +28,9 @@ class PreBattleScene extends UiScene {
             game.changeScene(new BattleScene());
         });
 
+        buttons.push(runButton);
+
         makeChooseGuy();
-    }
-
-    override function update (delta:Float) {
-        runButton.checkPointer(Game.mouse.position.x, Game.mouse.position.y);
-        if (!runButton.disabled && runButton.onClick != null) {
-            runButton.setIndexFromState();
-            if (runButton.hovered) {
-                // hovered = true;
-                Mouse.get().setSystemCursor(MouseCursor.Pointer);
-            }
-            if (runButton.pressed) {
-                // runButtonPressed = true;
-                Mouse.get().setSystemCursor(MouseCursor.Pointer);
-            }
-        } else if (runButton.disabled) {
-            runButton.setIndexFromState();
-        }
-
-        super.update(delta);
     }
 
     function makeChooseGuy () {

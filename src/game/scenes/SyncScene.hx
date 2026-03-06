@@ -1,11 +1,8 @@
 package game.scenes;
 
-import core.Game;
 import game.ui.GeneSelectWindow;
 import game.ui.UiElement;
-import game.ui.UiText;
 import game.world.Run;
-import kha.input.Mouse;
 
 class SyncScene extends UiScene {
     var topGuy:GeneSelectWindow;
@@ -15,9 +12,6 @@ class SyncScene extends UiScene {
     var cancelButton:UiElement;
 
     override function create () {
-        new UiText();
-        new Run();
-
         trace(Run.inst.pool);
 
         makeTopButtons(1);
@@ -43,35 +37,15 @@ class SyncScene extends UiScene {
             bottomGuy.visible = false;
         });
 
+        buttons.push(syncButton);
+        buttons.push(cancelButton);
+
         makeTopGuy();
     }
 
     override function update (delta:Float) {
         cancelButton.disabled = topGuy.selectedIndex == -1;
         syncButton.disabled = bottomGuy.selectedIndex == -1;
-
-        for (button in [syncButton, cancelButton]) {
-            button.checkPointer(Game.mouse.position.x, Game.mouse.position.y);
-            if (!button.disabled && button.onClick != null) {
-                button.setIndexFromState();
-                if (button.hovered) {
-                    // hovered = true;
-                    Mouse.get().setSystemCursor(MouseCursor.Pointer);
-                }
-                if (button.pressed) {
-                    // buttonPressed = true;
-                    Mouse.get().setSystemCursor(MouseCursor.Pointer);
-                }
-            } else if (button.disabled) {
-                button.setIndexFromState();
-            }
-
-            // mark if we hovered over any of these or if an item was pressed
-            // if (b.button.pressed) {
-            //     hovered = true;
-            // }
-        }
-
         super.update(delta);
     }
 
@@ -88,10 +62,11 @@ class SyncScene extends UiScene {
     }
 
     function makeBottomGuy () {
+        final items = Run.inst.pool.filter(i -> i != bottomGuy.selected);
         for (i in 0...bottomGuy.items.length) {
-            if (Run.inst.pool[i] != null && Run.inst.pool[i] != bottomGuy.selected) {
+            if (items[i] != null) {
                 bottomGuy.items[i].button.disabled = false;
-                bottomGuy.items[i].icon.dna = Run.inst.pool[i];
+                bottomGuy.items[i].icon.dna = items[i];
             } else {
                 bottomGuy.items[i].button.disabled = true;
                 bottomGuy.items[i].icon.dna = null;
