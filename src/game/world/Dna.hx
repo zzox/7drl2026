@@ -30,7 +30,7 @@ class Dna {
     public final id:DId;
     public final name:String;
     public var generation:Int;
-    public var wins:Int;
+    public var wins:Int = 0;
 
     public var speed:Int; // how fast each step is
     public var hp:Int;

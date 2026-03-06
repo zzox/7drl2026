@@ -22,16 +22,16 @@ class SyncScene extends UiScene {
                 makeBottomGuy();
             }
         }));
-        windows.push(bottomGuy = new GeneSelectWindow(18, 100, 'Partner 2', (num:Int) -> {
+        windows.push(bottomGuy = new GeneSelectWindow(18, 112, 'Partner 2', (num:Int) -> {
             if (num > -1) {}
         }));
         bottomGuy.visible = false;
 
-        syncButton = makeUiTextButton(48, 92, 40, 16, 16, 'SYNC', () -> {
+        syncButton = makeUiTextButton(108, 86, 40, 16, 16, 'SYNC', () -> {
             trace('launch sync scene');
         });
 
-        cancelButton = makeUiTextButton(172, 92, 40, 16, 16, 'CNCL', () -> {
+        cancelButton = makeUiTextButton(172, 86, 40, 16, 16, 'CNCL', () -> {
             topGuy.deselect();
             bottomGuy.deselect();
             bottomGuy.visible = false;
@@ -62,11 +62,10 @@ class SyncScene extends UiScene {
     }
 
     function makeBottomGuy () {
-        final items = Run.inst.pool.filter(i -> i != bottomGuy.selected);
         for (i in 0...bottomGuy.items.length) {
-            if (items[i] != null) {
+            if (Run.inst.pool[i] != null) {
                 bottomGuy.items[i].button.disabled = false;
-                bottomGuy.items[i].icon.dna = items[i];
+                bottomGuy.items[i].icon.dna = Run.inst.pool[i];
             } else {
                 bottomGuy.items[i].button.disabled = true;
                 bottomGuy.items[i].icon.dna = null;

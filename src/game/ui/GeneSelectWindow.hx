@@ -50,6 +50,8 @@ class GeneSelectWindow {
     public var hpText:BitmapText;
     public var spText:BitmapText;
     public var rdText:BitmapText;
+    public var winText:BitmapText;
+    public var genText:BitmapText;
 
     public var genes:GenesDisplay;
 
@@ -63,20 +65,22 @@ class GeneSelectWindow {
         this.name = name;
 
         // bg + name
-        addChild(0, 0, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 280, 72, 21, Assets.images.ui));
-        addChild(12, 12, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 256, 32, 20, Assets.images.ui));
+        addChild(0, 0, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 280, 64, 21, Assets.images.ui));
         addChild(4, -4, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 64, 16, 28, Assets.images.ui));
+        addChild(8, 8, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 264, 30, 20, Assets.images.ui));
         addUpChild(4, -6, makeBitmapText(0, 0, name, 0xdae0ea));
 
         makeIcons();
 
-        guy = addUpChild(14, 14, new GuyIcon());
-        hpText = addUpChild(32, 10, makeWhiteText(''));
-        spText = addUpChild(32, 20, makeWhiteText(''));
+        guy = addUpChild(10, 10, new GuyIcon());
+        hpText = addUpChild(28, 6, makeWhiteText(''));
+        spText = addUpChild(28, 16, makeWhiteText(''));
+        winText = addUpChild(80, 6, makeWhiteText(''));
+        genText = addUpChild(80, 16, makeWhiteText(''));
         // rdText = addUpChild(20, 0, makeWhiteText(''));
-        nameText = addUpChild(0, 16, makeWhiteText(''));
+        nameText = addUpChild(0, 10, makeWhiteText(''));
 
-        genes = addUpChild(14, 35, new GenesDisplay(0, 0, [], 24));
+        genes = addUpChild(16, 28, new GenesDisplay(0, 0, [], 24));
 
         this.onSet = onSet;
     }
@@ -91,8 +95,8 @@ class GeneSelectWindow {
             });
             final icon = new GuyIcon();
 
-            addChild(4 + 20 * i, 48, button);
-            addUpChild(4 + 20 * i + 2, 48 + 2, icon);
+            addChild(12 + 20 * i, 40, button);
+            addUpChild(12 + 20 * i + 2, 40 + 2, icon);
 
             items.push({ button: button, icon: icon });
         }
@@ -105,6 +109,9 @@ class GeneSelectWindow {
         guy.dna = item;
         hpText.setText('hp: ${item.hp}');
         spText.setText('sp: ${item.speed}');
+
+        winText.setText('win: ${item.wins}');
+        genText.setText('gen: ${item.generation}');
         // rdText.setText('rd: ${67}');
 
         // gross!
