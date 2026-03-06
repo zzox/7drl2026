@@ -25,10 +25,11 @@ class SyncScene extends UiScene {
         windows.push(topGuy = new GeneSelectWindow(18, 20, 'Partner 1', (num:Int) -> {
             if (num > -1) {
                 bottomGuy.visible = true;
+                makeBottomGuy();
             }
         }));
         windows.push(bottomGuy = new GeneSelectWindow(18, 100, 'Partner 2', (num:Int) -> {
-            if (false) {}
+            if (num > -1) {}
         }));
         bottomGuy.visible = false;
 
@@ -42,15 +43,7 @@ class SyncScene extends UiScene {
             bottomGuy.visible = false;
         });
 
-        for (i in 0...topGuy.items.length) {
-            if (Run.inst.pool[i] != null) {
-                topGuy.items[i].button.disabled = false;
-                topGuy.items[i].icon.dna = Run.inst.pool[i];
-            } else {
-                topGuy.items[i].button.disabled = true;
-                topGuy.items[i].icon.dna = null;
-            }
-        }
+        makeTopGuy();
     }
 
     override function update (delta:Float) {
@@ -69,6 +62,8 @@ class SyncScene extends UiScene {
                     // buttonPressed = true;
                     Mouse.get().setSystemCursor(MouseCursor.Pointer);
                 }
+            } else if (button.disabled) {
+                button.setIndexFromState();
             }
 
             // mark if we hovered over any of these or if an item was pressed
@@ -78,5 +73,29 @@ class SyncScene extends UiScene {
         }
 
         super.update(delta);
+    }
+
+    function makeTopGuy () {
+        for (i in 0...topGuy.items.length) {
+            if (Run.inst.pool[i] != null) {
+                topGuy.items[i].button.disabled = false;
+                topGuy.items[i].icon.dna = Run.inst.pool[i];
+            } else {
+                topGuy.items[i].button.disabled = true;
+                topGuy.items[i].icon.dna = null;
+            }
+        }
+    }
+
+    function makeBottomGuy () {
+        for (i in 0...bottomGuy.items.length) {
+            if (Run.inst.pool[i] != null && Run.inst.pool[i] != bottomGuy.selected) {
+                bottomGuy.items[i].button.disabled = false;
+                bottomGuy.items[i].icon.dna = Run.inst.pool[i];
+            } else {
+                bottomGuy.items[i].button.disabled = true;
+                bottomGuy.items[i].icon.dna = null;
+            }
+        }
     }
 }

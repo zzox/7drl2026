@@ -42,6 +42,7 @@ class GeneSelectWindow {
     var oChildren:Array<OChildElement> = [];
 
     public var selectedIndex:Int = -1;
+    public var selected:Null<Dna>;
     public var items:Array<{ button:UiElement, icon:GuyIcon }> = [];
 
     public var guy:GuyIcon;
@@ -113,11 +114,23 @@ class GeneSelectWindow {
 
         genes.genes = item.genes;
 
+        selected = item;
         onSet(num);
     }
 
     public function deselect () {
         selectedIndex = -1;
+
+        guy.dna = null;
+        hpText.setText('');
+        spText.setText('');
+        // rdText.setText('rd: ${67}');
+
+        nameText.setText('');
+
+        genes.unset();
+
+        selected = null;
         onSet(-1);
     }
 

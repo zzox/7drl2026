@@ -53,4 +53,8 @@ class GenesDisplay extends GameObject {
             );
         }
     }
+
+    public function unset () {
+        genes = [];
+    }
 }
