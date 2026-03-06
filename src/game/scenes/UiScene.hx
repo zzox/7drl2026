@@ -85,7 +85,7 @@ class UiScene extends Scene {
         topButtons.push(makeUiTextButton(100, 0, 40, 16, 16, 'BTTL', sceneIndex == 0 ? () -> {
             trace('play sound!');
         } : () -> {
-            // game.changeScene(new BattleScene());
+            game.changeScene(new PreBattleScene());
         }));
 
         topButtons.push(makeUiTextButton(140, 0, 40, 16, 16, 'SYNC', sceneIndex == 1 ? () -> {
