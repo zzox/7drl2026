@@ -238,10 +238,10 @@ class Room {
     }
 
     inline function tryPush (thing:Thing, actor:Actor) {
-        if (actor.facing == North && !checkCollision(actor.x, actor.y - 1)) actor.y--;
-        if (actor.facing == South && !checkCollision(actor.x, actor.y + 1)) actor.y++;
-        if (actor.facing == East && !checkCollision(actor.x + 1, actor.y)) actor.x++;
-        if (actor.facing == West && !checkCollision(actor.x - 1, actor.y)) actor.x--;
+        if (thing.facing == North && !checkCollision(actor.x, actor.y - 1)) actor.y--;
+        if (thing.facing == South && !checkCollision(actor.x, actor.y + 1)) actor.y++;
+        if (thing.facing == East && !checkCollision(actor.x + 1, actor.y)) actor.x++;
+        if (thing.facing == West && !checkCollision(actor.x - 1, actor.y)) actor.x--;
     }
 
     inline function tryForward (actor:Actor) {
