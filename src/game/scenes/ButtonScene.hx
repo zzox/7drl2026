@@ -16,16 +16,18 @@ class ButtonScene extends Scene {
 
         // check top buttons first
         for (button in buttons) {
-            button.checkPointer(Game.mouse.position.x, Game.mouse.position.y);
-            if (!button.disabled && button.onClick != null) {
-                button.setIndexFromState();
-                if (button.hovered) {
-                    // hovered = true;
-                    Mouse.get().setSystemCursor(MouseCursor.Pointer);
-                }
-                if (button.pressed) {
-                    // buttonPressed = true;
-                    Mouse.get().setSystemCursor(MouseCursor.Pointer);
+            if (!button.disabled && button.visible) {
+                button.checkPointer(Game.mouse.position.x, Game.mouse.position.y);
+                if (button.onClick != null) {
+                    button.setIndexFromState();
+                    if (button.hovered) {
+                        // hovered = true;
+                        Mouse.get().setSystemCursor(MouseCursor.Pointer);
+                    }
+                    if (button.pressed) {
+                        // buttonPressed = true;
+                        Mouse.get().setSystemCursor(MouseCursor.Pointer);
+                    }
                 }
             } else if (button.disabled) {
                 button.setIndexFromState();
