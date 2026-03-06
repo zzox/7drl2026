@@ -36,12 +36,15 @@ class R {
     public var placeRand:Random;
     public var stats:Stats = newEmptyStats();
 
-    public var room:Room;
+    public var room:Null<Room>;
+    public var nursery:Nursery;
 
-    public var commands:Array<{ step:Int, command: Command }> = [];
+    public var day:Int = 0;
+    public var money:Int = 100;
 
-    public var pool:Array<Dna> = [];
+    public var commands:Array<{ day:Int, command: Command }> = [];
 
+    public var roster:Array<Dna> = [];
     public var geneCopies:Array<Dna> = [];
 
     public function new (?startSeed:Int) {
@@ -67,10 +70,10 @@ class R {
         final adam = new Dna();
         final steve = new Dna();
 
-        pool = combineDna(adam, steve, 20, 8);
+        roster = combineDna(adam, steve, 50, 8);
 
         // TEMP:
-        makeRoom(pool[0], pool[1]);
+        makeRoom(roster[0], roster[1]);
     }
 
     public function makeRoom (dna1:Dna, dna2:Dna) {
@@ -78,9 +81,33 @@ class R {
         // matches++;
     }
 
+    public function handleRoom () {
+        if (!room.checkSkip() && room.checkDead() == 0) {
+            throw 'No result on room?';
+        }
+
+        if (room.actors[0].hp <= 0) {
+            roster = roster.filter(r -> r != room.actors[0].dna);
+        } else {
+            room.actors[0].dna.wins++;
+        }
+
+        room = null;
+    }
+
+    public function makeNursery (dna1:Dna, dna2:Dna) {
+        nursery = new Nursery(dna1, dna2);
+    }
+
+    public function handleNursery () {
+        roster = roster.filter(r -> !nursery.parents.contains(r));
+        roster = roster.concat(nursery.children);
+        nursery = null;
+    }
+
     public function doCommand (command:Command):Bool {
         if (command.type == TempCommand) {}
-        commands.push({ step: 0, command: command });
+        commands.push({ day: day, command: command });
         return true;
     }
 

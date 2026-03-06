@@ -2,6 +2,7 @@ package game.scenes;
 
 import game.ui.GeneSelectWindow;
 import game.ui.UiElement;
+import game.world.Nursery;
 import game.world.Run;
 
 class SyncScene extends UiScene {
@@ -12,7 +13,7 @@ class SyncScene extends UiScene {
     var cancelButton:UiElement;
 
     override function create () {
-        trace(Run.inst.pool);
+        trace(Run.inst.roster);
 
         makeTopButtons(1);
 
@@ -28,7 +29,8 @@ class SyncScene extends UiScene {
         bottomGuy.visible = false;
 
         syncButton = makeUiTextButton(108, 86, 40, 16, 16, 'SYNC', () -> {
-            trace('launch sync scene');
+            Run.inst.makeNursery(bottomGuy.selected, topGuy.selected);
+            game.changeScene(new NurseryScene());
         });
 
         cancelButton = makeUiTextButton(172, 86, 40, 16, 16, 'CNCL', () -> {
@@ -45,15 +47,15 @@ class SyncScene extends UiScene {
 
     override function update (delta:Float) {
         cancelButton.disabled = topGuy.selectedIndex == -1;
-        syncButton.disabled = bottomGuy.selectedIndex == -1;
+        syncButton.disabled = bottomGuy.selectedIndex == -1 || topGuy.selected == bottomGuy.selected;
         super.update(delta);
     }
 
     function makeTopGuy () {
         for (i in 0...topGuy.items.length) {
-            if (Run.inst.pool[i] != null) {
+            if (Run.inst.roster[i] != null) {
                 topGuy.items[i].button.disabled = false;
-                topGuy.items[i].icon.dna = Run.inst.pool[i];
+                topGuy.items[i].icon.dna = Run.inst.roster[i];
             } else {
                 topGuy.items[i].button.disabled = true;
                 topGuy.items[i].icon.dna = null;
@@ -63,9 +65,9 @@ class SyncScene extends UiScene {
 
     function makeBottomGuy () {
         for (i in 0...bottomGuy.items.length) {
-            if (Run.inst.pool[i] != null) {
+            if (Run.inst.roster[i] != null) {
                 bottomGuy.items[i].button.disabled = false;
-                bottomGuy.items[i].icon.dna = Run.inst.pool[i];
+                bottomGuy.items[i].icon.dna = Run.inst.roster[i];
             } else {
                 bottomGuy.items[i].button.disabled = true;
                 bottomGuy.items[i].icon.dna = null;

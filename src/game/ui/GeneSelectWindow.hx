@@ -104,7 +104,7 @@ class GeneSelectWindow {
     function select (num:Int) {
         selectedIndex = num;
 
-        final item = Run.inst.pool[num];
+        final item = Run.inst.roster[num];
         guy.dna = item;
         hpText.setText('hp: ${item.hp}');
         rdText.setText('rd: ${item.rad}');
@@ -189,7 +189,10 @@ class GuyIcon extends GameObject {
     public var dna:Null<Dna>;
     public var frames:Int = 0;
 
-    public function new () {}
+    public function new (x:Int = 0, y:Int = 0) {
+        this.x = x;
+        this.y = y;
+    }
 
     override function update (delta:Float) {}
 

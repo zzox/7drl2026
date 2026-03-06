@@ -114,7 +114,7 @@ class BattleScene extends Scene {
 
         final room = Run.inst.room;
 
-        var roomSpeed = 60;
+        var roomSpeed = 20;
 
         if (worldActive) {
             stepCounter += steps;

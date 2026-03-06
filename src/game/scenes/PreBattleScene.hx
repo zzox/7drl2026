@@ -14,7 +14,7 @@ class PreBattleScene extends UiScene {
     var runButton:UiElement;
 
     override function create () {
-        trace(Run.inst.pool);
+        trace(Run.inst.roster);
 
         makeTopButtons(0);
 
@@ -35,9 +35,9 @@ class PreBattleScene extends UiScene {
 
     function makeChooseGuy () {
         for (i in 0...chooseGuy.items.length) {
-            if (Run.inst.pool[i] != null) {
+            if (Run.inst.roster[i] != null) {
                 chooseGuy.items[i].button.disabled = false;
-                chooseGuy.items[i].icon.dna = Run.inst.pool[i];
+                chooseGuy.items[i].icon.dna = Run.inst.roster[i];
             } else {
                 chooseGuy.items[i].button.disabled = true;
                 chooseGuy.items[i].icon.dna = null;

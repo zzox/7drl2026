@@ -84,6 +84,14 @@ class Room {
             actorDo(a.dna.genes[a.dnaIndex], a, getEnemy(a));
         }
 
+        for (t in things) {
+            final data = thingData.get(t.type);
+            if (t.alive && data.moves) {
+                t.x = getLaunchX(t.x, t.facing);
+                t.y = getLaunchY(t.y, t.facing);
+            }
+        }
+
         // check collision amongst things
         for (t in things) {
             for (tt in things) {
@@ -126,10 +134,7 @@ class Room {
                 t.alive = false;
             }
 
-            if (t.alive && data.moves) {
-                t.x = getLaunchX(t.x, t.facing);
-                t.y = getLaunchY(t.y, t.facing);
-            } else {
+            if (t.alive && !data.moves) {
                 t.alive = false;
             }
         }
@@ -178,11 +183,12 @@ class Room {
 
     function launchProj (fromActor:Actor, type:Gene) {
         final thingType = getThingType(type);
+        final moves = thingData.get(thingType).moves;
 
         final thing = {
             type: thingType,
-            x: getLaunchX(fromActor.x, fromActor.facing),
-            y: getLaunchY(fromActor.y, fromActor.facing),
+            x: moves ? fromActor.x : getLaunchX(fromActor.x, fromActor.facing),
+            y: moves ? fromActor.y : getLaunchY(fromActor.y, fromActor.facing),
             facing: fromActor.facing,
             alive: true
         }
