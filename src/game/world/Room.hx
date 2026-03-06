@@ -80,8 +80,8 @@ class Room {
 
         var moved = false;
         for (a in actors) {
-            actorDo(a.dna.genes[a.dnaIndex], a, getEnemy(a));
             a.dnaIndex = (a.dnaIndex + 1) % a.dna.genes.length;
+            actorDo(a.dna.genes[a.dnaIndex], a, getEnemy(a));
         }
 
         // check collision amongst things
@@ -161,7 +161,7 @@ class Room {
     // returns true if we did too many steps or too many steps with no damage
     public function checkSkip ():Bool {
         final damage = Lambda.fold(actors, (a, res) -> (a.dna.hp - a.hp) + res, 0);
-        return steps == 10000 || (steps == 5000 && damage == 0);
+        return steps == 1000 || (steps == 500 && damage == 0);
     }
 
     function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {
@@ -226,7 +226,7 @@ class Room {
         if (angle > 135 || angle < -135) {
         } else if (angle < 0) {
             fromActor.facing = figureRotationMath(fromActor.facing + 1);
-        } else if (angle > 0) {
+        } else if (angle >= 0) {
             fromActor.facing = figureRotationMath(fromActor.facing - 1);
         }
     }

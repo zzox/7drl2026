@@ -11,7 +11,7 @@ class Actor {
     public var facing:RotationDir;
     // public var time:Int = 60;
     public var hp:Int;
-    public var dnaIndex:Int = 0;
+    public var dnaIndex:Int = -1;
     public var pierces:Int = 0;
 
     public function new (dna:Dna, pos:Int) {
