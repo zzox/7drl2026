@@ -1,7 +1,6 @@
 package game.world;
 
-import core.util.Util.average;
-import core.util.Util.clamp;
+import core.util.Util;
 import game.data.Names;
 
 enum abstract Gene(Int) to Int {
@@ -16,10 +15,11 @@ enum abstract Gene(Int) to Int {
     var Punch = 6;
     var Spit = 7;
 
-    var Deflect = 8;
+    var Kiss = 8;
+    var Deflect = 9;
 }
 
-final mutItems = [Pierce, Punch, Spit, Deflect];
+final mutItems = [Pierce, Punch, Spit];
 
 typedef DId = Int;
 
@@ -30,6 +30,7 @@ class Dna {
     public final id:DId;
     public final name:String;
     public var generation:Int;
+    public var wins:Int;
 
     public var speed:Int; // how fast each step is
     public var hp:Int;

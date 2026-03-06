@@ -34,14 +34,12 @@ class GenesDisplay extends GameObject {
             final xx = evenRow ? col : (width - col - 1);
             final yy = Math.floor(i / width);
 
-            if (i == dIndex) {
-                g2.drawSubImage(
-                    image,
-                    x + xx * sizeX - 4,
-                    y + yy * sizeY - 4,
-                    112, 192, 16, 16
-                );
-            }
+            g2.drawSubImage(
+                image,
+                x + xx * sizeX,
+                y + yy * sizeY,
+                ((col % 2 == 0) ? 31 : 30) * sizeX, 0, sizeX, sizeY
+            );
 
             if (genes[i] == None) continue;
 
@@ -51,6 +49,24 @@ class GenesDisplay extends GameObject {
                 y + yy * sizeY,
                 genes[i] * sizeX, 0, sizeX, sizeY
             );
+        }
+
+        // awk
+        for (i in 0...genes.length) {
+            final evenRow = Math.floor(i / width) % 2 == 0;
+            final col = i % width;
+
+            final xx = evenRow ? col : (width - col - 1);
+            final yy = Math.floor(i / width);
+
+            if (i == dIndex) {
+                g2.drawSubImage(
+                    image,
+                    x + xx * sizeX - 4,
+                    y + yy * sizeY - 4,
+                    112, 192, 16, 16
+                );
+            }
         }
     }
 
