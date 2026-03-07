@@ -11,8 +11,8 @@ class ButtonScene extends Scene {
     var buttons:Array<UiElement> = [];
 
     override function update (delta:Float) {
-        super.update(delta);
         Mouse.get().setSystemCursor(MouseCursor.Default);
+        super.update(delta);
 
         // check top buttons first
         for (button in buttons) {

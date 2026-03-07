@@ -1,6 +1,7 @@
 import core.Game;
 import game.scenes.MenuScene;
-import game.scenes.SpeedScene;
+
+// import game.scenes.SpeedScene;
 
 #if kha_html5
 import js.Browser.document;

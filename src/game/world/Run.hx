@@ -34,8 +34,9 @@ class R {
     public var seed:Int;
     public var rand:Random;
     public var placeRand:Random;
-    public var stats:Stats = newEmptyStats();
+    // public var stats:Stats = newEmptyStats();
 
+    public var world:World;
     public var room:Null<Room>;
     public var nursery:Nursery;
 
@@ -45,7 +46,7 @@ class R {
     public var commands:Array<{ day:Int, command: Command }> = [];
 
     public var roster:Array<Dna> = [];
-    public var geneCopies:Array<Dna> = [];
+    public var order:Array<Dna> = [];
 
     public function new (?startSeed:Int) {
         // final ttt = Timer.stamp();
@@ -62,18 +63,12 @@ class R {
     }
 
     public function init () {
-
-        // makeMany();
-        // makeRoom(dnas[0], dnas[1]);
-        // dnaIndex = 1;
-
         final adam = new Dna();
         final steve = new Dna();
 
-        roster = combineDna(adam, steve, 50, 8);
+        roster = combineDna(adam, steve, 5, 4);
 
-        // TEMP:
-        makeRoom(roster[0], roster[1]);
+        world = new World();
     }
 
     public function makeRoom (dna1:Dna, dna2:Dna) {
@@ -103,6 +98,11 @@ class R {
         roster = roster.filter(r -> !nursery.parents.contains(r));
         roster = roster.concat(nursery.children);
         nursery = null;
+    }
+
+    public function establishRun () {
+        order = world.geneCopies.copy();
+        world = null;
     }
 
     public function doCommand (command:Command):Bool {
