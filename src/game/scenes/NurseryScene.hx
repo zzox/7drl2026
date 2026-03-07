@@ -1,12 +1,23 @@
 package game.scenes;
 
 import core.Game;
+import core.gameobjects.BitmapText;
 import game.ui.GeneSelectWindow.GuyIcon;
+import game.ui.GeneSyncDisplay;
 import game.ui.GenesDisplay;
 import game.ui.UiText;
 import game.world.Run;
 
 class NurseryScene extends ButtonScene {
+    var p1:GuyIcon;
+    var p2:GuyIcon;
+
+    var name1:BitmapText;
+    var name2:BitmapText;
+
+    var resultText:BitmapText;
+    var displayItems:Array<{ icon:GuyIcon, gd:GenesDisplay, name:BitmapText }> = [];
+
     override function create () {
         super.create();
 
@@ -16,32 +27,60 @@ class NurseryScene extends ButtonScene {
         p1.dna = Run.inst.nursery.parents[0];
         p2.dna = Run.inst.nursery.parents[1];
 
-        final g1 = new GenesDisplay(32, 24, p1.dna.genes, 24);
-        final g2 = new GenesDisplay(32, 48, p2.dna.genes, 24);
+        final g1 = new GeneSyncDisplay(32, 24, p1.dna.genes, true, Run.inst.nursery.children.length);
+        final g2 = new GeneSyncDisplay(32, 48, p2.dna.genes, false, Run.inst.nursery.children.length);
 
         entities.push(p1);
         entities.push(g1);
         entities.push(p2);
         entities.push(g2);
 
-        entities.push(makeBitmapText(32, 12, p1.dna.name));
-        entities.push(makeBitmapText(32, 36, p2.dna.name));
+        entities.push(name1 = makeBitmapText(32, 12, p1.dna.name));
+        entities.push(name2 = makeBitmapText(32, 36, p2.dna.name));
 
-        final text = makeBitmapText(32, 36, '${p1.dna.name} and ${p2.dna.name} had ${Run.inst.nursery.children.length} sons');
-        text.setPosition(160 - Math.floor(text.textWidth / 2), 48);
-        entities.push(text);
+        resultText = makeBitmapText(32, 36, '${p1.dna.name} and ${p2.dna.name} had ${Run.inst.nursery.children.length} son${Run.inst.nursery.children.length == 1 ? '' : 's'}');
+        resultText.setPosition(160 - Math.floor(resultText.textWidth / 2), 48);
+        resultText.visible = false;
+        entities.push(resultText);
 
+        displayItems = [];
         for (i in 0...Run.inst.nursery.children.length) {
             final child = Run.inst.nursery.children[i];
 
             final icon = new GuyIcon(16, 80 + i * 24);
             icon.dna = child;
 
-            final gd = new GenesDisplay(32, 80 + i * 24 + 8, child.genes, 24);
+            final gd = new GenesDisplay(32, 80 + i * 24 + 8, [], 24);
+
+            final name = makeBitmapText(32, 80 + i * 24 - 4, child.name);
 
             entities.push(icon);
             entities.push(gd);
-            entities.push(makeBitmapText(32, 80 + i * 24 - 4, child.name));
+            entities.push(name);
+
+            displayItems.push({ icon: icon, gd: gd, name: name });
+        }
+
+        for (i in 0...Run.inst.nursery.children.length) {
+            final child = Run.inst.nursery.children[i];
+
+            timers.addTimer(i * 1.0 + FirstBounce + 0.5, () -> {
+                displayItems[i].icon.visible = true;
+
+                for (j in 0...child.genes.length) {
+                    timers.addTimer(j * IncTime, () -> {
+                        displayItems[i].gd.genes = child.genes.slice(0, j + i);
+
+                        if (i == Run.inst.nursery.children.length - 1 && j == child.genes.length - 1) {
+                            resultText.visible = true;
+                            p1.visible = false;
+                            p2.visible = false;
+                            name1.visible = false;
+                            name2.visible = false;
+                        }
+                    });
+                }
+            });
         }
     }
 
