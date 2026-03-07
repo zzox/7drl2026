@@ -3,22 +3,22 @@ package game.scenes;
 import core.Game;
 import core.Types;
 import core.gameobjects.BitmapText;
-import core.scene.Scene;
 import game.ui.GenesDisplay;
 import game.ui.NumColumn;
 import game.ui.RoomRender;
+import game.ui.UiElement;
 import game.ui.UiText;
 import game.util.Debug;
 import game.world.Actor;
 import game.world.Room.RoomEvent;
 import game.world.Run;
 import game.world.Thing;
-import haxe.Json;
 import haxe.Timer;
+import kha.Assets;
 import kha.graphics2.Graphics;
 import kha.input.KeyCode;
 
-class BattleScene extends Scene {
+class BattleScene extends ButtonScene {
     public static final White:Int = 256 * 0x1000000 + 0xffffffff;
 
     static var pulseTime:Float = 0.0;
@@ -31,6 +31,7 @@ class BattleScene extends Scene {
     var tilePosAt:IntVec2 = new IntVec2(0, 0);
 
     var stepCounter:Int = 0;
+    var roomSpeed:Int = 20;
 
     var stepText:BitmapText;
     // var winsText:BitmapText;
@@ -38,6 +39,11 @@ class BattleScene extends Scene {
     var char2:NumColumn;
     var genes1:GenesDisplay;
     var genes2:GenesDisplay;
+
+    var speed1:UiElement;
+    var speed2:UiElement;
+    var speed3:UiElement;
+    var speed4:UiElement;
 
     // var renderedActors:Array<RenderedActor> = [];
     // var renderedThings:Array<RenderedThing> = [];
@@ -47,19 +53,12 @@ class BattleScene extends Scene {
     var selectedActor:Null<Actor>;
     var selectedThing:Null<Thing>;
 
-    var gameId:String;
-
-    // DEBUG:
-    var wins:Int = 0;
-
 #if debug
     public var devTexts:Array<BitmapText> = [];
 #end
 
     override function create () {
         super.create();
-
-        gameId = (Math.random() + '').split('.')[1];
 
         entities.push(stepText = makeBitmapText(160, 16, 'Steps: 0'));
 
@@ -68,6 +67,21 @@ class BattleScene extends Scene {
 
         entities.push(genes1 = new GenesDisplay(16, 108, Run.inst.room.actors[0].dna.genes));
         entities.push(genes2 = new GenesDisplay(230, 108, Run.inst.room.actors[1].dna.genes));
+
+        speed1 = new UiElement(100, 16, 16, 16, 4, 4, 12, 12, 16, 16, 48, Assets.images.ui, () -> { setSpeed(0); });
+        speed2 = new UiElement(116, 16, 16, 16, 4, 4, 12, 12, 16, 16, 52, Assets.images.ui, () -> { setSpeed(1); });
+        speed3 = new UiElement(132, 16, 16, 16, 4, 4, 12, 12, 16, 16, 56, Assets.images.ui, () -> { setSpeed(2); });
+        speed4 = new UiElement(148, 16, 16, 16, 4, 4, 12, 12, 16, 16, 56, Assets.images.ui, () -> { setSpeed(3); });
+
+        entities.push(speed1);
+        entities.push(speed2);
+        entities.push(speed3);
+        entities.push(speed4);
+
+        buttons.push(speed1);
+        buttons.push(speed2);
+        buttons.push(speed3);
+        buttons.push(speed4);
 
 #if debug
         for (i in 0...8) {
@@ -91,10 +105,6 @@ class BattleScene extends Scene {
             game.changeScene(new BattleScene());
         }
 
-        if (Game.keys.justPressed(KeyCode.O)) {
-            trace(getData());
-        }
-
         if (Game.keys.justPressed(KeyCode.P)) {
             worldActive = !worldActive;
         }
@@ -111,8 +121,6 @@ class BattleScene extends Scene {
         }
 
         final room = Run.inst.room;
-
-        var roomSpeed = 20;
 
         if (worldActive) {
             stepCounter += steps;
@@ -136,6 +144,11 @@ class BattleScene extends Scene {
             handleEvents(room.getEvents());
         // } else {
         //     updateParticles();
+        } else {
+            while (stepCounter > roomSpeed) {
+                updateParticles();
+                stepCounter -= roomSpeed;
+            }
         }
 
         stepText.setText('Steps: ${room.steps}');
@@ -234,27 +247,24 @@ class BattleScene extends Scene {
         particles = particles.filter(p -> --p.time > 0);
     }
 
-    inline function sendLogs () {
-        final req = new haxe.Http('http://localhost:4000');
-#if kha_html5
-        req.async = true;
-#end
-        req.setPostData(getData());
-        req.setHeader('Content-Type', 'application/json');
-        req.onStatus = (num) -> {
-            trace('status: ', num);
-        };
-        req.onError = (msg) -> {
-            trace('error', msg);
-        };
-        req.request(true);
-    }
+    function setSpeed (speed:Int) {
+        speed1.disabled = false;
+        speed2.disabled = false;
+        speed3.disabled = false;
+        speed4.disabled = false;
 
-    inline function getData ():String {
-        return Json.stringify({
-            gameId: gameId,
-            seed: Run.inst.seed,
-            // commands: world.commands
-        });
+        if (speed == 0) {
+            speed1.disabled = true;
+            roomSpeed = 20;
+        } else if (speed == 1) {
+            speed2.disabled = true;
+            roomSpeed = 10;
+        } else if (speed == 2) {
+            speed3.disabled = true;
+            roomSpeed = 5;
+        } else if (speed == 4) {
+            speed4.disabled = true;
+            roomSpeed = 1;
+        }
     }
 }

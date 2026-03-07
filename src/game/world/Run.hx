@@ -3,6 +3,7 @@ package game.world;
 import core.util.Util;
 import game.data.Stats;
 import game.world.Dna;
+import haxe.Json;
 import kha.math.Random;
 
 enum abstract CommandType(Int) {
@@ -158,5 +159,29 @@ class R {
 
     public function randomItem <T>(items:Array<T>):T {
         return items[randomInt(items.length)];
+    }
+
+    inline function sendLogs () {
+        final req = new haxe.Http('http://localhost:4000');
+#if kha_html5
+        req.async = true;
+#end
+        req.setPostData(getData());
+        req.setHeader('Content-Type', 'application/json');
+        req.onStatus = (num) -> {
+            trace('status: ', num);
+        };
+        req.onError = (msg) -> {
+            trace('error', msg);
+        };
+        req.request(true);
+    }
+
+    inline function getData ():String {
+        return Json.stringify({
+            // gameId: gameId,
+            seed: seed,
+            // commands: world.commands
+        });
     }
 }
