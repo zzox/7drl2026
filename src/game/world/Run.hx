@@ -42,11 +42,15 @@ class R {
 
     public var day:Int = 0;
     public var money:Int = 100;
+    public var wins:Int = 0;
+    public var losses:Int = 0;
+    public var skips:Int = 0;
 
     public var commands:Array<{ day:Int, command: Command }> = [];
 
     public var roster:Array<Dna> = [];
     public var order:Array<Dna> = [];
+    public var defeated:Array<Dna> = [];
 
     public function new (?startSeed:Int) {
         // final ttt = Timer.stamp();
@@ -69,6 +73,35 @@ class R {
         roster = combineDna(adam, steve, 5, 4);
 
         world = new World();
+        order = world.geneCopies;
+    }
+
+    public function fightNext (fighter:Dna) {
+        makeRoom(fighter, order[0]);
+        money -= fightNextMoney();
+    }
+
+    public function fightNextMoney () {
+        return Std.int(10 + defeated.length * defeated.length);
+    }
+
+    public function skipNext () {
+        final dollars = skipNextMoney();
+        defeated.push(order.shift());
+        money -= dollars;
+        skips++;
+
+        if (money < 0) {
+            throw 'No Money';
+        }
+    }
+
+    public function skipNextMoney () {
+        return Std.int(100 * Math.pow(2, defeated.length));
+    }
+
+    public function rewardMoney () {
+        return Std.int(20 + defeated.length * defeated.length * 2);
     }
 
     public function makeRoom (dna1:Dna, dna2:Dna) {
@@ -83,11 +116,18 @@ class R {
 
         if (room.actors[0].hp <= 0) {
             roster = roster.filter(r -> r != room.actors[0].dna);
-        } else {
+            losses++;
+        }
+
+        if (room.actors[1].hp <= 0) {
             room.actors[0].dna.wins++;
+            money += rewardMoney();
+            defeated.push(order.shift());
+            wins++;
         }
 
         room = null;
+        day++;
     }
 
     public function makeNursery (dna1:Dna, dna2:Dna) {
@@ -98,6 +138,7 @@ class R {
         roster = roster.filter(r -> !nursery.parents.contains(r));
         roster = roster.concat(nursery.children);
         nursery = null;
+        day++;
     }
 
     public function establishRun () {

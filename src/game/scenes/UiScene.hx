@@ -60,11 +60,11 @@ class UiScene extends ButtonScene {
         entities.push(new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 64, 16, 25, Assets.images.ui));
         entities.push(new UiElement(320 - 64, 0, 16, 16, 4, 4, 12, 12, 64, 16, 25, Assets.images.ui));
 
-        buttons.push(makeUiTextButton(100, 0, 40, 16, sceneIndex == 0 ? 21 : 16, 'BTTL', sceneIndex == 0 ? null : () -> {
+        buttons.push(makeUiTextButton(100, 0, 40, 16, sceneIndex == 0 ? 37 : 16, 'BTTL', sceneIndex == 0 ? null : () -> {
             game.changeScene(new PreBattleScene());
         }));
 
-        buttons.push(makeUiTextButton(140, 0, 40, 16, sceneIndex == 1 ? 21 : 16, 'SYNC', sceneIndex == 1 ? null : () -> {
+        buttons.push(makeUiTextButton(140, 0, 40, 16, sceneIndex == 1 ? 37 : 16, 'SYNC', sceneIndex == 1 ? null : () -> {
             game.changeScene(new SyncScene());
         }));
 

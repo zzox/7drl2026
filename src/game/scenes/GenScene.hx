@@ -23,6 +23,40 @@ class GenScene extends ButtonScene {
         entities.push(logTexts[1]);
         entities.push(logTexts[2]);
 
+        showGenes();
+
+#if debug
+        timers.addTimer(0.5, () -> {
+            showGenes();
+        });
+        for (i in 0...16) {
+            timers.addTimer(0.5 + (i * 0.1) * 1.1, () -> {
+                Run.inst.world.gen();
+                Run.inst.world.cull();
+                showGenes();
+
+                if (i == 15) {
+                    goNextScene();
+                }
+            });
+        }
+#else
+        timers.addTimer(3.0, () -> {
+            showGenes();
+        });
+        for (i in 0...16) {
+            timers.addTimer(3 + (i * 0.6) * 1.1, () -> {
+                Run.inst.world.gen();
+                Run.inst.world.cull();
+                showGenes();
+
+                if (i == 15) {
+                    goNextScene();
+                }
+            });
+        }
+#end
+
 #if debug
     Debug.updateTimes = [for (i in 0...300) 0.0]; // ~5 seconds
 #end
@@ -90,5 +124,10 @@ class GenScene extends ButtonScene {
             entities.push(new GenesDisplay(12, 20 + 10 * i, gene.genes, 24));
             entities.push(makeBitmapText(204, 16 + 10 * i, 'hp: ${gene.hp}, rad: ${gene.rad}'));
         }
+    }
+
+    function goNextScene () {
+        Run.inst.establishRun();
+        game.changeScene(new PreBattleScene());
     }
 }
