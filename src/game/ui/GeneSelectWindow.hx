@@ -188,6 +188,7 @@ class GeneSelectWindow {
 class GuyIcon extends GameObject {
     public var dna:Null<Dna>;
     public var frames:Int = 0;
+    public var dead:Bool = false;
 
     public function new (x:Int = 0, y:Int = 0) {
         this.x = x;
@@ -218,7 +219,7 @@ class GuyIcon extends GameObject {
                 (tileIndex % cols) * sizeX, Math.floor(tileIndex / cols) * sizeY, sizeX, sizeY
             );
 
-            final tileIndex = 128 + dna.eyes;
+            final tileIndex = dead ? 144 + dna.eyes : 128 + dna.eyes;
             g2.drawSubImage(
                 image,
                 x,

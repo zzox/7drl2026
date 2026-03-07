@@ -4,7 +4,6 @@ import core.Game;
 import core.Types;
 import core.gameobjects.BitmapText;
 import core.scene.Scene;
-import core.util.Util;
 import game.ui.GenesDisplay;
 import game.ui.NumColumn;
 import game.ui.RoomRender;
@@ -18,7 +17,6 @@ import haxe.Json;
 import haxe.Timer;
 import kha.graphics2.Graphics;
 import kha.input.KeyCode;
-import kha.input.Mouse;
 
 class BattleScene extends Scene {
     public static final White:Int = 256 * 0x1000000 + 0xffffffff;

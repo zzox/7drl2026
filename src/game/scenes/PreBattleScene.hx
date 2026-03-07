@@ -41,13 +41,11 @@ class PreBattleScene extends UiScene {
         }));
 
         fightButton = makeUiTextButton(40, 64, 40, 16, 16, 'BTTL', () -> {
-            trace('launch battle scene');
             Run.inst.fightNext(chooseGuy.selected);
             game.changeScene(new BattleScene());
         });
 
         skipButton = makeUiTextButton(120, 64, 40, 16, 16, 'SKIP', () -> {
-            trace('launch battle scene');
             Run.inst.skipNext();
             game.changeScene(new PreBattleScene());
         });
