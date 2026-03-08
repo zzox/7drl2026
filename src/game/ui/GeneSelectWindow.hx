@@ -71,7 +71,7 @@ class GeneSelectWindow {
 
         // bg + name
         addChild(0, 0, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 280, 64, 21, Assets.images.ui));
-        addChild(4, -4, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 56, 16, 28, Assets.images.ui));
+        addChild(4, -2, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 56, 16, 28, Assets.images.ui));
         addChild(8, 8, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 264, 30, 20, Assets.images.ui));
         addUpChild(4, -6, makeBitmapText(0, 0, name, 0xdae0ea));
 
@@ -165,6 +165,9 @@ class GeneSelectWindow {
         guy.dna = null;
         hpText.setText('');
         rdText.setText('');
+
+        winText.setText('');
+        genText.setText('');
 
         nameText.setText('');
 
