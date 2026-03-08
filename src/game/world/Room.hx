@@ -22,10 +22,13 @@ function dirDiff (x:Int, y:Int, rand:() -> Float):RotationDir {
     return South;
 }
 
+final dirs = [North, South, East, West];
+
 enum RoomEventType {
     Gene;
     Damage;
     ThingEnd;
+    Heart;
 }
 
 typedef RoomEvent = {
@@ -100,6 +103,15 @@ class Room {
                         tt.alive = false;
                     } else if (tt.type == TPunch && t.type == TSpit) {
                         t.alive = false;
+                    } else if (t.type == TDeflect) {
+                        trace('deflecting');
+                        tt.facing = calculateFacing(tt.facing, 2);
+                        getLaunchX(tt.x, tt.facing);
+                        getLaunchY(tt.y, tt.facing);
+                    } else if (tt.type == TDeflect) {
+                        t.facing = calculateFacing(t.facing, 2);
+                        getLaunchX(t.x, t.facing);
+                        getLaunchY(t.y, t.facing);
                     }
                 }
             }
@@ -118,6 +130,10 @@ class Room {
                         damage = a.pierces;
                     }
                     a.hp -= damage;
+
+                    if (t.type == THeart) {
+                        a.skipNext = true;
+                    }
 
                     // a punch will push someone back
                     if (t.type == TPunch) {
@@ -172,6 +188,13 @@ class Room {
     function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {
         addEvent(Gene, null, null, null, null, null, gene);
         if (gene == None) return;
+
+        if (fromActor.skipNext) {
+            fromActor.skipNext = false;
+            addEvent(Heart, null, fromActor.x, fromActor.y);
+            return;
+        }
+
         if (gene == Forward) tryForward(fromActor);
         if (gene == Back) tryBack(fromActor);
         if (gene == TurnTo) tryTurnTo(fromActor, toActor);
@@ -179,6 +202,21 @@ class Room {
         if (gene == Pierce) launchProj(fromActor, Pierce);
         if (gene == Punch) launchProj(fromActor, Punch);
         if (gene == Spit) launchProj(fromActor, Spit);
+        if (gene == Heart) launchProj(fromActor, Heart);
+        if (gene == Deflect) launchDeflect(fromActor);
+    }
+
+    function launchDeflect (fromActor:Actor) {
+        for (dir in dirs) {
+            final thing = {
+                type: TDeflect,
+                x: getLaunchX(fromActor.x, dir),
+                y: getLaunchY(fromActor.y, dir),
+                facing: dir,
+                alive: true
+            }
+            things.push(thing);
+        }
     }
 
     function launchProj (fromActor:Actor, type:Gene) {

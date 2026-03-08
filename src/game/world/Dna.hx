@@ -15,7 +15,7 @@ enum abstract Gene(Int) to Int {
     var Punch = 6;
     var Spit = 7;
 
-    var Kiss = 8;
+    var Heart = 8;
     var Deflect = 9;
 }
 
@@ -30,12 +30,11 @@ final genePrices:Map<Gene, Int> = [
     Pierce => 12,
     Punch => 12,
     Spit => 8,
-
-    Kiss => 10,
+    Heart => 10,
     Deflect => 10
 ];
 
-final mutItems = [Pierce, Punch, Spit];
+final mutItems = [Pierce, Punch, Spit, Heart, Deflect, Heart, Deflect, Heart, Deflect];
 
 typedef DId = Int;
 
