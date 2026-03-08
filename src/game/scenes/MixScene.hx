@@ -10,7 +10,9 @@ class MixScene extends ButtonScene {
     override function create () {
         super.create();
 
-        entities.push(makeBitmapText(32, 32, 'Mixing up ${Run.inst.mix.guy.name}'));
+        final text = makeBitmapText(32, 32, 'Mixing up ${Run.inst.mix.guy.name}');
+        text.x = 180 - Math.floor(text.textWidth / 2);
+        entities.push(text);
 
         final guy = new GuyIcon(152, 48);
         guy.dna = Run.inst.mix.guy;

@@ -42,6 +42,7 @@ class R {
     public var nursery:Nursery;
     public var mix:Null<Mix>;
     public var mutation:Null<Mutation>;
+    public var sale:Null<Sale>;
 
     public var day:Int = 0;
     public var money:Int = 100;
@@ -146,9 +147,8 @@ class R {
         day++;
     }
 
-    public function sell (guy:Dna) {
-        roster = roster.filter(g -> g != guy);
-        money += sellMoney(guy);
+    public function doSale (guy:Dna) {
+        sale = new Sale(guy);
     }
 
     public function doMix (guy:Dna) {
@@ -172,11 +172,19 @@ class R {
     public function handleMix () {
         mix.guy.genes = mix.value;
         mix.guy.rad += 1;
+        mix = null;
     }
 
     public function handleMutate () {
         mutation.guy.genes = mutation.value;
         mutation.guy.rad += 3;
+        mutation = null;
+    }
+
+    public function handleSale () {
+        roster = roster.filter(g -> g != sale.guy);
+        money += sellMoney(sale.guy);
+        sale = null;
     }
 
     public function sellMoney (guy:Dna):Int {
