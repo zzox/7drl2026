@@ -6,6 +6,7 @@ import core.system.Camera;
 import core.system.KeysInput;
 import core.system.MouseInput;
 import core.util.ScalerExp;
+import game.scenes.BgScene;
 import kha.Assets;
 import kha.Framebuffer;
 import kha.Image;
@@ -48,6 +49,8 @@ class Game {
     public static var keys:KeysInput = new KeysInput();
 
     public static var mouse:MouseInput = new MouseInput();
+
+    public var bgScene:Null<BgScene>;
 
     public function new (name:String, width:Int, height:Int, scaleMode:ScaleMode, initialScene:Scene, ?bufferWidth:Int, ?bufferHeight:Int) {
         // size = IntVec2.make(width, height)
@@ -96,6 +99,10 @@ class Game {
                 // WARN: these can run out of order if there's nothing being loaded!
                 // (Game will get stuck on Preload screen)
                 Assets.loadEverything(() -> {
+                    bgScene = new BgScene();
+                    bgScene.game = this;
+                    bgScene.camera = new Camera(bufferWidth > -1 ? bufferWidth : width, bufferHeight > -1 ? bufferHeight : height);
+                    bgScene.create();
                     // HACK: force destroy preload scene to address above warning
                     preloadScene.destroy();
                     changeScene(initialScene);
@@ -122,6 +129,7 @@ class Game {
         for (s in newScenes) scenes.push(s);
         newScenes.resize(0);
 
+        if (bgScene != null) bgScene.update(delta);
         for (s in scenes) {
             // if (!s.isPaused) {
                 s.update(delta);
@@ -203,9 +211,10 @@ class Game {
     function renderPixelPerfect (framebuffer:Framebuffer) {
         setSize(framebuffer.width, framebuffer.height);
 
+        if (bgScene != null) bgScene.render(backbuffer.g2, true);
         for (s in 0...scenes.length) {
             // scenes[s].render(backbuffer.g2, backbuffer.g4, s == 0);
-            scenes[s].render(backbuffer.g2, s == 0);
+            scenes[s].render(backbuffer.g2, false);
         }
 
         framebuffer.g2.begin(true, 0xff000000);
