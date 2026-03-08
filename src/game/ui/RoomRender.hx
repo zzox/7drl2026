@@ -27,7 +27,7 @@ function roomRender (g2:Graphics, posX:Int, posY:Int, room:Room, particles:Array
     forEachGI(room.grid, (x, y, item) -> {
         // if (items[i].item == -1) continue;
 
-        final tileIndex = item == 0 ? 97 : 98;
+        final tileIndex = 97 + item;
 
         // g2.color = 0xff * 0x1000000 + getLightColor(getGridItem(lights, x, y));
 

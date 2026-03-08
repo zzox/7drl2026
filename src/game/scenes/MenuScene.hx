@@ -1,8 +1,10 @@
 package game.scenes;
 
 import core.Game;
+import core.gameobjects.SImage;
 import game.ui.UiText;
 import game.world.Run;
+import kha.Assets;
 
 class MenuScene extends ButtonScene {
     override function create () {
@@ -10,7 +12,7 @@ class MenuScene extends ButtonScene {
 
         new UiText();
 
-        entities.push(makeBitmapText(0, 60, 'SONS'));
+        entities.push(new SImage(40, 20, Assets.images.sons1));
 
         final startButton = makeUiTextButton(140, 100, 40, 16, 16, 'STRT', () -> {
             new Run();

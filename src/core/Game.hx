@@ -212,6 +212,8 @@ class Game {
         setSize(framebuffer.width, framebuffer.height);
 
         if (bgScene != null) bgScene.render(backbuffer.g2, true);
+        // hack:
+        backbuffer.g2.color = 0xffffffff;
         for (s in 0...scenes.length) {
             // scenes[s].render(backbuffer.g2, backbuffer.g4, s == 0);
             scenes[s].render(backbuffer.g2, false);

@@ -7,19 +7,14 @@ import game.util.Utils;
 import game.world.Actor;
 import game.world.Dna.Gene;
 import game.world.Grid;
+import game.world.Run;
 import game.world.Thing;
 
 function indexDiff (x:Int, y:Int, rand:() -> Float):Int {
-    if (rand() * 8.0 < 1.0) return 1;
-    if (rand() * 16.0 < 1.0) return 2;
-    if (rand() * 32.0 < 1.0) return 3;
+    if (rand() * 3.0 < 1.0) return 1;
+    if (rand() * 3.0 < 1.0) return 2;
+    if (rand() * 3.0 < 1.0) return 3;
     return 0;
-}
-function dirDiff (x:Int, y:Int, rand:() -> Float):RotationDir {
-    if (rand() < 0.25) return East;
-    if (rand() < 0.5) return West;
-    if (rand() < 0.75) return North;
-    return South;
 }
 
 final dirs = [North, South, East, West];
@@ -63,7 +58,7 @@ class Room {
         lights = makeGrid(Width, Height, 1.0);
 
         grid = mapGI(grid, (x, y, item) -> {
-            return Run.inst.placeRand.GetFloat() < 0.1 ? 1 : 0;
+            return indexDiff(x, y, Run.inst.placeRand.GetFloat);
         });
 
         stats = newEmptyStats();

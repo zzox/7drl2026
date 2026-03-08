@@ -34,7 +34,7 @@ final genePrices:Map<Gene, Int> = [
     Deflect => 10
 ];
 
-final mutItems = [Pierce, Punch, Spit, Heart, Deflect, Heart, Deflect, Heart, Deflect];
+final mutItems = [Pierce, Punch, Spit, Heart, Deflect];
 
 typedef DId = Int;
 
@@ -116,11 +116,11 @@ function makeRandomGenes ():Array<Gene> {
             dna.push(Spit);
         } else if (rand < 0.09) {
             dna.push(Forward);
-        } else if (rand < 0.16) {
+        } else if (rand < 0.15) {
             dna.push(Back);
         } else if (rand < 0.22) {
             dna.push(TurnTo);
-        } else if (rand < 0.27) {
+        } else if (rand < 0.26) {
             dna.push(TurnAway);
         } else {
             dna.push(None);
