@@ -11,7 +11,7 @@ class MenuScene extends ButtonScene {
 
         entities.push(makeBitmapText(0, 60, 'SONS'));
 
-        final startButton = makeUiTextButton(148, 100, 64, 16, 16, 'STRT', () -> {
+        final startButton = makeUiTextButton(140, 100, 40, 16, 16, 'STRT', () -> {
             new Run();
             game.changeScene(new GenScene());
         });

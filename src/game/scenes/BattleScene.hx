@@ -262,7 +262,7 @@ class BattleScene extends ButtonScene {
         } else if (speed == 2) {
             speed3.disabled = true;
             roomSpeed = 5;
-        } else if (speed == 4) {
+        } else if (speed == 3) {
             speed4.disabled = true;
             roomSpeed = 1;
         }

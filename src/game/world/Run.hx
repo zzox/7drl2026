@@ -50,6 +50,7 @@ class R {
     public var commands:Array<{ day:Int, command: Command }> = [];
 
     public var roster:Array<Dna> = [];
+    public var graveyard:Array<Dna> = [];
     public var order:Array<Dna> = [];
     public var defeated:Array<Dna> = [];
 
@@ -117,6 +118,7 @@ class R {
 
         if (room.actors[0].hp <= 0) {
             roster = roster.filter(r -> r != room.actors[0].dna);
+            graveyard.push(room.actors[0].dna);
             losses++;
         }
 
@@ -127,7 +129,7 @@ class R {
             wins++;
         }
 
-        room = null;
+        // room = null;
         day++;
     }
 

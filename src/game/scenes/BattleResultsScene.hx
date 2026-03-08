@@ -63,7 +63,11 @@ class BattleResultsScene extends ButtonScene {
 
     public function launchNextScene () {
         Run.inst.handleRoom();
-        game.changeScene(new PreBattleScene());
+        if (Run.inst.roster.length == 0) {
+            game.changeScene(new OverScene(false));
+        } else {
+            game.changeScene(new PreBattleScene());
+        }
     }
 
     public function goHome () {
