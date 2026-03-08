@@ -50,7 +50,7 @@ class Game {
 
     public static var mouse:MouseInput = new MouseInput();
 
-    public var bgScene:Null<BgScene>;
+    public static var bgScene:Null<BgScene>;
 
     public function new (name:String, width:Int, height:Int, scaleMode:ScaleMode, initialScene:Scene, ?bufferWidth:Int, ?bufferHeight:Int) {
         // size = IntVec2.make(width, height)

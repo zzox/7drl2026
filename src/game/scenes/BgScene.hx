@@ -3,6 +3,7 @@ package game.scenes;
 import core.gameobjects.Sprite;
 import core.scene.Scene;
 import kha.Assets;
+import kha.graphics2.Graphics;
 
 class BgScene extends Scene {
     public static var rand:kha.math.Random;
@@ -15,8 +16,9 @@ class BgScene extends Scene {
 
     override function create () {
         for (_ in 0...64) {
-            items.push(new BgItem());
-            entities.push(new BgItem());
+            final bgItem = new BgItem();
+            items.push(bgItem);
+            entities.push(bgItem);
         }
     }
 
@@ -29,6 +31,21 @@ class BgScene extends Scene {
 
             if (i.x >= 360) i.x -= 400;
             if (i.y >= 200) i.y -= 220;
+        }
+    }
+
+    public var invisible:Bool = false;
+    public function clear () {
+        invisible = true;
+        for (i in items) {
+            i.visible = false;
+        }
+    }
+
+    public function show () {
+        invisible = false;
+        for (i in items) {
+            i.visible = true;
         }
     }
 }

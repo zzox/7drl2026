@@ -48,7 +48,7 @@ class UiScene extends ButtonScene {
     }
 
     override function render (g2:Graphics, clears:Bool) {
-        g2.begin(true, camera.bgColor);
+        g2.begin();
         for (e in entities) {
             if (e.visible) e.render(g2, camera);
         }

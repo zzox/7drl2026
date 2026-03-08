@@ -9,6 +9,7 @@ class Mix {
     public var value:Array<Gene>;
 
     public function new (guy:Dna) {
+        this.guy = guy;
         prev = guy.genes.copy();
         value = guy.genes.copy();
         shuffle(value, Run.inst.rand);
