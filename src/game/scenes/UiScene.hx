@@ -16,6 +16,11 @@ class UiScene extends ButtonScene {
     var windows:Array<GeneSelectWindow> = [];
     var moneyText:BitmapText;
 
+    override function create () {
+        super.create();
+        Game.bgScene.set(0);
+    }
+
     override function update (delta:Float) {
         super.update(delta);
 

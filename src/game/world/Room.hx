@@ -104,7 +104,7 @@ class Room {
                     } else if (tt.type == TPunch && t.type == TSpit) {
                         t.alive = false;
                     } else if (t.type == TDeflect) {
-                        trace('deflecting');
+                        // trace('deflecting');
                         tt.facing = calculateFacing(tt.facing, 2);
                         getLaunchX(tt.x, tt.facing);
                         getLaunchY(tt.y, tt.facing);
@@ -182,7 +182,7 @@ class Room {
     // returns true if we did too many steps or too many steps with no damage
     public function checkSkip ():Bool {
         final damage = Lambda.fold(actors, (a, res) -> (a.dna.hp - a.hp) + res, 0);
-        return steps == 1000 || (steps == 500 && damage == 0);
+        return steps == 1200 || (steps == 600 && damage == 0);
     }
 
     function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {

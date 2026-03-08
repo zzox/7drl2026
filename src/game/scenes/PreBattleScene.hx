@@ -54,7 +54,7 @@ class PreBattleScene extends UiScene {
         buttons.push(fightButton);
         buttons.push(skipButton);
 
-        entities.push(makeBitmapText(84, 64, TextUtil.formatMoney(Run.inst.fightNextMoney())));
+        // entities.push(makeBitmapText(84, 64, TextUtil.formatMoney(Run.inst.fightNextMoney())));
         entities.push(makeBitmapText(172, 64, TextUtil.formatMoney(Run.inst.skipNextMoney())));
         entities.push(makeBitmapText(236, 64, 'RWRD:'));
         entities.push(makeBitmapText(272, 64, TextUtil.formatMoney(Run.inst.rewardMoney()), 0x59c135));

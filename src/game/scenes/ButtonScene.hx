@@ -5,6 +5,7 @@ import core.scene.Scene;
 import game.ui.UiElement;
 import game.ui.UiText;
 import kha.Assets;
+import kha.input.KeyCode;
 import kha.input.Mouse;
 
 class ButtonScene extends Scene {
@@ -37,6 +38,14 @@ class ButtonScene extends Scene {
             // if (b.button.pressed) {
             //     hovered = true;
             // }
+        }
+
+        if (Game.keys.justPressed(KeyCode.B)) {
+            if (Game.bgScene.invisible) {
+                Game.bgScene.show();
+            } else {
+                Game.bgScene.clear();
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package game.scenes;
 
+import core.Game;
 import game.ui.UiText;
 import game.world.Run;
 
@@ -16,5 +17,7 @@ class MenuScene extends ButtonScene {
             game.changeScene(new GenScene());
         });
         buttons.push(startButton);
+
+        Game.bgScene.set(2);
     }
 }

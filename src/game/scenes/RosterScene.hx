@@ -81,11 +81,6 @@ class RosterScene extends UiScene {
 
         entities.push(sellCost = makeBitmapText(84, 124, '', 0x59c135));
         entities.push(mixCost = makeBitmapText(168, 124, ''));
-        entities.push(mutateCost = makeBitmapText(244, 124, ''));
-    }
-
-    override function update (delta:Float) {
-        super.update(delta);
-        // fightButton.disabled = chooseGuy.selected == null;
+        entities.push(mutateCost = makeBitmapText(252, 124, ''));
     }
 }

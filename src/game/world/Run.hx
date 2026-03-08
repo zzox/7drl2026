@@ -82,7 +82,7 @@ class R {
 
     public function fightNext (fighter:Dna) {
         makeRoom(fighter, order[0]);
-        money -= fightNextMoney();
+        // money -= fightNextMoney();
     }
 
     public function fightNextMoney () {

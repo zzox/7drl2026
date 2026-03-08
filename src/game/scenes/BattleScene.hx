@@ -83,6 +83,8 @@ class BattleScene extends ButtonScene {
         buttons.push(speed3);
         buttons.push(speed4);
 
+        Game.bgScene.set(1);
+
 #if debug
         for (i in 0...8) {
             final text = makeBitmapText(0, 74 + i * 10, '');
