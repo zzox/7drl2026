@@ -68,8 +68,8 @@ class UiScene extends ButtonScene {
             game.changeScene(new SyncScene());
         }));
 
-        buttons.push(makeUiTextButton(180, 0, 40, 16, 16, 'SHOP', () -> {
-            trace('clicked!');
+        buttons.push(makeUiTextButton(180, 0, 40, 16, sceneIndex == 2 ? 37 : 16, 'RSTR', sceneIndex == 2 ? null : () -> {
+            game.changeScene(new RosterScene());
         }));
 
         moneyText = makeBitmapText(0, 0, TextUtil.formatMoney(Run.inst.money), 0xfffc40);

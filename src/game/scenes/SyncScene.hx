@@ -20,7 +20,6 @@ class SyncScene extends UiScene {
         windows.push(partner1 = new GeneSelectWindow(18, 20, 'Partner 1', (num:Int) -> {
             if (num > -1) {
                 partner2.visible = true;
-                makePartner2();
             }
         }));
         windows.push(partner2 = new GeneSelectWindow(18, 112, 'Partner 2', (num:Int) -> {
@@ -41,37 +40,11 @@ class SyncScene extends UiScene {
 
         buttons.push(syncButton);
         buttons.push(cancelButton);
-
-        makePartner1();
     }
 
     override function update (delta:Float) {
         cancelButton.disabled = partner1.selectedIndex == -1;
         syncButton.disabled = partner2.selectedIndex == -1 || partner1.selected == partner2.selected;
         super.update(delta);
-    }
-
-    function makePartner1 () {
-        for (i in 0...partner1.items.length) {
-            if (Run.inst.roster[i] != null) {
-                partner1.items[i].button.disabled = false;
-                partner1.items[i].icon.dna = Run.inst.roster[i];
-            } else {
-                partner1.items[i].button.disabled = true;
-                partner1.items[i].icon.dna = null;
-            }
-        }
-    }
-
-    function makePartner2 () {
-        for (i in 0...partner2.items.length) {
-            if (Run.inst.roster[i] != null) {
-                partner2.items[i].button.disabled = false;
-                partner2.items[i].icon.dna = Run.inst.roster[i];
-            } else {
-                partner2.items[i].button.disabled = true;
-                partner2.items[i].icon.dna = null;
-            }
-        }
     }
 }

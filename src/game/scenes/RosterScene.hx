@@ -11,16 +11,17 @@ import game.world.Run;
 import kha.Assets;
 import kha.input.Mouse;
 
-class PreBattleScene extends UiScene {
+class RosterScene extends UiScene {
     var chooseGuy:GeneSelectWindow;
 
-    var fightButton:UiElement;
-    var skipButton:UiElement;
+    var sellButton:UiElement;
+    var mixButton:UiElement;
+    var mutateButton:UiElement;
 
     override function create () {
         trace(Run.inst.roster);
 
-        makeTopButtons(0);
+        makeTopButtons(2);
 
         final guy = Run.inst.order[0];
 
@@ -36,32 +37,37 @@ class PreBattleScene extends UiScene {
         entities.push(makeBitmapText(66, 36, guy.name));
         entities.push(makeBitmapText(192, 36, 'Gen: ${guy.generation}'));
 
-        windows.push(chooseGuy = new GeneSelectWindow(18, 104, ' Fighter', (num:Int) -> {
+        windows.push(chooseGuy = new GeneSelectWindow(18, 104, ' Select', (num:Int) -> {
             if (num > -1) {}
         }));
 
-        fightButton = makeUiTextButton(40, 64, 40, 16, 16, 'BTTL', () -> {
-            Run.inst.fightNext(chooseGuy.selected);
-            game.changeScene(new BattleScene());
+        sellButton = makeUiTextButton(40, 64, 40, 16, 16, 'BTTL', () -> {
+            // Run.inst.sell(chooseGuy.selected);
+            game.changeScene(new RosterScene());
         });
 
-        skipButton = makeUiTextButton(120, 64, 40, 16, 16, 'SKIP', () -> {
-            Run.inst.skipNext();
-            game.changeScene(new PreBattleScene());
+        mixButton = makeUiTextButton(120, 64, 40, 16, 16, 'MIXX', () -> {
+            // Run.inst.mix(chooseGuy.selected);
+            game.changeScene(new RosterScene());
         });
-        skipButton.disabled = Run.inst.money < Run.inst.skipNextMoney();
 
-        buttons.push(fightButton);
-        buttons.push(skipButton);
+        mutateButton = makeUiTextButton(180, 64, 40, 16, 16, 'MTXT', () -> {
+            // Run.inst.mutate(chooseGuy.selected);
+            game.changeScene(new RosterScene());
+        });
+
+        buttons.push(sellButton);
+        buttons.push(mixButton);
+        buttons.push(mutateButton);
 
         entities.push(makeBitmapText(84, 64, TextUtil.formatMoney(Run.inst.fightNextMoney())));
         entities.push(makeBitmapText(172, 64, TextUtil.formatMoney(Run.inst.skipNextMoney())));
-        entities.push(makeBitmapText(236, 64, 'RWRD:'));
+        // entities.push(makeBitmapText(236, 64, 'RWRD:'));
         entities.push(makeBitmapText(272, 64, TextUtil.formatMoney(Run.inst.rewardMoney()), 0x59c135));
     }
 
     override function update (delta:Float) {
         super.update(delta);
-        fightButton.disabled = chooseGuy.selected == null;
+        // fightButton.disabled = chooseGuy.selected == null;
     }
 }

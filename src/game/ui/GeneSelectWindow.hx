@@ -43,7 +43,10 @@ class GeneSelectWindow {
 
     public var selectedIndex:Int = -1;
     public var selected:Null<Dna>;
-    public var items:Array<{ button:UiElement, icon:GuyIcon }> = [];
+    var items:Array<{ button:UiElement, icon:GuyIcon }> = [];
+
+    public var leftArrow:UiElement;
+    public var rightArrow:UiElement;
 
     public var guy:GuyIcon;
     public var nameText:BitmapText;
@@ -52,6 +55,8 @@ class GeneSelectWindow {
     public var rdText:BitmapText;
     public var winText:BitmapText;
     public var genText:BitmapText;
+
+    public var page:Int = 0;
 
     public var genes:GenesDisplay;
 
@@ -66,7 +71,7 @@ class GeneSelectWindow {
 
         // bg + name
         addChild(0, 0, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 280, 64, 21, Assets.images.ui));
-        addChild(4, -4, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 64, 16, 28, Assets.images.ui));
+        addChild(4, -4, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 56, 16, 28, Assets.images.ui));
         addChild(8, 8, new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 264, 30, 20, Assets.images.ui));
         addUpChild(4, -6, makeBitmapText(0, 0, name, 0xdae0ea));
 
@@ -81,7 +86,19 @@ class GeneSelectWindow {
 
         genes = addUpChild(16, 28, new GenesDisplay(0, 0, [], 24));
 
+        leftArrow = new UiElement(0, 0, 8, 8, 2, 2, 6, 6, 8, 8, 50, Assets.images.ui, () -> {
+            page--;
+            setIcons();
+        });
+        rightArrow = new UiElement(0, 0, 8, 8, 2, 2, 6, 6, 8, 8, 18, Assets.images.ui, () -> {
+            page++;
+            setIcons();
+        });
+        addChild(12, 46, leftArrow);
+        addChild(260, 46, rightArrow);
+
         this.onSet = onSet;
+        setIcons();
     }
 
     function makeIcons () {
@@ -94,17 +111,35 @@ class GeneSelectWindow {
             });
             final icon = new GuyIcon();
 
-            addChild(12 + 20 * i, 40, button);
-            addUpChild(12 + 20 * i + 2, 40 + 2, icon);
+            addChild(20 + 20 * i, 40, button);
+            addUpChild(20 + 20 * i + 2, 40 + 2, icon);
 
             items.push({ button: button, icon: icon });
         }
     }
 
-    function select (num:Int) {
-        selectedIndex = num;
+    function setIcons () {
+        final diff = page * 12;
 
-        final item = Run.inst.roster[num];
+        for (i in 0...12) {
+            final ii = diff + i;
+            if (Run.inst.roster[ii] != null) {
+                items[i].button.disabled = false;
+                items[i].icon.dna = Run.inst.roster[ii];
+            } else {
+                items[i].button.disabled = true;
+                items[i].icon.dna = null;
+            }
+        }
+
+        leftArrow.disabled = page == 0;
+        rightArrow.disabled = Run.inst.roster.length <= diff + 12;
+    }
+
+    function select (num:Int) {
+        selectedIndex = page * 12 + num;
+
+        final item = Run.inst.roster[selectedIndex];
         guy.dna = item;
         hpText.setText('hp: ${item.hp}');
         rdText.setText('rd: ${item.rad}');
@@ -121,7 +156,7 @@ class GeneSelectWindow {
         genes.genes = item.genes;
 
         selected = item;
-        onSet(num);
+        onSet(selectedIndex);
     }
 
     public function deselect () {
