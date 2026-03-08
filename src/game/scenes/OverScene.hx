@@ -47,10 +47,12 @@ class OverScene extends ButtonScene {
             if (won && item == Run.inst.room.actors[0].dna) {
                 winner = guy;
             }
+
+            entities.push(guy);
         }
 
-        timers.addTimer(5.0, () -> {
-            buttons.push(makeUiTextButton(140, 100, 40, 16, 16, 'MENU', () -> {
+        timers.addTimer(3.0, () -> {
+            buttons.push(makeUiTextButton(140, 160, 40, 16, 16, 'MENU', () -> {
                 game.changeScene(new MenuScene());
             }));
         });
