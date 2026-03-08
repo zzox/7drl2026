@@ -65,16 +65,20 @@ class UiScene extends ButtonScene {
         entities.push(new UiElement(0, 0, 16, 16, 4, 4, 12, 12, 64, 16, 25, Assets.images.ui));
         entities.push(new UiElement(320 - 64, 0, 16, 16, 4, 4, 12, 12, 64, 16, 25, Assets.images.ui));
 
-        buttons.push(makeUiTextButton(100, 0, 40, 16, sceneIndex == 0 ? 37 : 16, 'BTTL', sceneIndex == 0 ? null : () -> {
+        buttons.push(makeUiTextButton(80, 0, 40, 16, sceneIndex == 0 ? 37 : 16, 'BTTL', sceneIndex == 0 ? null : () -> {
             game.changeScene(new PreBattleScene());
         }));
 
-        buttons.push(makeUiTextButton(140, 0, 40, 16, sceneIndex == 1 ? 37 : 16, 'SYNC', sceneIndex == 1 ? null : () -> {
+        buttons.push(makeUiTextButton(120, 0, 40, 16, sceneIndex == 1 ? 37 : 16, 'SYNC', sceneIndex == 1 ? null : () -> {
             game.changeScene(new SyncScene());
         }));
 
-        buttons.push(makeUiTextButton(180, 0, 40, 16, sceneIndex == 2 ? 37 : 16, 'RSTR', sceneIndex == 2 ? null : () -> {
+        buttons.push(makeUiTextButton(160, 0, 40, 16, sceneIndex == 2 ? 37 : 16, 'RSTR', sceneIndex == 2 ? null : () -> {
             game.changeScene(new RosterScene());
+        }));
+
+        buttons.push(makeUiTextButton(200, 0, 40, 16, sceneIndex == 3 ? 37 : 16, 'QUIT', sceneIndex == 3 ? null : () -> {
+            game.changeScene(new QuitScene());
         }));
 
         moneyText = makeBitmapText(0, 0, TextUtil.formatMoney(Run.inst.money), 0xfffc40);
