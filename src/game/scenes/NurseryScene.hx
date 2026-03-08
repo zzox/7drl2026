@@ -5,6 +5,7 @@ import core.gameobjects.BitmapText;
 import game.ui.GeneSelectWindow.GuyIcon;
 import game.ui.GeneSyncDisplay;
 import game.ui.GenesDisplay;
+import game.ui.UiElement;
 import game.ui.UiText;
 import game.world.Run;
 
@@ -39,7 +40,7 @@ class NurseryScene extends ButtonScene {
         entities.push(name2 = makeBitmapText(32, 36, p2.dna.name));
 
         resultText = makeBitmapText(32, 36, '${p1.dna.name} and ${p2.dna.name} had ${Run.inst.nursery.children.length} son${Run.inst.nursery.children.length == 1 ? '' : 's'}');
-        resultText.setPosition(160 - Math.floor(resultText.textWidth / 2), 48);
+        resultText.setPosition(160 - Math.floor(resultText.textWidth / 2), 16);
         resultText.visible = false;
         entities.push(resultText);
 
@@ -58,6 +59,9 @@ class NurseryScene extends ButtonScene {
             entities.push(gd);
             entities.push(name);
 
+            icon.visible = false;
+            name.visible = false;
+
             displayItems.push({ icon: icon, gd: gd, name: name });
         }
 
@@ -69,31 +73,28 @@ class NurseryScene extends ButtonScene {
 
                 for (j in 0...child.genes.length) {
                     timers.addTimer(j * IncTime, () -> {
-                        displayItems[i].gd.genes = child.genes.slice(0, j + i);
+                        displayItems[i].gd.genes = child.genes.slice(0, j);
 
-                        if (i == Run.inst.nursery.children.length - 1 && j == child.genes.length - 1) {
-                            resultText.visible = true;
-                            p1.visible = false;
-                            p2.visible = false;
-                            name1.visible = false;
-                            name2.visible = false;
+                        if (j == child.genes.length - 1) {
+                            displayItems[i].name.visible = true;
+                            displayItems[i].icon.visible = true;
+                            if (i == Run.inst.nursery.children.length - 1) {
+                                resultText.visible = true;
+                                p1.visible = false;
+                                p2.visible = false;
+                                name1.visible = false;
+                                name2.visible = false;
+
+                                final nextButton = makeUiTextButton(140, 24, 40, 16, 16, 'NEXT', () -> {
+                                    Run.inst.handleNursery();
+                                    game.changeScene(new SyncScene());
+                                });
+                                buttons.push(nextButton);
+                            }
                         }
                     });
                 }
             });
         }
-    }
-
-    override function update (delta:Float) {
-        super.update(delta);
-
-        if (Game.mouse.pressed(0)) {
-            launchNextScene();
-        }
-    }
-
-    public function launchNextScene () {
-        Run.inst.handleNursery();
-        game.changeScene(new SyncScene());
     }
 }

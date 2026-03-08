@@ -13,7 +13,7 @@ class QuitScene extends UiScene {
 
         entities.push(makeBitmapText(66, 68, 'Are you sure you want to quit?'));
 
-        final item = makeUiTextButton(140, 84, 40, 16, 16, 'QUIT', () -> {
+        final item = makeUiTextButton(140, 92, 40, 16, 16, 'QUIT', () -> {
             game.changeScene(new MenuScene());
         });
         buttons.push(item);
