@@ -6,8 +6,8 @@ import game.world.Nursery;
 import game.world.Run;
 
 class SyncScene extends UiScene {
-    var topGuy:GeneSelectWindow;
-    var bottomGuy:GeneSelectWindow;
+    var partner1:GeneSelectWindow;
+    var partner2:GeneSelectWindow;
 
     var syncButton:UiElement;
     var cancelButton:UiElement;
@@ -17,60 +17,60 @@ class SyncScene extends UiScene {
 
         makeTopButtons(1);
 
-        windows.push(topGuy = new GeneSelectWindow(18, 20, 'Partner 1', (num:Int) -> {
+        windows.push(partner1 = new GeneSelectWindow(18, 20, 'Partner 1', (num:Int) -> {
             if (num > -1) {
-                bottomGuy.visible = true;
-                makeBottomGuy();
+                partner2.visible = true;
+                makePartner2();
             }
         }));
-        windows.push(bottomGuy = new GeneSelectWindow(18, 112, 'Partner 2', (num:Int) -> {
+        windows.push(partner2 = new GeneSelectWindow(18, 112, 'Partner 2', (num:Int) -> {
             if (num > -1) {}
         }));
-        bottomGuy.visible = false;
+        partner2.visible = false;
 
         syncButton = makeUiTextButton(108, 86, 40, 16, 16, 'SYNC', () -> {
-            Run.inst.makeNursery(bottomGuy.selected, topGuy.selected);
+            Run.inst.makeNursery(partner2.selected, partner1.selected);
             game.changeScene(new NurseryScene());
         });
 
         cancelButton = makeUiTextButton(172, 86, 40, 16, 16, 'CNCL', () -> {
-            topGuy.deselect();
-            bottomGuy.deselect();
-            bottomGuy.visible = false;
+            partner1.deselect();
+            partner2.deselect();
+            partner2.visible = false;
         });
 
         buttons.push(syncButton);
         buttons.push(cancelButton);
 
-        makeTopGuy();
+        makePartner1();
     }
 
     override function update (delta:Float) {
-        cancelButton.disabled = topGuy.selectedIndex == -1;
-        syncButton.disabled = bottomGuy.selectedIndex == -1 || topGuy.selected == bottomGuy.selected;
+        cancelButton.disabled = partner1.selectedIndex == -1;
+        syncButton.disabled = partner2.selectedIndex == -1 || partner1.selected == partner2.selected;
         super.update(delta);
     }
 
-    function makeTopGuy () {
-        for (i in 0...topGuy.items.length) {
+    function makePartner1 () {
+        for (i in 0...partner1.items.length) {
             if (Run.inst.roster[i] != null) {
-                topGuy.items[i].button.disabled = false;
-                topGuy.items[i].icon.dna = Run.inst.roster[i];
+                partner1.items[i].button.disabled = false;
+                partner1.items[i].icon.dna = Run.inst.roster[i];
             } else {
-                topGuy.items[i].button.disabled = true;
-                topGuy.items[i].icon.dna = null;
+                partner1.items[i].button.disabled = true;
+                partner1.items[i].icon.dna = null;
             }
         }
     }
 
-    function makeBottomGuy () {
-        for (i in 0...bottomGuy.items.length) {
+    function makePartner2 () {
+        for (i in 0...partner2.items.length) {
             if (Run.inst.roster[i] != null) {
-                bottomGuy.items[i].button.disabled = false;
-                bottomGuy.items[i].icon.dna = Run.inst.roster[i];
+                partner2.items[i].button.disabled = false;
+                partner2.items[i].icon.dna = Run.inst.roster[i];
             } else {
-                bottomGuy.items[i].button.disabled = true;
-                bottomGuy.items[i].icon.dna = null;
+                partner2.items[i].button.disabled = true;
+                partner2.items[i].icon.dna = null;
             }
         }
     }
