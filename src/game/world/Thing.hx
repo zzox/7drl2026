@@ -19,7 +19,7 @@ typedef Thing = {
 }
 
 final thingData:Map<ThingType, { moves:Bool, damage:Int }> = [
-    TPierce => { moves: false, damage: 0, },
+    TPierce => { moves: false, damage: 0 },
     TPunch => { moves: false, damage: 10 },
     TSpit => { moves: true, damage: 3 }
 ];

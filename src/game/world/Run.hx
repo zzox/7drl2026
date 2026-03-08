@@ -144,6 +144,43 @@ class R {
         day++;
     }
 
+    public function sell (guy:Dna) {
+        roster = roster.filter(g -> g != guy);
+        money += sellMoney(guy);
+    }
+
+    public function mix (guy:Dna) {
+        if (mixMoney(guy) > money) {
+            throw 'No money';
+        }
+
+        shuffle(guy.genes, rand);
+        guy.rad += 1;
+        money -= mixMoney(guy);
+    }
+
+    public function mutate (guy:Dna) {
+        if (mutateMoney(guy) > money) {
+            throw 'No money';
+        }
+
+        guy.genes[randomInt(guy.genes.length)] = randomItem(mutItems);
+        guy.rad += 3;
+        money -= mutateMoney(guy);
+    }
+
+    public function sellMoney (guy:Dna):Int {
+        return Lambda.fold(guy.genes, (item, res) -> res + genePrices.get(item), 0);
+    }
+
+    public function mixMoney (guy:Dna):Int {
+        return Math.floor(Lambda.fold(guy.genes, (item, res) -> res + genePrices.get(item), 0) / 2);
+    }
+
+    public function mutateMoney (guy:Dna):Int {
+        return Lambda.fold(guy.genes, (item, res) -> res + genePrices.get(item), 0) * 2;
+    }
+
     public function establishRun () {
         order = world.geneCopies.copy();
         world = null;

@@ -3,6 +3,7 @@ package game.scenes;
 import core.Game;
 import core.scene.Scene;
 import game.ui.GeneSelectWindow.GuyIcon;
+import game.ui.NumColumn;
 import game.ui.UiText;
 import game.world.Run;
 
@@ -57,7 +58,7 @@ class BattleResultsScene extends ButtonScene {
 
         if (result == Win) {
             time += delta;
-            guy.y = Math.floor(time / 6) % 2 == 0 ? 48 : 64;
+            guy.y = Math.floor(time / 2) % 2 == 0 ? 48 : 64;
         }
     }
 

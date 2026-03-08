@@ -19,6 +19,22 @@ enum abstract Gene(Int) to Int {
     var Deflect = 9;
 }
 
+final genePrices:Map<Gene, Int> = [
+    None => 0,
+    Forward => 3,
+    Back => 2,
+    TurnTo => 3,
+    TurnAway => 2,
+
+    // Attack Types
+    Pierce => 12,
+    Punch => 12,
+    Spit => 8,
+
+    Kiss => 10,
+    Deflect => 10
+];
+
 final mutItems = [Pierce, Punch, Spit];
 
 typedef DId = Int;
@@ -135,17 +151,17 @@ function combineDna (dad1:Dna, dad2:Dna, mutRate:Float, offspring:Int):Array<Dna
             genes.push(item);
         }
 
-        if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
-            genes.push(genes.shift());
-        }
+        // if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
+        //     genes.push(genes.shift());
+        // }
 
-        if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
-            genes.push(genes.shift());
-        }
+        // if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
+        //     genes.push(genes.shift());
+        // }
 
-        if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
-            genes.push(genes.shift());
-        }
+        // if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
+        //     genes.push(genes.shift());
+        // }
 
         final hp = if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
             Math.round((dad1.hp + dad2.hp) / 2) - Run.inst.randomInt(15) + 5;

@@ -45,7 +45,7 @@ class PreBattleScene extends UiScene {
             game.changeScene(new BattleScene());
         });
 
-        skipButton = makeUiTextButton(120, 64, 40, 16, 16, 'SKIP', () -> {
+        skipButton = makeUiTextButton(124, 64, 40, 16, 16, 'SKIP', () -> {
             Run.inst.skipNext();
             game.changeScene(new PreBattleScene());
         });
