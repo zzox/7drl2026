@@ -62,13 +62,13 @@ class RosterScene extends UiScene {
         });
 
         mixButton = makeUiTextButton(124, 124, 40, 16, 16, 'MIXX', () -> {
-            Run.inst.mix(chooseGuy.selected);
-            game.changeScene(new RosterScene());
+            Run.inst.doMix(chooseGuy.selected);
+            game.changeScene(new MixScene());
         });
 
         mutateButton = makeUiTextButton(208, 124, 40, 16, 16, 'MTXT', () -> {
-            Run.inst.mutate(chooseGuy.selected);
-            game.changeScene(new RosterScene());
+            Run.inst.doMutate(chooseGuy.selected);
+            game.changeScene(new MutationScene());
         });
 
         sellButton.disabled = true;

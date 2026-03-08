@@ -40,6 +40,8 @@ class R {
     public var world:World;
     public var room:Null<Room>;
     public var nursery:Nursery;
+    public var mix:Null<Mix>;
+    public var mutation:Null<Mutation>;
 
     public var day:Int = 0;
     public var money:Int = 100;
@@ -149,24 +151,32 @@ class R {
         money += sellMoney(guy);
     }
 
-    public function mix (guy:Dna) {
+    public function doMix (guy:Dna) {
         if (mixMoney(guy) > money) {
             throw 'No money';
         }
 
-        shuffle(guy.genes, rand);
-        guy.rad += 1;
+        mix = new Mix(guy);
         money -= mixMoney(guy);
     }
 
-    public function mutate (guy:Dna) {
+    public function doMutate (guy:Dna) {
         if (mutateMoney(guy) > money) {
             throw 'No money';
         }
 
-        guy.genes[randomInt(guy.genes.length)] = randomItem(mutItems);
-        guy.rad += 3;
+        mutation = new Mutation(guy);
         money -= mutateMoney(guy);
+    }
+
+    public function handleMix () {
+        mix.guy.genes = mix.value;
+        mix.guy.rad += 1;
+    }
+
+    public function handleMutate () {
+        mutation.guy.genes = mutation.value;
+        mutation.guy.rad += 3;
     }
 
     public function sellMoney (guy:Dna):Int {
