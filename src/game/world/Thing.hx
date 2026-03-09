@@ -23,9 +23,9 @@ typedef Thing = {
 final thingData:Map<ThingType, { moves:Bool, damage:Int }> = [
     TPierce => { moves: false, damage: 0 },
     TPunch => { moves: false, damage: 10 },
-    TSpit => { moves: true, damage: 3 },
+    TSpit => { moves: true, damage: 5 },
     THeart => { moves: false, damage: 0 },
-    TDeflect => { moves: false, damage: 0 },
+    TDeflect => { moves: false, damage: 3 },
 ];
 
 function getThingType (gene:Gene):ThingType {

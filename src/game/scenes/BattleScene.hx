@@ -3,6 +3,7 @@ package game.scenes;
 import core.Game;
 import core.Types;
 import core.gameobjects.BitmapText;
+import game.ui.GeneSelectWindow.GuyIcon;
 import game.ui.GenesDisplay;
 import game.ui.NumColumn;
 import game.ui.RoomRender;
@@ -36,6 +37,8 @@ class BattleScene extends ButtonScene {
 
     var stepText:BitmapText;
     // var winsText:BitmapText;
+    var guy1:GuyIcon;
+    var guy2:GuyIcon;
     var char1:NumColumn;
     var char2:NumColumn;
     var genes1:GenesDisplay;
@@ -61,18 +64,41 @@ class BattleScene extends ButtonScene {
     override function create () {
         super.create();
 
-        entities.push(stepText = makeBitmapText(160, 16, 'Steps: 0'));
+        final p1 = Run.inst.room.actors[0];
+        final p2 = Run.inst.room.actors[1];
 
-        entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
-        entities.push(char2 = new NumColumn(240, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
+        // entities.push(stepText = makeBitmapText(160, 16, 'Steps: 0'));
 
-        entities.push(genes1 = new GenesDisplay(16, 108, Run.inst.room.actors[0].dna.genes));
-        entities.push(genes2 = new GenesDisplay(230, 108, Run.inst.room.actors[1].dna.genes));
+        entities.push(guy1 = new GuyIcon(16, 72));
+        entities.push(guy2 = new GuyIcon(240, 24));
+
+        final name1 = p1.dna.name.split(' ');
+        final name2 = p2.dna.name.split(' ');
+
+        entities.push(makeBitmapText(32, 66, name1[0]));
+        entities.push(makeBitmapText(32, 76, name1[1]));
+
+        entities.push(makeBitmapText(256, 22, name2[0]));
+        entities.push(makeBitmapText(256, 32, name2[1]));
+
+        guy1.dna = p1.dna;
+        guy2.dna = p2.dna;
+
+// #if debug
+//         entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
+//         entities.push(char2 = new NumColumn(240, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
+// #else
+        entities.push(char1 = new NumColumn(24, 72, 60, ['hp'], 10));
+        entities.push(char2 = new NumColumn(240, 48, 60, ['hp'], 10));
+// #end
+
+        entities.push(genes1 = new GenesDisplay(20, 116, p1.dna.genes));
+        entities.push(genes2 = new GenesDisplay(240, 84, p1.dna.genes));
 
         speed1 = new UiElement(100, 16, 16, 16, 4, 4, 12, 12, 16, 16, 48, Assets.images.ui, () -> { setSpeed(0); });
         speed2 = new UiElement(116, 16, 16, 16, 4, 4, 12, 12, 16, 16, 52, Assets.images.ui, () -> { setSpeed(1); });
         speed3 = new UiElement(132, 16, 16, 16, 4, 4, 12, 12, 16, 16, 56, Assets.images.ui, () -> { setSpeed(2); });
-        speed4 = new UiElement(148, 16, 16, 16, 4, 4, 12, 12, 16, 16, 56, Assets.images.ui, () -> { setSpeed(3); });
+        speed4 = new UiElement(148, 16, 16, 16, 4, 4, 12, 12, 16, 16, 60, Assets.images.ui, () -> { setSpeed(3); });
 
         entities.push(speed1);
         entities.push(speed2);
@@ -84,7 +110,9 @@ class BattleScene extends ButtonScene {
         buttons.push(speed3);
         buttons.push(speed4);
 
-        Game.bgScene.set(1);
+        // Game.bgScene.set(1);
+
+        setSpeed(1);
 
 #if debug
         for (i in 0...8) {
@@ -132,7 +160,7 @@ class BattleScene extends ButtonScene {
                 updateParticles();
                 final dead = room.checkDead();
                 if (dead > 0) {
-                    if (dead == 2) throw 'Both Dead';
+                    // if (dead == 2) throw 'Both Dead';
                     gameOver(true);
                     break;
                 }
@@ -154,18 +182,18 @@ class BattleScene extends ButtonScene {
             }
         }
 
-        stepText.setText('Steps: ${room.steps}');
+        // stepText.setText('Steps: ${room.steps}');
 
         char1.setStringItem('hp', '${room.actors[0].hp}/${room.actors[0].dna.hp}');
-        char1.setItem('rad', room.actors[0].dna.rad);
-        char1.setItem('dindex', room.actors[0].dnaIndex);
-        char1.setStringItem('p', '${room.actors[0].x},${room.actors[0].y},${room.actors[0].facing}');
-        char1.setItem('id', room.actors[0].dna.id);
+        // char1.setItem('rad', room.actors[0].dna.rad);
+        // char1.setItem('dindex', room.actors[0].dnaIndex);
+        // char1.setStringItem('p', '${room.actors[0].x},${room.actors[0].y},${room.actors[0].facing}');
+        // char1.setItem('id', room.actors[0].dna.id);
         char2.setStringItem('hp', '${room.actors[1].hp}/${room.actors[1].dna.hp}');
-        char2.setItem('rad', room.actors[1].dna.rad);
-        char2.setItem('dindex', room.actors[1].dnaIndex);
-        char2.setStringItem('p', '${room.actors[1].x},${room.actors[1].y},${room.actors[1].facing}');
-        char2.setItem('id', room.actors[1].dna.id);
+        // char2.setItem('rad', room.actors[1].dna.rad);
+        // char2.setItem('dindex', room.actors[1].dnaIndex);
+        // char2.setStringItem('p', '${room.actors[1].x},${room.actors[1].y},${room.actors[1].facing}');
+        // char2.setItem('id', room.actors[1].dna.id);
 
         genes1.dIndex = room.actors[0].dnaIndex;
         genes2.dIndex = room.actors[1].dnaIndex;
@@ -246,8 +274,14 @@ class BattleScene extends ButtonScene {
             if (e.type == ThingEnd) {
                 particles.push({ tile: 176 + e.thingType, x: e.x, y: e.y, dir: e.dir, time: 1 });
             }
-            if (e.type == Damage) {
+            if (e.type == Damage && e.amount != 0) {
                 particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 2, color: 0xffb4202a });
+            }
+            if (e.type == Gene && e.gene != None) {
+
+            }
+            if (e.type == Heart) {
+                particles.push({ tile: 175, x: e.x, y: e.y, dir: e.dir, time: 1 });
             }
         }
     }

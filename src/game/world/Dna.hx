@@ -189,7 +189,7 @@ function combineDna (dad1:Dna, dad2:Dna, mutRate:Float, offspring:Int):Array<Dna
         // }
 
         final hp = if (Run.inst.rand.GetFloat() < 0.01 * mutRate) {
-            Math.round((dad1.hp + dad2.hp) / 2) - Run.inst.randomInt(15) + 5;
+            Math.round((dad1.hp + dad2.hp) / 2) - Run.inst.randomInt(10) + 5;
         } else {
             Math.round((dad1.hp + dad2.hp) / 2);
         }

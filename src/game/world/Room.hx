@@ -93,12 +93,12 @@ class Room {
                         tt.alive = false;
                     } else if (tt.type == TPunch && t.type == TSpit) {
                         t.alive = false;
-                    } else if (t.type == TDeflect) {
+                    } else if (t.type == TDeflect && tt.type == TSpit) {
                         // trace('deflecting');
                         tt.facing = calculateFacing(tt.facing, 2);
                         getLaunchX(tt.x, tt.facing);
                         getLaunchY(tt.y, tt.facing);
-                    } else if (tt.type == TDeflect) {
+                    } else if (tt.type == TDeflect && t.type == TSpit) {
                         t.facing = calculateFacing(t.facing, 2);
                         getLaunchX(t.x, t.facing);
                         getLaunchY(t.y, t.facing);

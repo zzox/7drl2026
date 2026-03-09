@@ -121,8 +121,10 @@ class GenScene extends ButtonScene {
         for (i in 0...Run.inst.world.geneCopies.length) {
             final gene = Run.inst.world.geneCopies[i];
             // entities.push(makeBitmapText(4, 76 + 10 * i, i + ''));
-            entities.push(new GenesDisplay(12, 20 + 10 * i, gene.genes, 24));
+            entities.push(new GenesDisplay(12 + i * 2, 20 + 10 * i, gene.genes, 24));
+#if debug
             entities.push(makeBitmapText(204, 16 + 10 * i, 'hp: ${gene.hp}, rad: ${gene.rad}'));
+#end
         }
     }
 
