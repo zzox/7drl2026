@@ -2,7 +2,6 @@ package game.ui;
 
 import core.gameobjects.BitmapText;
 import core.util.BitmapFont;
-import game.scenes.OldUiScene;
 import kha.Assets;
 
 class UiText {
@@ -39,16 +38,10 @@ function makeBitmapText (posX:Int, posY:Int, text:String = '', color:Int = 0xfff
     return bmpTxt;
 }
 
-function makeSmallText (posX:Int, posY:Int, text:String = ''):BitmapText {
-    final text = new BitmapText(posX, posY, Assets.images.cards_text_outline, UiText.smallFont, text);
-    text.setScrollFactor(0, 0);
-    return text;
-}
-
 function makeWhiteText (str:String = '') {
-    return makeBitmapText(0, 0, str, OldUiScene.White);
+    return makeBitmapText(0, 0, str, 0xffffff);
 }
 
 function makeBlackText (str:String = '') {
-    return makeBitmapText(0, 0, str, OldUiScene.Black);
+    return makeBitmapText(0, 0, str, 0x000000);
 }

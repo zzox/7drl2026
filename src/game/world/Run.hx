@@ -1,7 +1,6 @@
 package game.world;
 
 import core.util.Util;
-import game.data.Stats;
 import game.world.Dna;
 import haxe.Json;
 import kha.math.Random;

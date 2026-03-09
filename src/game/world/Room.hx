@@ -2,7 +2,6 @@ package game.world;
 
 import core.Types;
 import core.util.Util;
-import game.data.Stats;
 import game.util.Utils;
 import game.world.Actor;
 import game.world.Dna.Gene;
@@ -49,8 +48,6 @@ class Room {
     public var lights:Grid<Float>;
     var startGrid:Grid<Int>;
 
-    public var stats:Stats;
-
     var events:Array<RoomEvent> = [];
 
     public function new (dna1:Dna, dna2:Dna) {
@@ -60,8 +57,6 @@ class Room {
         grid = mapGI(grid, (x, y, item) -> {
             return indexDiff(x, y, Run.inst.placeRand.GetFloat);
         });
-
-        stats = newEmptyStats();
 
         actors.push(new Actor(dna1, 0));
         actors.push(new Actor(dna2, 1));
