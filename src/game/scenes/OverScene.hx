@@ -33,7 +33,7 @@ class OverScene extends ButtonScene {
 
         timers.addTimer(2.0, () -> {
             final subText = makeBitmapText(0, 44, subMessage, 0xb3b9d1);
-            subText.setPosition(160 - Math.floor(subText.textWidth / 2), text.y);
+            subText.setPosition(160 - Math.floor(subText.textWidth / 2), subText.y);
             entities.push(subText);
         });
 

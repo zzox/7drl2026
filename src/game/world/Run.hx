@@ -55,6 +55,7 @@ class R {
     public var graveyard:Array<Dna> = [];
     public var order:Array<Dna> = [];
     public var defeated:Array<Dna> = [];
+    public var skipped:Array<Dna> = [];
 
     public function new (?startSeed:Int) {
         // final ttt = Timer.stamp();
@@ -91,7 +92,7 @@ class R {
 
     public function skipNext () {
         final dollars = skipNextMoney();
-        defeated.push(order.shift());
+        skipped.push(order.shift());
         money -= dollars;
         skips++;
 
@@ -105,7 +106,8 @@ class R {
     }
 
     public function rewardMoney () {
-        return Std.int(100 + defeated.length * defeated.length * 5);
+        final past = defeated.length + skipped.length;
+        return Std.int(100 + past * past * 5);
     }
 
     public function makeRoom (dna1:Dna, dna2:Dna) {

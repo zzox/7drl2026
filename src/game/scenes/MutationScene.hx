@@ -4,8 +4,10 @@ import core.util.Util;
 import game.ui.GeneSelectWindow;
 import game.ui.GenesDisplay;
 import game.ui.UiText;
+import game.util.Player;
 import game.world.Dna.mutItems;
 import game.world.Run;
+import kha.Assets;
 
 class MutationScene extends ButtonScene {
     var gd:GenesDisplay;
@@ -35,9 +37,11 @@ class MutationScene extends ButtonScene {
                 timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {
                     gd.dIndex = Run.inst.mutation.index;
                     startShuffle();
+                    Player.playSound(Assets.sounds.sons_fx_bonus2, 0.1);
                 });
             } else {
                 timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {
+                    Player.playSound(Assets.sounds.sons_fx_bonus3, 0.07);
                     gd.dIndex = Run.inst.placeRand.GetUpTo(23);
                 });
             }
@@ -49,10 +53,12 @@ class MutationScene extends ButtonScene {
             if (i == 7) {
                 timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {
                     gd.genes[Run.inst.mutation.index] = Run.inst.mutation.gene;
+                    Player.playSound(Assets.sounds.sons_fx_bonus2, 0.1);
                 });
             } else {
                 timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {
                     // ATTN: Math.random here. it's fine
+                    Player.playSound(Assets.sounds.sons_fx_bonus3, 0.07);
                     gd.genes[Run.inst.mutation.index] = mutItems[Math.floor(Math.random() * mutItems.length)];
                 });
             }

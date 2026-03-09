@@ -276,9 +276,14 @@ class BattleScene extends ButtonScene {
             }
             if (e.type == Damage && e.amount != 0) {
                 particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 2, color: 0xffb4202a });
+                if (roomSpeed >= 2) {
+                    Player.playSound(Assets.sounds.sons_fx_fast3, 0.05);
+                } else {
+                    Player.playSound(Assets.sounds.sons_noise3, 0.1);
+                }
             }
-            if (e.type == Gene && e.gene != None) {
-                
+            if (e.type == Gene && e.gene != None && roomSpeed < 2) {
+                Player.playSound(Assets.sounds.sons_fx_bonus3, 0.025);
             }
             if (e.type == Heart) {
                 particles.push({ tile: 175, x: e.x, y: e.y, dir: e.dir, time: 2 });

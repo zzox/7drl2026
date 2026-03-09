@@ -7,7 +7,10 @@ import game.ui.GeneSyncDisplay;
 import game.ui.GenesDisplay;
 import game.ui.UiElement;
 import game.ui.UiText;
+import game.util.Player;
+import game.world.Dna.mutItems;
 import game.world.Run;
+import kha.Assets;
 
 class NurseryScene extends ButtonScene {
     var p1:GuyIcon;
@@ -74,6 +77,15 @@ class NurseryScene extends ButtonScene {
                 for (j in 0...child.genes.length) {
                     timers.addTimer(j * IncTime, () -> {
                         displayItems[i].gd.genes = child.genes.slice(0, j);
+
+                        if (j >= 0 && mutItems.contains(child.genes[j - 1])) {
+                            Player.playSound(Assets.sounds.sons_fx2, 0.05);
+                            timers.addTimer(0.1, () -> {
+                                Player.playSound(Assets.sounds.sons_fx1, 0.05);
+                            });
+                        } else if (j > 0 && child.genes[j - 1] != None) {
+                            Player.playSound(Assets.sounds.sons_noise3, 0.05);
+                        }
 
                         if (j == child.genes.length - 1) {
                             displayItems[i].name.visible = true;

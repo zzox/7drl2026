@@ -142,11 +142,11 @@ function makeRandomGenes ():Array<Gene> {
             dna.push(Spit);
         } else if (rand < 0.09) {
             dna.push(Forward);
-        } else if (rand < 0.15) {
+        } else if (rand < 0.13) {
             dna.push(Back);
-        } else if (rand < 0.22) {
+        } else if (rand < 0.20) {
             dna.push(TurnTo);
-        } else if (rand < 0.25) {
+        } else if (rand < 0.23) {
             dna.push(TurnAway);
         } else {
             dna.push(None);

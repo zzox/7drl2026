@@ -4,7 +4,9 @@ import core.util.Util;
 import game.ui.GeneSelectWindow;
 import game.ui.GenesDisplay;
 import game.ui.UiText;
+import game.util.Player;
 import game.world.Run;
+import kha.Assets;
 
 class MixScene extends ButtonScene {
     override function create () {
@@ -33,12 +35,14 @@ class MixScene extends ButtonScene {
                     gd.genes = Run.inst.mix.value;
                     // WARN:
                     guy.dna.body = Run.inst.placeRand.GetUpTo(7);
+                    Player.playSound(Assets.sounds.sons_fx_bonus2, 0.1);
                 });
             } else {
                 timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {
                     shuffle(gd.genes, Run.inst.placeRand);
                     // WARN:
                     guy.dna.body = Run.inst.placeRand.GetUpTo(7);
+                    Player.playSound(Assets.sounds.sons_fx_bonus3, 0.07);
                 });
             }
         }
