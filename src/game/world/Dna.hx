@@ -56,6 +56,9 @@ class Dna {
 
     public var genes:Array<Gene>;
 
+    public var docile:Bool = true;
+    public var coward:Bool;
+
     public function new (?genes:Array<Gene>, ?generation:Int = 0, ?hp:Null<Int>) {
         id = curId++;
         name = makeName();
@@ -71,6 +74,29 @@ class Dna {
 
         body = Run.inst.rand.GetUpTo(7);
         eyes = Run.inst.rand.GetUpTo(7);
+
+        var forwards = 0;
+        var tos = 0;
+        for (g in this.genes) {
+            if (mutItems.contains(g)) {
+                docile = false;
+            }
+
+            if (g == Forward) {
+                forwards++;
+            }
+            if (g == Back) {
+                forwards--;
+            }
+            if (g == TurnTo) {
+                tos++;
+            }
+            if (g == TurnAway) {
+                tos--;
+            }
+        }
+
+        coward = forwards < 0 || tos < 0;
     }
 }
 

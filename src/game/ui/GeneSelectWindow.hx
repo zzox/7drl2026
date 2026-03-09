@@ -3,6 +3,7 @@ package game.ui;
 import core.Game;
 import core.gameobjects.BitmapText;
 import core.gameobjects.GameObject;
+import core.gameobjects.Sprite;
 import core.scene.Scene;
 import core.system.Camera;
 import core.util.Util;
@@ -56,6 +57,9 @@ class GeneSelectWindow {
     public var winText:BitmapText;
     public var genText:BitmapText;
 
+    var docile:Sprite;
+    var coward:Sprite;
+
     public var page:Int = 0;
 
     public var genes:GenesDisplay;
@@ -83,6 +87,16 @@ class GeneSelectWindow {
         winText = addUpChild(80, 6, makeWhiteText(''));
         genText = addUpChild(80, 16, makeWhiteText(''));
         nameText = addUpChild(0, 10, makeWhiteText(''));
+
+        docile = new Sprite(0, 0, Assets.images.ui, 32, 8);
+        docile.tileIndex = 36;
+        docile.visible = false;
+        addUpChild(132, 10, docile);
+
+        coward = new Sprite(0, 0, Assets.images.ui, 32, 8);
+        coward.tileIndex = 37;
+        coward.visible = false;
+        addUpChild(132, 20, coward);
 
         genes = addUpChild(16, 28, new GenesDisplay(0, 0, [], 24));
 
@@ -152,6 +166,9 @@ class GeneSelectWindow {
         nameText.setText(item.name);
         final child = oChildren.filter(o -> o.el == nameText)[0];
         child.x = 256 - nameText.textWidth;
+
+        docile.visible = item.docile;
+        coward.visible = item.coward;
 
         genes.genes = item.genes;
 
