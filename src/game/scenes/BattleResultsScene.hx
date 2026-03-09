@@ -1,10 +1,8 @@
 package game.scenes;
 
-import core.Game;
-import core.scene.Scene;
 import game.ui.GeneSelectWindow.GuyIcon;
-import game.ui.NumColumn;
 import game.ui.UiText;
+import game.util.TextUtil;
 import game.world.Run;
 
 enum Result {
@@ -32,6 +30,15 @@ class BattleResultsScene extends ButtonScene {
             if (Run.inst.room.actors[1].hp <= 0) {
                 message = 'won';
                 result = Win;
+
+                // since the room isn't handled yet we're calculating it here
+                entities.push(makeBitmapText(148, 84, '+${TextUtil.formatMoney(Run.inst.rewardMoney())}', 0x59c135));
+                entities.push(makeBitmapText(140, 94, 'HP: ${Run.inst.room.actors[0].dna.hp - Run.inst.room.actors[0].dna.rad}'));
+                if (Run.inst.room.actors[0].dna.rad > 0) {
+                    entities.push(makeBitmapText(180, 94, '-${Run.inst.room.actors[0].dna.rad}', 0xb4202a));
+                }
+                entities.push(makeBitmapText(140, 104, 'Rad: ${Run.inst.room.actors[0].dna.rad + 1}'));
+                entities.push(makeBitmapText(180, 104, '+1', 0xb4202a));
             } else {
                 message = 'survived';
                 result = Tie;
@@ -46,7 +53,7 @@ class BattleResultsScene extends ButtonScene {
         entities.push(text);
         entities.push(guy);
 
-        buttons.push(makeUiTextButton(140, 100, 40, 16, 16, 'NEXT', () -> {
+        buttons.push(makeUiTextButton(140, 128, 40, 16, 16, 'NEXT', () -> {
             launchNextScene();
         }));
 
@@ -64,7 +71,9 @@ class BattleResultsScene extends ButtonScene {
 
     public function launchNextScene () {
         Run.inst.handleRoom();
-        if (Run.inst.roster.length == 0) {
+        if (Run.inst.order.length == 0) {
+            game.changeScene(new OverScene(true));
+        } else if (Run.inst.roster.length == 0) {
             game.changeScene(new OverScene(false));
         } else {
             game.changeScene(new PreBattleScene());

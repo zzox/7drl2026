@@ -88,12 +88,12 @@ class BattleScene extends ButtonScene {
 //         entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
 //         entities.push(char2 = new NumColumn(240, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
 // #else
-        entities.push(char1 = new NumColumn(24, 72, 60, ['hp'], 10));
+        entities.push(char1 = new NumColumn(20, 92, 60, ['hp'], 10));
         entities.push(char2 = new NumColumn(240, 48, 60, ['hp'], 10));
 // #end
 
         entities.push(genes1 = new GenesDisplay(20, 116, p1.dna.genes));
-        entities.push(genes2 = new GenesDisplay(240, 84, p1.dna.genes));
+        entities.push(genes2 = new GenesDisplay(240, 72, p2.dna.genes));
 
         speed1 = new UiElement(100, 16, 16, 16, 4, 4, 12, 12, 16, 16, 48, Assets.images.ui, () -> { setSpeed(0); });
         speed2 = new UiElement(116, 16, 16, 16, 4, 4, 12, 12, 16, 16, 52, Assets.images.ui, () -> { setSpeed(1); });
@@ -184,12 +184,12 @@ class BattleScene extends ButtonScene {
 
         // stepText.setText('Steps: ${room.steps}');
 
-        char1.setStringItem('hp', '${room.actors[0].hp}/${room.actors[0].dna.hp}');
+        char1.setStringItem('hp', '${Math.max(room.actors[0].hp, 0)}/${room.actors[0].dna.hp}');
         // char1.setItem('rad', room.actors[0].dna.rad);
         // char1.setItem('dindex', room.actors[0].dnaIndex);
         // char1.setStringItem('p', '${room.actors[0].x},${room.actors[0].y},${room.actors[0].facing}');
         // char1.setItem('id', room.actors[0].dna.id);
-        char2.setStringItem('hp', '${room.actors[1].hp}/${room.actors[1].dna.hp}');
+        char2.setStringItem('hp', '${Math.max(room.actors[1].hp, 0)}/${room.actors[1].dna.hp}');
         // char2.setItem('rad', room.actors[1].dna.rad);
         // char2.setItem('dindex', room.actors[1].dnaIndex);
         // char2.setStringItem('p', '${room.actors[1].x},${room.actors[1].y},${room.actors[1].facing}');

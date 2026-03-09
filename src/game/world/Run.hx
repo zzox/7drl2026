@@ -74,7 +74,7 @@ class R {
         final adam = new Dna();
         final steve = new Dna();
 
-        roster = combineDna(adam, steve, 5, 4);
+        roster = combineDna(adam, steve, 50, 4);
 
         world = new World();
         order = world.geneCopies;
@@ -126,6 +126,8 @@ class R {
 
         if (room.actors[1].hp <= 0) {
             room.actors[0].dna.wins++;
+            room.actors[0].dna.hp = Std.int(Math.max(1, room.actors[0].dna.hp - room.actors[0].dna.rad));
+            room.actors[0].dna.rad++;
             money += rewardMoney();
             defeated.push(order.shift());
             wins++;
@@ -187,7 +189,8 @@ class R {
     }
 
     public function sellMoney (guy:Dna):Int {
-        return Lambda.fold(guy.genes, (item, res) -> res + genePrices.get(item), 0);
+        final genesMoney = Lambda.fold(guy.genes, (item, res) -> res + genePrices.get(item), 0);
+        return Std.int(Math.max(genesMoney - guy.rad * 3, 0));
     }
 
     public function mixMoney (guy:Dna):Int {

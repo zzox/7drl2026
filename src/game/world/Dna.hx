@@ -146,7 +146,7 @@ function makeRandomGenes ():Array<Gene> {
             dna.push(Back);
         } else if (rand < 0.22) {
             dna.push(TurnTo);
-        } else if (rand < 0.26) {
+        } else if (rand < 0.25) {
             dna.push(TurnAway);
         } else {
             dna.push(None);
