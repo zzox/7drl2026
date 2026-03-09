@@ -57,6 +57,9 @@ class BattleScene extends ButtonScene {
     var selectedActor:Null<Actor>;
     var selectedThing:Null<Thing>;
 
+    // HACK;
+    var speed:Int = 1;
+
 #if debug
     public var devTexts:Array<BitmapText> = [];
 #end
@@ -276,14 +279,14 @@ class BattleScene extends ButtonScene {
             }
             if (e.type == Damage && e.amount != 0) {
                 particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 2, color: 0xffb4202a });
-                if (roomSpeed >= 2) {
+                if (speed >= 2) {
                     Player.playSound(Assets.sounds.sons_fx_fast3, 0.05);
                 } else {
                     Player.playSound(Assets.sounds.sons_noise3, 0.1);
                 }
             }
-            if (e.type == Gene && e.gene != None && roomSpeed < 2) {
-                Player.playSound(Assets.sounds.sons_fx_bonus3, 0.025);
+            if (e.type == Gene && e.gene != None && speed < 2) {
+                Player.playSound(Assets.sounds.sons_fx_bonus3, 0.015);
             }
             if (e.type == Heart) {
                 particles.push({ tile: 175, x: e.x, y: e.y, dir: e.dir, time: 2 });
@@ -300,6 +303,7 @@ class BattleScene extends ButtonScene {
         speed2.disabled = false;
         speed3.disabled = false;
         speed4.disabled = false;
+        this.speed = speed;
 
         if (speed == 0) {
             speed1.disabled = true;

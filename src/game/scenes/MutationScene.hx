@@ -15,7 +15,7 @@ class MutationScene extends ButtonScene {
     override function create () {
         super.create();
 
-        final text = makeBitmapText(0, 32, 'Mixing up ${Run.inst.mutation.guy.name}');
+        final text = makeBitmapText(0, 32, 'Mutating ${Run.inst.mutation.guy.name}');
         text.x = 160 - Math.floor(text.textWidth / 2);
         entities.push(text);
 

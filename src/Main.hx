@@ -1,5 +1,5 @@
 import core.Game;
-import game.scenes.MenuScene;
+import game.scenes.ClickFocusScene;
 
 // import game.scenes.SpeedScene;
 
@@ -26,7 +26,7 @@ class Main {
             '7drl2026',
             1280, 720,
             PixelPerfect,
-            new MenuScene(),
+            new ClickFocusScene(),
             320, 180,
         );
 #end

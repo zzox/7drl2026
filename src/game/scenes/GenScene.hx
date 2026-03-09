@@ -45,7 +45,7 @@ class GenScene extends ButtonScene {
             showGenes();
         });
         for (i in 0...16) {
-            timers.addTimer(3 + (i * 0.6) * 1.1, () -> {
+            timers.addTimer(1.5 + (i * 0.3) * 1.1, () -> {
                 Run.inst.world.gen();
                 Run.inst.world.cull();
                 showGenes();

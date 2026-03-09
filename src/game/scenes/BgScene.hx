@@ -125,7 +125,7 @@ class BgScene extends Scene {
             }
         }
 
-        trace('setting', index);
+        // trace('setting', index);
     }
 
     public var invisible:Bool = false;

@@ -84,7 +84,7 @@ class NurseryScene extends ButtonScene {
                                 Player.playSound(Assets.sounds.sons_fx1, 0.05);
                             });
                         } else if (j > 0 && child.genes[j - 1] != None) {
-                            Player.playSound(Assets.sounds.sons_noise3, 0.05);
+                            Player.playSound(Assets.sounds.sons_noise3, 0.02);
                         }
 
                         if (j == child.genes.length - 1) {

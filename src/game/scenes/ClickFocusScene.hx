@@ -6,7 +6,7 @@ import game.ui.GenesDisplay;
 import game.ui.UiText;
 import game.world.Run;
 
-class NurseryScene extends ButtonScene {
+class ClickFocusScene extends ButtonScene {
     override function create () {
         super.create();
         new UiText();

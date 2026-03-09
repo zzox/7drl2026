@@ -424,7 +424,7 @@ class Room {
 
     inline function addEvent (type:RoomEventType, /* ?actor:Actor, */ ?amount:Int, ?x:Int, ?y:Int, ?thingType:ThingType, ?dir:RotationDir, ?gene:Gene) {
 #if !harness
-        events.push({ type: type, /*actor: actor,*/ amount: amount, x: x, y: y, thingType: thingType, dir: dir });
+        events.push({ type: type, /*actor: actor,*/ amount: amount, x: x, y: y, thingType: thingType, dir: dir, gene: gene });
 #end
     }
 
