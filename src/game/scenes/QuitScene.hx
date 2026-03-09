@@ -16,6 +16,7 @@ class QuitScene extends UiScene {
         final item = makeUiTextButton(140, 92, 40, 16, 16, 'QUIT', () -> {
             game.changeScene(new MenuScene());
         });
+        item.altSound = Assets.sounds.sons_fx2;
         buttons.push(item);
     }
 }

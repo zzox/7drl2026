@@ -124,6 +124,7 @@ class GeneSelectWindow {
                 select(i);
             });
             final icon = new GuyIcon();
+            button.altSound = Assets.sounds.sons_fx_fast3;
 
             addChild(20 + 20 * i, 40, button);
             addUpChild(20 + 20 * i + 2, 40 + 2, icon);

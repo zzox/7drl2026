@@ -1,8 +1,12 @@
 package game.scenes;
 
+import core.Game;
 import core.gameobjects.Sprite;
 import core.scene.Scene;
+import game.util.Player;
 import kha.Assets;
+import kha.Sound;
+import kha.input.KeyCode;
 
 var sets:Array<Array<Int>> = [
     [0x403353, 0x793080, 0xbc409b],
@@ -20,10 +24,31 @@ class BgScene extends Scene {
     public static var rand:kha.math.Random;
     var items:Array<BgItem> = [];
     var onSet:Int = 2;
+    var notes:Array<Sound>;
 
     public function new () {
         super();
         rand = new kha.math.Random(1312);
+
+        notes = [
+            Assets.sounds.sons_note1,
+            Assets.sounds.sons_note2,
+            Assets.sounds.sons_note3,
+            Assets.sounds.sons_note4,
+            Assets.sounds.sons_note5,
+            Assets.sounds.sons_note7,
+            Assets.sounds.sons_note8,
+            Assets.sounds.sons_note9
+        ];
+
+        timers.addTimer(4.0, () -> { playNote(0); });
+        timers.addTimer(8.0, () -> { playNote(1); });
+        timers.addTimer(10.0, () -> { playNote(2); });
+        timers.addTimer(6.0, () -> { playNote(3); });
+        timers.addTimer(12.0, () -> { playNote(4); });
+        timers.addTimer(16.0, () -> { playNote(5); });
+        timers.addTimer(16.0, () -> { playNote(6); });
+        timers.addTimer(16.0, () -> { playNote(7); });
     }
 
     override function create () {
@@ -36,6 +61,28 @@ class BgScene extends Scene {
     }
 
     override function update (delta:Float) {
+        if (Game.keys.justPressed(KeyCode.B)) {
+            if (invisible) {
+                show();
+            } else {
+                clear();
+            }
+        }
+
+        if (Game.keys.justPressed(KeyCode.N)) {
+            Player.sfx = !Player.sfx;
+            if (Player.sfx) {
+                Player.playSound(Assets.sounds.sons_fx1, 0.1);
+            }
+        }
+
+        if (Game.keys.justPressed(KeyCode.M)) {
+            Player.music = !Player.music;
+            if (Player.music) {
+                Player.playSound(Assets.sounds.sons_fx1, 0.1);
+            }
+        }
+
         super.update(delta);
 
         for (i in items) {
@@ -94,6 +141,24 @@ class BgScene extends Scene {
         for (i in items) {
             i.visible = true;
         }
+    }
+
+    final phases = [
+        8.0,
+        8.2,
+        8.7,
+        10.0,
+        11.0,
+        13.0,
+        14.0,
+        18.0,
+    ];
+
+    function playNote (num:Int) {
+        timers.addTimer(phases[num], () -> {
+            Player.playMusic(notes[num], 0.05);
+            playNote(num);
+        });
     }
 }
 

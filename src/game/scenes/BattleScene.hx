@@ -9,6 +9,7 @@ import game.ui.RoomRender;
 import game.ui.UiElement;
 import game.ui.UiText;
 import game.util.Debug;
+import game.util.Player;
 import game.world.Actor;
 import game.world.Room.RoomEvent;
 import game.world.Run;
@@ -132,11 +133,11 @@ class BattleScene extends ButtonScene {
                 final dead = room.checkDead();
                 if (dead > 0) {
                     if (dead == 2) throw 'Both Dead';
-                    gameOver();
+                    gameOver(true);
                     break;
                 }
                 if (room.checkSkip()) {
-                    gameOver();
+                    gameOver(false);
                     break;
                 }
 
@@ -226,12 +227,18 @@ class BattleScene extends ButtonScene {
 #end
     }
 
-    function gameOver () {
+    function gameOver (death:Bool) {
         worldActive = false;
         timers.addTimer(2.0, () -> {
             // TODO: add a "next" button
             game.changeScene(new BattleResultsScene());
         });
+
+        if (death) {
+            Player.playCry();
+        } else {
+            Player.playSound(Assets.sounds.sons_noise2, 0.1);
+        }
     }
 
     function handleEvents (events:Array<RoomEvent>) {

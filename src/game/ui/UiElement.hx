@@ -3,6 +3,8 @@ package game.ui;
 import core.Game;
 import core.gameobjects.NineSlice;
 import core.util.Util;
+import game.util.Player;
+import kha.Assets;
 import kha.Image;
 
 // is this more or less performant than a null check?
@@ -21,6 +23,8 @@ class UiElement extends NineSlice {
 
     public var onClick:Null<UiEvent>;
     // public var onHover:UiEvent;
+
+    public var altSound:Null<kha.Sound>;
 
     public function new (x:Float, y:Float, sizeX:Int, sizeY:Int,
         topLeftX:Int, topLeftY:Int, bottomRightX:Int, bottomRightY:Int,
@@ -44,7 +48,14 @@ class UiElement extends NineSlice {
         if (pointInRect(px, py, x, y, elementSizeX, elementSizeY)) {
             hovered = true;
             if (pressed && Game.mouse.justReleased(0)) {
-                if (onClick != null) onClick();
+                if (onClick != null) {
+                    if (altSound != null) {
+                        Player.playSound(altSound, 0.05);
+                    } else {
+                        Player.playSound(Assets.sounds.sons_fx1, 0.05);
+                    }
+                    onClick();
+                }
             }
 
             if (Game.mouse.justPressed(0)) {

@@ -2,6 +2,7 @@ package game.scenes;
 
 import game.ui.GeneSelectWindow;
 import game.ui.UiText;
+import game.util.Player;
 import game.util.TextUtil;
 import game.world.Run;
 
@@ -26,6 +27,10 @@ class SaleScene extends ButtonScene {
         buttons.push(makeUiTextButton(140, 100, 40, 16, 16, 'NEXT', () -> {
             launchNextScene();
         }));
+
+        timers.addTimer(1.0, () -> {
+            Player.playCry();
+        });
     }
 
     function launchNextScene () {

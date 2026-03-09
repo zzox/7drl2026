@@ -85,7 +85,7 @@ class NurseryScene extends ButtonScene {
                                 name1.visible = false;
                                 name2.visible = false;
 
-                                final nextButton = makeUiTextButton(140, 24, 40, 16, 16, 'NEXT', () -> {
+                                final nextButton = makeUiTextButton(140, 32, 40, 16, 16, 'NEXT', () -> {
                                     Run.inst.handleNursery();
                                     game.changeScene(new SyncScene());
                                 });

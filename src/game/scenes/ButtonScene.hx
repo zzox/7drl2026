@@ -39,14 +39,6 @@ class ButtonScene extends Scene {
             //     hovered = true;
             // }
         }
-
-        if (Game.keys.justPressed(KeyCode.B)) {
-            if (Game.bgScene.invisible) {
-                Game.bgScene.show();
-            } else {
-                Game.bgScene.clear();
-            }
-        }
     }
 
     function makeUiTextButton (x:Int, y:Int, width:Int, height:Int, tileIndex:Int, text:String, callback:Void -> Void):UiElement {
