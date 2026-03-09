@@ -12,7 +12,7 @@ class SaleScene extends ButtonScene {
         super.create();
 
         final text = makeBitmapText(32, 32, '"${Run.inst.sale.guy.name}" sold for ${TextUtil.formatMoney(Run.inst.sellMoney(Run.inst.sale.guy))}');
-        text.x = 180 - Math.floor(text.textWidth / 2);
+        text.x = 160 - Math.floor(text.textWidth / 2);
         entities.push(text);
 
         guy = new GuyIcon(-16, 48);

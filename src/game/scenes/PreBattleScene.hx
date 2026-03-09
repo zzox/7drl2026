@@ -55,9 +55,9 @@ class PreBattleScene extends UiScene {
         buttons.push(skipButton);
 
         // entities.push(makeBitmapText(84, 64, TextUtil.formatMoney(Run.inst.fightNextMoney())));
-        entities.push(makeBitmapText(172, 64, TextUtil.formatMoney(Run.inst.skipNextMoney())));
-        entities.push(makeBitmapText(236, 64, 'RWRD:'));
-        entities.push(makeBitmapText(272, 64, TextUtil.formatMoney(Run.inst.rewardMoney()), 0x59c135));
+        entities.push(makeBitmapText(168, 64, TextUtil.formatMoney(Run.inst.skipNextMoney())));
+        entities.push(makeBitmapText(224, 64, 'RWRD:'));
+        entities.push(makeBitmapText(256, 64, TextUtil.formatMoney(Run.inst.rewardMoney()), 0x59c135));
     }
 
     override function update (delta:Float) {

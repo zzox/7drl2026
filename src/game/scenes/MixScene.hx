@@ -10,8 +10,8 @@ class MixScene extends ButtonScene {
     override function create () {
         super.create();
 
-        final text = makeBitmapText(32, 32, 'Mixing up ${Run.inst.mix.guy.name}');
-        text.x = 180 - Math.floor(text.textWidth / 2);
+        final text = makeBitmapText(0, 32, 'Mixing up ${Run.inst.mix.guy.name}');
+        text.x = 160 - Math.floor(text.textWidth / 2);
         entities.push(text);
 
         final guy = new GuyIcon(152, 48);
@@ -29,14 +29,15 @@ class MixScene extends ButtonScene {
 
         for (i in 0...8) {
             if (i == 7) {
-                timers.addTimer(0.5 + i * 0.3 + i * 0.15, () -> {
+                timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {
                     gd.genes = Run.inst.mix.value;
                     // WARN:
                     guy.dna.body = Run.inst.placeRand.GetUpTo(7);
                 });
             } else {
-                timers.addTimer(0.5 + i * 0.3 + i * 0.15, () -> {
+                timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {
                     shuffle(gd.genes, Run.inst.placeRand);
+                    // WARN:
                     guy.dna.body = Run.inst.placeRand.GetUpTo(7);
                 });
             }
