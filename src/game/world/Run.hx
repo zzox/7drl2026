@@ -74,7 +74,7 @@ class R {
         final adam = new Dna();
         final steve = new Dna();
 
-        roster = combineDna(adam, steve, 50, 4);
+        roster = combineDna(adam, steve, 5, 4);
 
         world = new World();
         order = world.geneCopies;
@@ -95,9 +95,9 @@ class R {
         money -= dollars;
         skips++;
 
-        if (money < 0) {
-            throw 'No Money';
-        }
+        // if (money < 0) {
+        //     throw 'No Money';
+        // }
     }
 
     public function skipNextMoney () {
@@ -105,7 +105,7 @@ class R {
     }
 
     public function rewardMoney () {
-        return Std.int(20 + defeated.length * defeated.length * 2);
+        return Std.int(100 + defeated.length * defeated.length * 5);
     }
 
     public function makeRoom (dna1:Dna, dna2:Dna) {
@@ -114,9 +114,9 @@ class R {
     }
 
     public function handleRoom () {
-        if (!room.checkSkip() && room.checkDead() == 0) {
-            throw 'No result on room?';
-        }
+        // if (!room.checkSkip() && room.checkDead() == 0) {
+        //     throw 'No result on room?';
+        // }
 
         if (room.actors[0].hp <= 0) {
             roster = roster.filter(r -> r != room.actors[0].dna);
@@ -153,18 +153,18 @@ class R {
     }
 
     public function doMix (guy:Dna) {
-        if (mixMoney(guy) > money) {
-            throw 'No money';
-        }
+        // if (mixMoney(guy) > money) {
+        //     throw 'No money';
+        // }
 
         mix = new Mix(guy);
         money -= mixMoney(guy);
     }
 
     public function doMutate (guy:Dna) {
-        if (mutateMoney(guy) > money) {
-            throw 'No money';
-        }
+        // if (mutateMoney(guy) > money) {
+        //     throw 'No money';
+        // }
 
         mutation = new Mutation(guy);
         money -= mutateMoney(guy);

@@ -125,7 +125,7 @@ function generateGenes ():Array<Gene> {
             return genes;
         }
 
-        trace('trying again');
+        // trace('trying again');
     }
 }
 
@@ -157,8 +157,8 @@ function makeRandomGenes ():Array<Gene> {
 }
 
 function combineDna (dad1:Dna, dad2:Dna, mutRate:Float, offspring:Int):Array<Dna> {
-    if (dad1.genes.length != dad2.genes.length) throw 'Inequal DNA length!';
-    if (dad1.id == dad2.id) throw 'Same!';
+    // if (dad1.genes.length != dad2.genes.length) throw 'Inequal DNA length!';
+    // if (dad1.id == dad2.id) throw 'Same!';
 
     final sons = [];
     for (_ in 0...offspring) {

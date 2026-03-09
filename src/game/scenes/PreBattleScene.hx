@@ -18,7 +18,8 @@ class PreBattleScene extends UiScene {
     var skipButton:UiElement;
 
     override function create () {
-        trace(Run.inst.roster);
+        // trace(Run.inst.roster);
+        super.create();
 
         makeTopButtons(0);
 

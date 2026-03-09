@@ -35,7 +35,11 @@ class SaleScene extends ButtonScene {
 
     function launchNextScene () {
         Run.inst.handleSale();
-        game.changeScene(new RosterScene());
+        if (Run.inst.roster.length == 0) {
+            game.changeScene(new OverScene(false));
+        } else {
+            game.changeScene(new RosterScene());
+        }
     }
 
     function goRight () {

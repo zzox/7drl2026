@@ -17,7 +17,8 @@ class SyncScene extends UiScene {
     var g2:GenesDisplay;
 
     override function create () {
-        trace(Run.inst.roster);
+        // trace(Run.inst.roster);
+        super.create();
 
         makeTopButtons(1);
 

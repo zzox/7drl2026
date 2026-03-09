@@ -35,6 +35,6 @@ function getThingType (gene:Gene):ThingType {
         case Spit: return TSpit;
         case Heart: return THeart;
         case Deflect: return TDeflect;
-        default: throw 'Cant get thing';
+        default: return null; //throw 'Cant get thing';
     }
 }

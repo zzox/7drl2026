@@ -24,7 +24,8 @@ class RosterScene extends UiScene {
     var mutateCost:BitmapText;
 
     override function create () {
-        trace(Run.inst.roster);
+        // trace(Run.inst.roster);
+        super.create();
 
         makeTopButtons(2);
 

@@ -278,10 +278,10 @@ class BattleScene extends ButtonScene {
                 particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 2, color: 0xffb4202a });
             }
             if (e.type == Gene && e.gene != None) {
-
+                
             }
             if (e.type == Heart) {
-                particles.push({ tile: 175, x: e.x, y: e.y, dir: e.dir, time: 1 });
+                particles.push({ tile: 175, x: e.x, y: e.y, dir: e.dir, time: 2 });
             }
         }
     }

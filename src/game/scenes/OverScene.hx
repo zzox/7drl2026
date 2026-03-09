@@ -17,10 +17,25 @@ class OverScene extends ButtonScene {
         super.create();
 
         final message = won ? 'Victory reached in ${Run.inst.day} days' : 'No more sons';
+        final subMessage = if (won) {
+            '${Run.inst.defeated.length} wins, ${Run.inst.graveyard.length} losses in ${Run.inst.day + 1} days. you ended with $' + Run.inst.money;
+        } else {
+            if (Run.inst.graveyard.length == 0) {
+                '';
+            } else {
+                'You lost ${Run.inst.graveyard.length} sons in ${Run.inst.day + 1} days';
+            }
+        }
 
         final text = makeBitmapText(0, 32, message);
         text.setPosition(160 - Math.floor(text.textWidth / 2), text.y);
         entities.push(text);
+
+        timers.addTimer(2.0, () -> {
+            final subText = makeBitmapText(0, 44, subMessage, 0xb3b9d1);
+            subText.setPosition(160 - Math.floor(subText.textWidth / 2), text.y);
+            entities.push(subText);
+        });
 
         final length = Run.inst.roster.length + Run.inst.graveyard.length;
 
@@ -40,7 +55,7 @@ class OverScene extends ButtonScene {
                 Run.inst.graveyard[i - Run.inst.roster.length];
             }
 
-            final guy = new GuyIcon(96 + column * 16, 48 + row * 16);
+            final guy = new GuyIcon(96 + column * 16, 64 + row * 16);
             guy.dna = item;
             guy.dead = dead;
             
