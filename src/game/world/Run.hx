@@ -56,6 +56,7 @@ class R {
     public var order:Array<Dna> = [];
     public var defeated:Array<Dna> = [];
     public var skipped:Array<Dna> = [];
+    public var forSale:Array<Dna> = [];
 
     public function new (?startSeed:Int) {
         // final ttt = Timer.stamp();
@@ -79,6 +80,7 @@ class R {
 
         world = new World();
         order = world.geneCopies;
+        makeForSale();
     }
 
     public function fightNext (fighter:Dna) {
@@ -91,14 +93,14 @@ class R {
     }
 
     public function skipNext () {
+        if (money < 0) {
+            throw 'No Money';
+        }
+
         final dollars = skipNextMoney();
         skipped.push(order.shift());
         money -= dollars;
         skips++;
-
-        // if (money < 0) {
-        //     throw 'No Money';
-        // }
     }
 
     public function skipNextMoney () {
@@ -116,9 +118,9 @@ class R {
     }
 
     public function handleRoom () {
-        // if (!room.checkSkip() && room.checkDead() == 0) {
-        //     throw 'No result on room?';
-        // }
+        if (!room.checkSkip() && room.checkDead() == 0) {
+            throw 'No result on room?';
+        }
 
         if (room.actors[0].hp <= 0) {
             roster = roster.filter(r -> r != room.actors[0].dna);
@@ -133,6 +135,7 @@ class R {
             money += rewardMoney();
             defeated.push(order.shift());
             wins++;
+            makeForSale();
         }
 
         // room = null;
@@ -155,18 +158,18 @@ class R {
     }
 
     public function doMix (guy:Dna) {
-        // if (mixMoney(guy) > money) {
-        //     throw 'No money';
-        // }
+        if (mixMoney(guy) > money) {
+            throw 'No money';
+        }
 
         mix = new Mix(guy);
         money -= mixMoney(guy);
     }
 
     public function doMutate (guy:Dna) {
-        // if (mutateMoney(guy) > money) {
-        //     throw 'No money';
-        // }
+        if (mutateMoney(guy) > money) {
+            throw 'No money';
+        }
 
         mutation = new Mutation(guy);
         money -= mutateMoney(guy);
@@ -201,6 +204,34 @@ class R {
 
     public function mutateMoney (guy:Dna):Int {
         return Lambda.fold(guy.genes, (item, res) -> res + genePrices.get(item), 0) * 2;
+    }
+
+    public function buyMoney () {
+        if (forSale.length == 0) {
+            throw 'Cant pass';
+        }
+        return mutateMoney(forSale[0]);
+    }
+
+    public function doBuy () {
+        if (forSale.length == 0 || mutateMoney(forSale[0]) > money) {
+            trace(forSale.length, mutateMoney(forSale[0]));
+            throw 'Cant buy';
+        }
+
+        roster.push(forSale.shift());
+    }
+
+    public function doPass () {
+        if (forSale.length == 0) {
+            throw 'Cant pass';
+        }
+
+        forSale.shift();
+    }
+
+    function makeForSale () {
+        forSale = combineDna(new Dna(), new Dna(), order[0].generation / 2, 3);
     }
 
     public function establishRun () {

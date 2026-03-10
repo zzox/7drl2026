@@ -7,7 +7,7 @@ import kha.Assets;
 
 class QuitScene extends UiScene {
     override function create () {
-        makeTopButtons(3);
+        makeTopButtons(4);
 
         entities.push(new UiElement(18, 64, 16, 16, 4, 4, 12, 12, 280, 56, 20, Assets.images.ui));
 
@@ -15,6 +15,7 @@ class QuitScene extends UiScene {
 
         final item = makeUiTextButton(140, 92, 40, 16, 16, 'QUIT', () -> {
             game.changeScene(new MenuScene());
+            // game.changeScene(new ReallyQuitScene());
         });
         item.altSound = Assets.sounds.sons_fx2;
         buttons.push(item);
