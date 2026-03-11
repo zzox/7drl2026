@@ -1,7 +1,9 @@
 package game.scenes;
 
 import core.Game;
+import core.gameobjects.AnimSprite;
 import core.gameobjects.BitmapText;
+import core.gameobjects.Sprite;
 import game.ui.GeneSelectWindow.GuyIcon;
 import game.ui.GeneSyncDisplay;
 import game.ui.GenesDisplay;
@@ -76,16 +78,9 @@ class NurseryScene extends ButtonScene {
 
                 for (j in 0...child.genes.length) {
                     timers.addTimer(j * IncTime, () -> {
-                        displayItems[i].gd.genes = child.genes.slice(0, j);
+                        displayItems[i].gd.genes = child.genes.slice(0, j + 1);
 
-                        if (j >= 0 && mutItems.contains(child.genes[j - 1])) {
-                            Player.playSound(Assets.sounds.sons_fx2, 0.05);
-                            timers.addTimer(0.1, () -> {
-                                Player.playSound(Assets.sounds.sons_fx1, 0.05);
-                            });
-                        } else if (j > 0 && child.genes[j - 1] != None) {
-                            Player.playSound(Assets.sounds.sons_noise3, 0.02);
-                        }
+                        compareItems(i, j);
 
                         if (j == child.genes.length - 1) {
                             displayItems[i].name.visible = true;
@@ -108,5 +103,43 @@ class NurseryScene extends ButtonScene {
                 }
             });
         }
+    }
+
+    function compareItems (childIndex:Int, geneIndex:Int) {
+        final childGene = Run.inst.nursery.children[childIndex].genes[geneIndex];
+
+        final parent1Gene = Run.inst.nursery.parents[0].genes[geneIndex];
+        final parent2Gene = Run.inst.nursery.parents[1].genes[geneIndex];
+
+        final gItem = displayItems[childIndex].gd;
+
+        if (childGene != None && parent1Gene == parent2Gene && parent1Gene == childGene) {
+            Player.playSound(Assets.sounds.sons_noise3, 0.02);
+            addMiddle(gItem.x + geneIndex * 8, gItem.y);
+        } else if (childGene != None) {
+            Player.playSound(Assets.sounds.sons_fx2, 0.05);
+            timers.addTimer(0.07, () -> {
+                Player.playSound(Assets.sounds.sons_fx1, 0.05);
+            });
+        } else if (childGene != None) {
+            Player.playSound(Assets.sounds.sons_noise3, 0.02);
+        }
+    }
+
+    function addUpArrow (x:Float, y:Float) {
+        final arrow = new Sprite(x, y, Assets.images.ui, 8, 8);
+        arrow.tileIndex = 28;
+        entities.push(arrow);
+    }
+
+    function addDownArrow (x:Float, y:Float) {
+        final arrow = new Sprite(x, y, Assets.images.ui, 8, 8);
+        arrow.tileIndex = 29;
+        entities.push(arrow);
+    }
+
+    function addMiddle (x:Float, y:Float) {
+        final spr = new AnimSprite(x, y, Assets.images.ui, 8, 8, 15, [57, 58]);
+        entities.push(spr);
     }
 }
