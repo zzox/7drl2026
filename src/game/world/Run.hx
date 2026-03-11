@@ -178,6 +178,7 @@ class R {
     public function handleMix () {
         mix.guy.genes = mix.value;
         mix.guy.rad += 1;
+        checkAttitudes(mix.guy);
         mix = null;
     }
 

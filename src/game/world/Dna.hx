@@ -75,29 +75,34 @@ class Dna {
         body = Run.inst.rand.GetUpTo(7);
         eyes = Run.inst.rand.GetUpTo(7);
 
-        var forwards = 0;
-        var tos = 0;
-        for (g in this.genes) {
-            if (mutItems.contains(g)) {
-                docile = false;
-            }
+        checkAttitudes(this);
+    }
+}
 
-            if (g == Forward) {
-                forwards++;
-            }
-            if (g == Back) {
-                forwards--;
-            }
-            if (g == TurnTo) {
-                tos++;
-            }
-            if (g == TurnAway) {
-                tos--;
-            }
+function checkAttitudes (guy:Dna) {
+    guy.docile = true;
+    var forwards = 0;
+    var tos = 0;
+    for (g in guy.genes) {
+        if (mutItems.contains(g)) {
+            guy.docile = false;
         }
 
-        coward = forwards < 0 || tos < 0;
+        if (g == Forward) {
+            forwards++;
+        }
+        if (g == Back) {
+            forwards--;
+        }
+        if (g == TurnTo) {
+            tos++;
+        }
+        if (g == TurnAway) {
+            tos--;
+        }
     }
+
+    guy.coward = forwards < 0 || tos < 0 || (forwards == 0 && tos == 0);
 }
 
 function generateGenes ():Array<Gene> {
