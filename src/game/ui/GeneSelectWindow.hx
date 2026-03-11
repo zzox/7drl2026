@@ -91,12 +91,12 @@ class GeneSelectWindow {
         docile = new Sprite(0, 0, Assets.images.ui, 32, 8);
         docile.tileIndex = 36;
         docile.visible = false;
-        addUpChild(132, 10, docile);
+        addUpChild(124, 10, docile);
 
         coward = new Sprite(0, 0, Assets.images.ui, 32, 8);
         coward.tileIndex = 37;
         coward.visible = false;
-        addUpChild(132, 20, coward);
+        addUpChild(124, 20, coward);
 
         genes = addUpChild(16, 28, new GenesDisplay(0, 0, [], 24));
 

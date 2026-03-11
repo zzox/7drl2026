@@ -214,11 +214,12 @@ class R {
     }
 
     public function doBuy () {
-        if (forSale.length == 0 || mutateMoney(forSale[0]) > money) {
-            trace(forSale.length, mutateMoney(forSale[0]));
+        if (forSale.length == 0 || buyMoney() > money) {
+            trace(forSale.length, buyMoney());
             throw 'Cant buy';
         }
 
+        money -= buyMoney();
         roster.push(forSale.shift());
     }
 

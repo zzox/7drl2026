@@ -45,6 +45,7 @@ class PreBattleScene extends UiScene {
             Run.inst.fightNext(chooseGuy.selected);
             game.changeScene(new BattleScene());
         });
+        fightButton.disabled = true;
         fightButton.altSound = Assets.sounds.sons_noise1;
 
         skipButton = makeUiTextButton(124, 64, 40, 16, 16, 'SKIP', () -> {

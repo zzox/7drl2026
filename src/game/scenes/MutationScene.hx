@@ -54,6 +54,8 @@ class MutationScene extends ButtonScene {
                 timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {
                     gd.genes[Run.inst.mutation.index] = Run.inst.mutation.gene;
                     Player.playSound(Assets.sounds.sons_fx_bonus2, 0.1);
+                    entities.push(makeBitmapText(140, 104, 'Rad: ${Run.inst.mutation.guy.rad + 3}'));
+                    entities.push(makeBitmapText(180, 104, '+3', 0xb4202a));
                 });
             } else {
                 timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {

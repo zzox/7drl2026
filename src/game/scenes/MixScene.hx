@@ -25,7 +25,7 @@ class MixScene extends ButtonScene {
         entities.push(guy);
         entities.push(gd);
 
-        buttons.push(makeUiTextButton(140, 100, 40, 16, 16, 'NEXT', () -> {
+        buttons.push(makeUiTextButton(140, 120, 40, 16, 16, 'NEXT', () -> {
             launchNextScene();
         }));
 
@@ -36,6 +36,9 @@ class MixScene extends ButtonScene {
                     // WARN:
                     guy.dna.body = Run.inst.placeRand.GetUpTo(7);
                     Player.playSound(Assets.sounds.sons_fx_bonus2, 0.1);
+
+                    entities.push(makeBitmapText(140, 100, 'Rad: ${Run.inst.mix.guy.rad + 1}'));
+                    entities.push(makeBitmapText(180, 100, '+1', 0xb4202a));
                 });
             } else {
                 timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {

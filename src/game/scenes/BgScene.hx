@@ -73,6 +73,8 @@ class BgScene extends Scene {
             Player.sfx = !Player.sfx;
             if (Player.sfx) {
                 Player.playSound(Assets.sounds.sons_fx1, 0.1);
+            } else {
+                Player.playSound(Assets.sounds.sons_fx2, 0.1);
             }
         }
 
@@ -80,6 +82,8 @@ class BgScene extends Scene {
             Player.music = !Player.music;
             if (Player.music) {
                 Player.playSound(Assets.sounds.sons_fx1, 0.1);
+            } else {
+                Player.playSound(Assets.sounds.sons_fx2, 0.1);
             }
         }
 

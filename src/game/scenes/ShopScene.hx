@@ -35,25 +35,25 @@ class ShopScene extends UiScene {
 
         entities.push(new UiElement(18, 24, 16, 16, 4, 4, 12, 12, 280, 44, 20, Assets.images.ui));
 
-        icon = new GuyIcon(50, 40);
+        icon = new GuyIcon(36, 32);
         entities.push(icon);
 
-        genes = new GenesDisplay(66, 48, [], 24);
+        genes = new GenesDisplay(52, 40, [], 24);
         entities.push(genes);
 
-        entities.push(nameText = makeBitmapText(66, 36));
+        entities.push(nameText = makeBitmapText(52, 28));
         entities.push(remainsText = makeBitmapText(200, 48));
 
         windows.push(roster = new GeneSelectWindow(18, 100, ' Roster', (num:Int) -> {
             if (num > -1) {}
         }));
 
-        buyButton = makeUiTextButton(40, 124, 40, 16, 16, 'BUYY', () -> {
+        buyButton = makeUiTextButton(80, 76, 40, 16, 16, 'BUYY', () -> {
             Run.inst.doBuy();
             game.changeScene(new ShopScene());
         });
 
-        passButton = makeUiTextButton(40, 124, 40, 16, 16, 'PASS', () -> {
+        passButton = makeUiTextButton(200, 76, 40, 16, 16, 'PASS', () -> {
             Run.inst.doPass();
             game.changeScene(new ShopScene());
         });
@@ -61,7 +61,7 @@ class ShopScene extends UiScene {
         buttons.push(buyButton);
         buttons.push(passButton);
 
-        entities.push(buyCost = makeBitmapText(84, 124, ''));
+        entities.push(buyCost = makeBitmapText(124, 76, '', 0xffffff));
 
         loadProspect();
     }
@@ -75,7 +75,9 @@ class ShopScene extends UiScene {
             buyCost.setText(TextUtil.formatMoney(Run.inst.buyMoney()));
             remainsText.setText('${Run.inst.forSale.length} remain');
         } else {
-            entities.push(makeBitmapText(64, 48, 'No more prospects'));
+            entities.push(makeBitmapText(104, 32, 'No more prospects'));
+            buyButton.disabled = true;
+            passButton.disabled = true;
         }
     }
 }
