@@ -1,6 +1,6 @@
 package game.ui;
 
-import game.scenes.GameScene;
+import game.scenes.BattleScene;
 import kha.Assets;
 
 typedef BarColor = {
@@ -45,9 +45,9 @@ class BarEl extends UiElement {
 
         if (pulseWindows != null) {
             if (ratio > pulseWindows[0][0] && ratio < pulseWindows[0][1]) {
-                visible = visible && GameScene.pulseOn;
+                visible = visible && BattleScene.pulseOn;
             } else if (ratio > pulseWindows[1][0] && ratio < pulseWindows[1][1]) {
-                visible = visible && GameScene.shortPulseOn;
+                visible = visible && BattleScene.shortPulseOn;
             }
         }
 

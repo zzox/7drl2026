@@ -48,6 +48,7 @@ class BattleScene extends ButtonScene {
     var speed2:UiElement;
     var speed3:UiElement;
     var speed4:UiElement;
+    var auto:UiElement;
 
     // var renderedActors:Array<RenderedActor> = [];
     // var renderedThings:Array<RenderedThing> = [];
@@ -102,16 +103,19 @@ class BattleScene extends ButtonScene {
         speed2 = new UiElement(116, 16, 16, 16, 4, 4, 12, 12, 16, 16, 52, Assets.images.ui, () -> { setSpeed(1); });
         speed3 = new UiElement(132, 16, 16, 16, 4, 4, 12, 12, 16, 16, 56, Assets.images.ui, () -> { setSpeed(2); });
         speed4 = new UiElement(148, 16, 16, 16, 4, 4, 12, 12, 16, 16, 60, Assets.images.ui, () -> { setSpeed(3); });
+        auto = new UiElement(192, 16, 32, 16, 4, 4, 14, 30, 32, 16, 112, Assets.images.ui, () -> { setSpeed(-1); });
 
         entities.push(speed1);
         entities.push(speed2);
         entities.push(speed3);
         entities.push(speed4);
+        entities.push(auto);
 
         buttons.push(speed1);
         buttons.push(speed2);
         buttons.push(speed3);
         buttons.push(speed4);
+        buttons.push(auto);
 
         // Game.bgScene.set(1);
 
@@ -143,21 +147,39 @@ class BattleScene extends ButtonScene {
             worldActive = !worldActive;
         }
 
-        var steps = 1;
+        var s = 1;
+#if debug
         if (Game.keys.pressed(KeyCode.J)) {
-            steps += 256;
+            s += 256;
         } else if (Game.keys.pressed(KeyCode.H)) {
-            steps += 64;
+            s += 64;
         } else if (Game.keys.pressed(KeyCode.G)) {
-            steps += 16;
+            s += 16;
         } else if (Game.keys.pressed(KeyCode.F)) {
-            steps += 4;
+            s += 4;
         }
+#end
 
         final room = Run.inst.room;
 
+        if (speed == -1) {
+            if (room.steps < 48 || room.steps - room.lastHit == 0) {
+                roomSpeed = 5;
+                s = 1;
+            } else if (room.steps < 96 || room.steps - room.lastHit < 48) {
+                roomSpeed = 3;
+                s = 1;
+            } else if (room.steps - room.lastHit < 96) {
+                s = 2;
+            } else if (room.steps - room.lastHit < 192) {
+                s = 4;
+            } else {
+                s = 8;
+            }
+        }
+
         if (worldActive) {
-            stepCounter += steps;
+            stepCounter += s;
             while (stepCounter > roomSpeed) {
                 room.step(0);
                 updateParticles();
@@ -306,7 +328,8 @@ class BattleScene extends ButtonScene {
         this.speed = speed;
 
         if (speed == -1) {
-
+            auto.disabled = true;
+            roomSpeed = 1;
         } else if (speed == 0) {
             speed1.disabled = true;
             roomSpeed = 20;

@@ -34,7 +34,7 @@ final genePrices:Map<Gene, Int> = [
     Deflect => 10
 ];
 
-final mutItems = [Pierce, Punch, Spit, Heart, Heart, Heart, Heart, Heart, Deflect];
+final mutItems = [Pierce, Punch, Spit, Heart, Deflect];
 
 typedef DId = Int;
 

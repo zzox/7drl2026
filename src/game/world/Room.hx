@@ -41,6 +41,7 @@ class Room {
     static inline final Height = 8;
 
     public var steps:Int = 0;
+    public var lastHit:Int = 0;
     public var grid:Grid<Int>;
     public var things:Array<Thing> = [];
     public var actors:Array<Actor> = [];
@@ -132,6 +133,8 @@ class Room {
 
                     addEvent(Damage, damage, a.x, a.y);
                     t.alive = false;
+
+                    if (damage > 0) lastHit = steps;
                 }
             }
 
@@ -169,10 +172,9 @@ class Room {
         return over;
     }
 
-    // returns true if we did too many steps or too many steps with no damage
+    // returns true if we did too many steps with no damage
     public function checkSkip ():Bool {
-        final damage = Lambda.fold(actors, (a, res) -> (a.dna.hp - a.hp) + res, 0);
-        return steps == 1200 || (steps == 600 && damage == 0);
+        return steps - lastHit > 408;
     }
 
     function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {
