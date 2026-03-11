@@ -38,10 +38,10 @@ class BarEl extends UiElement {
                 tileIndex = c.index;
             }
         }
-        
+
         elementSizeX = Math.floor(Math.min(ratio, 1) * fullWidth);
 
-        visible = elementSizeX >= 4;
+        visible = elementSizeX >= 2;
 
         if (pulseWindows != null) {
             if (ratio > pulseWindows[0][0] && ratio < pulseWindows[0][1]) {

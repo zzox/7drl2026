@@ -3,6 +3,7 @@ package game.scenes;
 import core.Game;
 import core.Types;
 import core.gameobjects.BitmapText;
+import game.ui.BarEl;
 import game.ui.GeneSelectWindow.GuyIcon;
 import game.ui.GenesDisplay;
 import game.ui.NumColumn;
@@ -13,6 +14,7 @@ import game.util.Debug;
 import game.util.Player;
 import game.world.Actor;
 import game.world.Room.RoomEvent;
+import game.world.Room;
 import game.world.Run;
 import game.world.Thing;
 import haxe.Timer;
@@ -43,6 +45,8 @@ class BattleScene extends ButtonScene {
     var char2:NumColumn;
     var genes1:GenesDisplay;
     var genes2:GenesDisplay;
+    var hp1:BarEl;
+    var hp2:BarEl;
 
     var speed1:UiElement;
     var speed2:UiElement;
@@ -92,8 +96,8 @@ class BattleScene extends ButtonScene {
 //         entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
 //         entities.push(char2 = new NumColumn(240, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
 // #else
-        entities.push(char1 = new NumColumn(20, 92, 60, ['hp'], 10));
-        entities.push(char2 = new NumColumn(240, 48, 60, ['hp'], 10));
+        entities.push(char1 = new NumColumn(20, 88, 60, ['hp'], 10));
+        entities.push(char2 = new NumColumn(240, 44, 60, ['hp'], 10));
 // #end
 
         entities.push(genes1 = new GenesDisplay(20, 116, p1.dna.genes));
@@ -116,6 +120,12 @@ class BattleScene extends ButtonScene {
         buttons.push(speed3);
         buttons.push(speed4);
         buttons.push(auto);
+
+        entities.push(new UiElement(20, 102, 16, 16, 2, 2, 14, 14, 64, 8, 84, Assets.images.ui));
+        entities.push(new UiElement(240, 58, 16, 16, 2, 2, 14, 14, 64, 8, 84, Assets.images.ui));
+
+        entities.push(hp1 = new BarEl(22, 104, 16, 16, 1, 1, 15, 15, 60, 4, [{min: 0.0, index: 86}, {min: 0.2, index: 85}], p1.dna.hp, p1.dna.hp, [[0.05, 0.1], [-1.0, 0.05]]));
+        entities.push(hp2 = new BarEl(242, 60, 16, 16, 1, 1, 15, 15, 60, 4, [{min: 0.0, index: 86}, {min: 0.2, index: 85}], p2.dna.hp, p2.dna.hp, [[0.05, 0.1], [-1.0, 0.05]]));
 
         // Game.bgScene.set(1);
 
@@ -208,6 +218,9 @@ class BattleScene extends ButtonScene {
         }
 
         // stepText.setText('Steps: ${room.steps}');
+
+        hp1.value = Std.int(Math.max(room.actors[0].hp, 0));
+        hp2.value = Std.int(Math.max(room.actors[1].hp, 0));
 
         char1.setStringItem('hp', '${Math.max(room.actors[0].hp, 0)}/${room.actors[0].dna.hp}');
         // char1.setItem('rad', room.actors[0].dna.rad);
