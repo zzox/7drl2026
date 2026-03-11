@@ -6,6 +6,7 @@ import core.scene.Scene;
 import game.util.Player;
 import kha.Assets;
 import kha.Sound;
+import kha.audio1.AudioChannel;
 import kha.input.KeyCode;
 
 var sets:Array<Array<Int>> = [
@@ -21,10 +22,12 @@ var mods:Array<Array<Int>> = [
 ];
 
 class BgScene extends Scene {
+    static inline final MusicVolume:Float = 0.05;
     public static var rand:kha.math.Random;
     var items:Array<BgItem> = [];
     var onSet:Int = 2;
     var notes:Array<Sound>;
+    var playingNotes:Array<AudioChannel> = [];
 
     public function new () {
         super();
@@ -61,6 +64,8 @@ class BgScene extends Scene {
     }
 
     override function update (delta:Float) {
+        playingNotes = playingNotes.filter(n -> !n.finished);
+
         if (Game.keys.justPressed(KeyCode.B)) {
             if (invisible) {
                 show();
@@ -80,11 +85,7 @@ class BgScene extends Scene {
 
         if (Game.keys.justPressed(KeyCode.M)) {
             Player.music = !Player.music;
-            if (Player.music) {
-                Player.playSound(Assets.sounds.sons_fx1, 0.1);
-            } else {
-                Player.playSound(Assets.sounds.sons_fx2, 0.1);
-            }
+            muteMusic();
         }
 
         super.update(delta);
@@ -160,9 +161,18 @@ class BgScene extends Scene {
 
     function playNote (num:Int) {
         timers.addTimer(phases[num], () -> {
-            Player.playMusic(notes[num], 0.05);
+            final note = Player.playMusic(notes[num], MusicVolume * (Player.music ? 1.0 : 0.0));
+            if (note != null) {
+                playingNotes.push(note);
+            }
             playNote(num);
         });
+    }
+
+    function muteMusic () {
+        for (n in playingNotes) {
+            n.volume = MusicVolume * (Player.music ? 1.0 : 0.0);
+        }
     }
 }
 

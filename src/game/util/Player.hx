@@ -1,6 +1,7 @@
 package game.util;
 
 import kha.Assets;
+import kha.audio1.AudioChannel;
 
 class Player {
     public static var sfx:Bool = true;
@@ -17,9 +18,9 @@ class Player {
         playSound(cry, 0.2);
     }
 
-    public static function playMusic (sound:kha.Sound, volume:Float) {
-        if (music) {
-            core.system.Sound.play(sound, volume, false);
-        }
+    public static function playMusic (sound:kha.Sound, volume:Float):Null<AudioChannel> {
+        // if (music) {
+        return core.system.Sound.play(sound, volume, false);
+        // }
     }
 }
