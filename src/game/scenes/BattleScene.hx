@@ -289,7 +289,7 @@ class BattleScene extends ButtonScene {
                 Player.playSound(Assets.sounds.sons_fx_bonus3, 0.015);
             }
             if (e.type == Heart) {
-                particles.push({ tile: 175, x: e.x, y: e.y, dir: e.dir, time: 2 });
+                particles.push({ tile: 175, x: e.x, y: e.y, dir: North, time: 1 });
             }
         }
     }
