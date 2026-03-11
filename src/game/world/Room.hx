@@ -27,7 +27,7 @@ enum RoomEventType {
 
 typedef RoomEvent = {
     var type:RoomEventType;
-    // var actor;
+    var ?actor:Actor;
     var ?amount:Int;
     var ?x:Int;
     var ?y:Int;
@@ -131,7 +131,7 @@ class Room {
                         tryPush(t, a);
                     }
 
-                    addEvent(Damage, damage, a.x, a.y);
+                    addEvent(Damage, a, damage, a.x, a.y, t.type);
                     t.alive = false;
 
                     if (damage > 0) lastHit = steps;
@@ -153,7 +153,7 @@ class Room {
                 return true;
             }
 
-            addEvent(ThingEnd, null, t.x, t.y, t.type, t.facing);
+            addEvent(ThingEnd, null, null, t.x, t.y, t.type, t.facing);
             return false;
         });
 
@@ -178,12 +178,12 @@ class Room {
     }
 
     function actorDo (gene:Gene, fromActor:Actor, toActor:Actor) {
-        addEvent(Gene, null, null, null, null, null, gene);
+        addEvent(Gene, null, null, null, null, null, null, gene);
         if (gene == None) return;
 
         if (fromActor.skipNext) {
             fromActor.skipNext = false;
-            addEvent(Heart, null, fromActor.x, fromActor.y);
+            addEvent(Heart, null, null, fromActor.x, fromActor.y);
             return;
         }
 
@@ -424,9 +424,9 @@ class Room {
         return actors[0];
     }
 
-    inline function addEvent (type:RoomEventType, /* ?actor:Actor, */ ?amount:Int, ?x:Int, ?y:Int, ?thingType:ThingType, ?dir:RotationDir, ?gene:Gene) {
+    inline function addEvent (type:RoomEventType, ?actor:Actor, ?amount:Int, ?x:Int, ?y:Int, ?thingType:ThingType, ?dir:RotationDir, ?gene:Gene) {
 #if !harness
-        events.push({ type: type, /*actor: actor,*/ amount: amount, x: x, y: y, thingType: thingType, dir: dir, gene: gene });
+        events.push({ type: type, actor: actor, amount: amount, x: x, y: y, thingType: thingType, dir: dir, gene: gene });
 #end
     }
 

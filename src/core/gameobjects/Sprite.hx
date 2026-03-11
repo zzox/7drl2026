@@ -1,6 +1,7 @@
 package core.gameobjects;
 
 import core.system.Camera;
+import core.util.Util.toRadians;
 import kha.Image;
 import kha.graphics2.Graphics;
 
@@ -11,6 +12,8 @@ class Sprite extends GameObject {
     public var flipY:Bool = false;
 
     public var image:Image;
+
+    public var angle:Float;
 
     var animIndex:Int = -1;
 
@@ -28,6 +31,7 @@ class Sprite extends GameObject {
         // TODO: move these to inlined pre and post render?
         g2.pushTranslation(-camera.scrollX * scrollFactorX, -camera.scrollY * scrollFactorY);
         g2.pushScale(camera.scale, camera.scale);
+        g2.pushRotation(toRadians(angle), x + Math.floor(sizeX / 2), y + Math.floor(sizeY / 2));
 
         g2.color = Math.floor(255 * alpha) * 0x1000000 | color;
 
@@ -45,6 +49,7 @@ class Sprite extends GameObject {
             sizeY * (flipY ? -1 : 1)
         );
 
+        g2.popTransformation();
         g2.popTransformation();
         g2.popTransformation();
     }

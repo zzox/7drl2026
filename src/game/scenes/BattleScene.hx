@@ -3,7 +3,9 @@ package game.scenes;
 import core.Game;
 import core.Types;
 import core.gameobjects.BitmapText;
+import core.gameobjects.Sprite;
 import game.ui.BarEl;
+import game.ui.DamageNumber;
 import game.ui.GeneSelectWindow.GuyIcon;
 import game.ui.GenesDisplay;
 import game.ui.NumColumn;
@@ -13,6 +15,7 @@ import game.ui.UiText;
 import game.util.Debug;
 import game.util.Player;
 import game.world.Actor;
+import game.world.Dna;
 import game.world.Room.RoomEvent;
 import game.world.Room;
 import game.world.Run;
@@ -47,6 +50,10 @@ class BattleScene extends ButtonScene {
     var genes2:GenesDisplay;
     var hp1:BarEl;
     var hp2:BarEl;
+    var damageGuy1:GuyIcon;
+    var damageGuy2:GuyIcon;
+    var damageType:Sprite;
+    var damageNumber:BitmapText;
 
     var speed1:UiElement;
     var speed2:UiElement;
@@ -91,6 +98,21 @@ class BattleScene extends ButtonScene {
 
         guy1.dna = p1.dna;
         guy2.dna = p2.dna;
+
+        entities.push(damageGuy1 = new GuyIcon(132, 160));
+        entities.push(damageGuy2 = new GuyIcon(164, 160));
+        entities.push(damageType = new Sprite(148, 160, Assets.images.ui, 16, 16));
+        entities.push(damageNumber = makeBitmapText(192, 160));
+
+        damageGuy1.frames = 90;
+        damageGuy2.frames = 270;
+        damageType.angle = 90;
+        damageNumber.color = 0xb4202a;
+
+        damageGuy1.visible = false;
+        damageGuy2.visible = false;
+        damageType.visible = false;
+        damageNumber.visible = false;
 
 // #if debug
 //         entities.push(char1 = new NumColumn(24, 24, 60, ['hp', 'rad', 'dindex', 'p', 'id'], 10));
@@ -314,6 +336,7 @@ class BattleScene extends ButtonScene {
             }
             if (e.type == Damage && e.amount != 0) {
                 particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 2, color: 0xffb4202a });
+                showDamage(e.actor.dna, e.thingType, e.amount);
                 if (speed >= 2) {
                     Player.playSound(Assets.sounds.sons_fx_fast3, 0.05);
                 } else {
@@ -331,6 +354,25 @@ class BattleScene extends ButtonScene {
 
     function updateParticles () {
         particles = particles.filter(p -> --p.time > 0);
+    }
+
+    function showDamage (dna:Dna, thingType:ThingType, amount:Int) {
+        final otherGuy = if (Run.inst.room.actors[0].dna.id == dna.id) {
+            Run.inst.room.actors[1].dna;
+        } else {
+            Run.inst.room.actors[0].dna;
+        }
+
+        damageGuy1.dna = otherGuy;
+        damageGuy2.dna = dna;
+        damageNumber.setText(amount + '');
+        damageNumber.x = 192 - Math.floor(damageNumber.textWidth / 2);
+        damageType.tileIndex = 160 + thingType;
+
+        damageGuy1.visible = true;
+        damageGuy2.visible = true;
+        damageNumber.visible = true;
+        damageType.visible = true;
     }
 
     function setSpeed (speed:Int) {

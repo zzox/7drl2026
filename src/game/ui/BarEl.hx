@@ -41,7 +41,7 @@ class BarEl extends UiElement {
 
         elementSizeX = Math.floor(Math.min(ratio, 1) * fullWidth);
 
-        visible = elementSizeX >= 2;
+        // visible = elementSizeX >= 2;
 
         if (pulseWindows != null) {
             if (ratio > pulseWindows[0][0] && ratio < pulseWindows[0][1]) {
