@@ -25,17 +25,18 @@ class GenScene extends ButtonScene {
 
         showGenes();
 
+        // WARN: is it weird that GenScene controls generations?
 #if debug
         timers.addTimer(0.5, () -> {
             showGenes();
         });
-        for (i in 0...16) {
+        for (i in 0...Run.Generations) {
             timers.addTimer(0.5 + (i * 0.1) * 1.1, () -> {
                 Run.inst.world.gen();
                 Run.inst.world.cull();
                 showGenes();
 
-                if (i == 15) {
+                if (i == Run.Generations - 1) {
                     goNextScene();
                 }
             });
@@ -44,7 +45,7 @@ class GenScene extends ButtonScene {
         timers.addTimer(3.0, () -> {
             showGenes();
         });
-        for (i in 0...16) {
+        for (i in 0...Run.Generations) {
             timers.addTimer(1.5 + (i * 0.3) * 1.1, () -> {
                 Run.inst.world.gen();
                 Run.inst.world.cull();

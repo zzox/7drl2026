@@ -23,7 +23,10 @@ function makeTempCommand (dId:DId):Command {
 }
 
 class Run {
+    public static final Generations:Int = 15; // will fight 1 + Generations since we make one at the start
     public static var inst:R;
+
+    public static var speed:Int = -1;
 
     public function new () {
         inst = new R();
@@ -135,7 +138,9 @@ class R {
             money += rewardMoney();
             defeated.push(order.shift());
             wins++;
-            makeForSale();
+            if (order.length > 0) {
+                makeForSale();
+            }
         }
 
         // room = null;

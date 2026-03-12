@@ -151,7 +151,7 @@ class BattleScene extends ButtonScene {
 
         Game.bgScene.set(0);
 
-        setSpeed(1);
+        setSpeed(Run.speed);
 
 #if debug
         for (i in 0...8) {
@@ -380,6 +380,7 @@ class BattleScene extends ButtonScene {
         speed2.disabled = false;
         speed3.disabled = false;
         speed4.disabled = false;
+        auto.disabled = false;
         this.speed = speed;
 
         if (speed == -1) {
@@ -398,5 +399,7 @@ class BattleScene extends ButtonScene {
             speed4.disabled = true;
             roomSpeed = 1;
         }
+
+        Run.speed = speed;
     }
 }
