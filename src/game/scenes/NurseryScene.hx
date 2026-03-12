@@ -1,16 +1,13 @@
 package game.scenes;
 
-import core.Game;
 import core.gameobjects.AnimSprite;
 import core.gameobjects.BitmapText;
 import core.gameobjects.Sprite;
 import game.ui.GeneSelectWindow.GuyIcon;
 import game.ui.GeneSyncDisplay;
 import game.ui.GenesDisplay;
-import game.ui.UiElement;
 import game.ui.UiText;
 import game.util.Player;
-import game.world.Dna.mutItems;
 import game.world.Run;
 import kha.Assets;
 
@@ -113,33 +110,45 @@ class NurseryScene extends ButtonScene {
 
         final gItem = displayItems[childIndex].gd;
 
-        if (childGene != None && parent1Gene == parent2Gene && parent1Gene == childGene) {
-            Player.playSound(Assets.sounds.sons_noise3, 0.02);
-            addMiddle(gItem.x + geneIndex * 8, gItem.y);
-        } else if (childGene != None) {
-            Player.playSound(Assets.sounds.sons_fx2, 0.05);
-            timers.addTimer(0.07, () -> {
-                Player.playSound(Assets.sounds.sons_fx1, 0.05);
-            });
-        } else if (childGene != None) {
-            Player.playSound(Assets.sounds.sons_noise3, 0.02);
+        if (childGene != None) {
+            if (parent1Gene == parent2Gene && parent1Gene == childGene) {
+                Player.playSound(Assets.sounds.sons_noise3, 0.02);
+            } else if (parent1Gene == childGene) {
+                Player.playSound(Assets.sounds.sons_fx2, 0.05);
+                addUpArrow(gItem.x + geneIndex * 8, gItem.y - 3);
+            } else if (parent2Gene == childGene) {
+                Player.playSound(Assets.sounds.sons_fx2, 0.05);
+                addDownArrow(gItem.x + geneIndex * 8, gItem.y + 3);
+            } else {
+                addMiddle(gItem.x + geneIndex * 8, gItem.y);
+                Player.playSound(Assets.sounds.sons_fx2, 0.05);
+                timers.addTimer(0.07, () -> {
+                    Player.playSound(Assets.sounds.sons_fx1, 0.05);
+                });
+            }
         }
     }
 
     function addUpArrow (x:Float, y:Float) {
         final arrow = new Sprite(x, y, Assets.images.ui, 8, 8);
         arrow.tileIndex = 28;
+        arrow.alpha = 0.5;
+        arrow.color = 0x249fde;
         entities.push(arrow);
     }
 
     function addDownArrow (x:Float, y:Float) {
         final arrow = new Sprite(x, y, Assets.images.ui, 8, 8);
         arrow.tileIndex = 29;
+        arrow.alpha = 0.5;
+        arrow.color = 0x249fde;
         entities.push(arrow);
     }
 
     function addMiddle (x:Float, y:Float) {
         final spr = new AnimSprite(x, y, Assets.images.ui, 8, 8, 15, [57, 58]);
+        spr.alpha = 0.5;
+        spr.color = 0xfffc40;
         entities.push(spr);
     }
 }
