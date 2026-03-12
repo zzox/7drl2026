@@ -59,12 +59,14 @@ class MutationScene extends ButtonScene {
                     Player.playSound(Assets.sounds.sons_fx_bonus2, 0.1);
                     entities.push(makeBitmapText(140, 104, 'Rad: ${Run.inst.mutation.guy.rad + 3}'));
                     entities.push(makeBitmapText(180, 104, '+3', 0xb4202a));
+                    Run.inst.mutation.guy.eyes = Run.inst.placeRand.GetUpTo(7);
                 });
             } else {
                 timers.addTimer(0.5 + i * 0.15 + i * 0.08, () -> {
                     // ATTN: Math.random here. it's fine
                     Player.playSound(Assets.sounds.sons_fx_bonus3, 0.07);
                     gd.genes[Run.inst.mutation.index] = mutItems[Math.floor(Math.random() * mutItems.length)];
+                    Run.inst.mutation.guy.eyes = Run.inst.placeRand.GetUpTo(7);
                 });
             }
         }

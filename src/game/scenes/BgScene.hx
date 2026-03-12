@@ -172,7 +172,7 @@ class BgScene extends Scene {
         });
     }
 
-    function muteMusic () {
+    public function muteMusic () {
         for (n in playingNotes) {
             n.volume = MusicVolume * (Player.music ? 1.0 : 0.0);
         }

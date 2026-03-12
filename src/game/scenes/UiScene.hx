@@ -81,8 +81,8 @@ class UiScene extends ButtonScene {
             game.changeScene(new ShopScene());
         }));
 
-        buttons.push(makeUiTextButton(220, 0, 40, 16, sceneIndex == 4 ? 37 : 16, 'QUIT', sceneIndex == 4 ? null : () -> {
-            game.changeScene(new QuitScene());
+        buttons.push(makeUiTextButton(220, 0, 40, 16, sceneIndex == 4 ? 37 : 16, 'MENU', sceneIndex == 4 ? null : () -> {
+            game.changeScene(new StatsScene());
         }));
 
         moneyText = makeBitmapText(0, 0, TextUtil.formatMoney(Run.inst.money), 0xfffc40);
