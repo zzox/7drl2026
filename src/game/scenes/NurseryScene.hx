@@ -1,5 +1,6 @@
 package game.scenes;
 
+import core.Game;
 import core.gameobjects.AnimSprite;
 import core.gameobjects.BitmapText;
 import core.gameobjects.Sprite;
@@ -100,6 +101,8 @@ class NurseryScene extends ButtonScene {
                 }
             });
         }
+
+        Game.bgScene.set(0);
     }
 
     function compareItems (childIndex:Int, geneIndex:Int) {

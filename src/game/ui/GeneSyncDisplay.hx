@@ -14,17 +14,17 @@ function getTweenData (time:Float, bounces:Int, baseY:Float, down:Bool):Float {
         if (time < 0.0) {
             return baseY;
         } else if (time < FirstBounce) {
-            return baseY + time * 6.0;
-        } else if (time < FirstBounce + bounces * 1.0 - 0.5) {
-            return baseY - Math.sin(6 * ((time - FirstBounce) % 1.0)) * 6;
+            return baseY + time * 3;
+        } else if (time < FirstBounce + bounces * 0.98) {
+            return baseY - Math.sin(6 * ((time - FirstBounce) % 0.98)) * 6;
         }
     } else {
         if (time < 0.0) {
             return baseY;
         } else if (time < FirstBounce) {
-            return baseY - time * 6.0;
-        } else if (time < FirstBounce + bounces * 1.0 - 0.5) {
-            return baseY + Math.sin(6 * ((time - FirstBounce) % 1.0)) * 6;
+            return baseY - time * 3;
+        } else if (time < FirstBounce + bounces * 0.98) {
+            return baseY + Math.sin(6 * ((time - FirstBounce) % 0.98)) * 6;
         }
     }
     

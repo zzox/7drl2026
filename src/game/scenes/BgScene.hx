@@ -128,6 +128,8 @@ class BgScene extends Scene {
                 timers.addTimer(3.0, () -> {
                     items[i].color = toSets[2];
                 });
+            } else {
+                items[i].color = 0x000000;
             }
         }
 

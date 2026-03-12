@@ -1,5 +1,6 @@
 package game.scenes;
 
+import core.Game;
 import core.util.Util;
 import game.ui.GeneSelectWindow;
 import game.ui.GenesDisplay;
@@ -46,6 +47,8 @@ class MutationScene extends ButtonScene {
                 });
             }
         }
+
+        Game.bgScene.set(0);
     }
 
     function startShuffle () {

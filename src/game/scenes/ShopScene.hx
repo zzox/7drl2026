@@ -70,6 +70,7 @@ class ShopScene extends UiScene {
         if (Run.inst.forSale.length > 0) {
             final next = Run.inst.forSale[0];
             icon.dna = next;
+            buyButton.disabled = Run.inst.buyMoney() > Run.inst.money;
             genes.genes = next.genes;
             nameText.setText(next.name);
             buyCost.setText(TextUtil.formatMoney(Run.inst.buyMoney()));

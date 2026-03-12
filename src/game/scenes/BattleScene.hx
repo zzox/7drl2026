@@ -149,7 +149,7 @@ class BattleScene extends ButtonScene {
         entities.push(hp1 = new BarEl(22, 104, 16, 16, 1, 1, 15, 15, 60, 4, [{min: 0.0, index: 86}, {min: 0.2, index: 85}], p1.dna.hp, p1.dna.hp, [[0.05, 0.1], [-1.0, 0.05]]));
         entities.push(hp2 = new BarEl(242, 60, 16, 16, 1, 1, 15, 15, 60, 4, [{min: 0.0, index: 86}, {min: 0.2, index: 85}], p2.dna.hp, p2.dna.hp, [[0.05, 0.1], [-1.0, 0.05]]));
 
-        // Game.bgScene.set(1);
+        Game.bgScene.set(0);
 
         setSpeed(1);
 
@@ -287,7 +287,7 @@ class BattleScene extends ButtonScene {
 #end
         // PERF: only do this on rotation instead of on every frame, preferably
         // rendering to a single image
-        g2.begin(true, camera.bgColor);
+        g2.begin(false);
 
         // g2.color = Math.floor(alpha * 256) * 0x1000000 + color;
         g2.color = White;

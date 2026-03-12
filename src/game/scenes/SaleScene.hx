@@ -1,5 +1,6 @@
 package game.scenes;
 
+import core.Game;
 import game.ui.GeneSelectWindow;
 import game.ui.UiText;
 import game.util.Player;
@@ -31,6 +32,8 @@ class SaleScene extends ButtonScene {
         timers.addTimer(1.0, () -> {
             Player.playCry();
         });
+
+        Game.bgScene.set(0);
     }
 
     function launchNextScene () {

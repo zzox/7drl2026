@@ -18,7 +18,7 @@ class UiScene extends ButtonScene {
 
     override function create () {
         super.create();
-        Game.bgScene.set(0);
+        Game.bgScene.set(1);
     }
 
     override function update (delta:Float) {
@@ -53,7 +53,7 @@ class UiScene extends ButtonScene {
     }
 
     override function render (g2:Graphics, clears:Bool) {
-        g2.begin();
+        g2.begin(false);
         for (e in entities) {
             if (e.visible) e.render(g2, camera);
         }

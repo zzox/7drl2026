@@ -1,5 +1,6 @@
 package game.scenes;
 
+import core.Game;
 import core.util.Util;
 import game.ui.GeneSelectWindow;
 import game.ui.GenesDisplay;
@@ -49,6 +50,8 @@ class MixScene extends ButtonScene {
                 });
             }
         }
+
+        Game.bgScene.set(0);
     }
 
     function launchNextScene () {
