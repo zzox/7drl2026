@@ -1,6 +1,7 @@
 package game.scenes;
 
 import core.Game;
+import core.gameobjects.AnimSprite;
 import core.gameobjects.Sprite;
 import core.scene.Scene;
 import game.util.Player;
@@ -176,7 +177,7 @@ class BgScene extends Scene {
     }
 }
 
-class BgItem extends Sprite {
+class BgItem extends AnimSprite {
     public var speed:Float;
 
     public function new () {
@@ -188,7 +189,18 @@ class BgItem extends Sprite {
         } else {
             speed = rand;
         }
-        super(x, y, Assets.images.ui, 8, 8);
+
+        final sizeRand = BgScene.rand.GetFloat();
+
+        final frames = if (sizeRand > 0.9) {
+            [63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 62, 61, 62, 61, 62, 61, 60, 59, 60, 59, 62, 61];
+        } else if (sizeRand > 0.8) {
+            [63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 62, 61, 62, 61];
+        } else {
+            [63];
+        }
+
+        super(x, y, Assets.images.ui, 8, 8, 10 + BgScene.rand.GetUpTo(5), frames, true);
         tileIndex = 63;
     }
 }
