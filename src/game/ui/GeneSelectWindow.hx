@@ -140,6 +140,7 @@ class GeneSelectWindow {
             final ii = diff + i;
             if (Run.inst.roster[ii] != null) {
                 items[i].button.disabled = false;
+                items[i].button.baseIndex = ii >= Run.inst.roster.length - Run.inst.justAdded ? 92 : 24;
                 items[i].icon.dna = Run.inst.roster[ii];
             } else {
                 items[i].button.disabled = true;

@@ -63,6 +63,8 @@ class R {
     public var skipped:Array<Dna> = [];
     public var forSale:Array<Dna> = [];
 
+    public var justAdded:Int = 0;
+
     public function new (?startSeed:Int) {
         // final ttt = Timer.stamp();
         // final rand = new kha.math.Random(1000);
@@ -147,6 +149,7 @@ class R {
 
         // room = null;
         day++;
+        justAdded = 0;
     }
 
     public function makeNursery (dna1:Dna, dna2:Dna) {
@@ -158,6 +161,7 @@ class R {
         roster = roster.concat(nursery.children);
         abandoned += 2;
         offspring += nursery.children.length;
+        justAdded = nursery.children.length;
         nursery = null;
         day++;
     }
@@ -231,6 +235,7 @@ class R {
 
         money -= buyMoney();
         roster.push(forSale.shift());
+        justAdded = 1;
     }
 
     public function doPass () {
