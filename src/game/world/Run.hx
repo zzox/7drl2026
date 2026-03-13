@@ -192,12 +192,14 @@ class R {
         mix.guy.genes = mix.value;
         mix.guy.rad += 1;
         checkAttitudes(mix.guy);
+        justAdded = 0;
         mix = null;
     }
 
     public function handleMutate () {
         mutation.guy.genes = mutation.value;
         mutation.guy.rad += 3;
+        justAdded = 0;
         mutation = null;
     }
 

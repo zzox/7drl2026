@@ -117,7 +117,7 @@ function generateGenes ():Array<Gene> {
                 attacks++;
             }
 
-            if (g == TurnAway || g == TurnTo) {
+            if (g == TurnTo) {
                 turns++;
             }
 
@@ -130,7 +130,7 @@ function generateGenes ():Array<Gene> {
             return genes;
         }
 
-        // trace('trying again');
+        trace('trying again');
     }
 }
 

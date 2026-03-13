@@ -40,7 +40,9 @@ class BattleScene extends ButtonScene {
     var stepCounter:Int = 0;
     var roomSpeed:Int = 20;
 
+#if debug
     var stepText:BitmapText;
+#end
     // var winsText:BitmapText;
     var guy1:GuyIcon;
     var guy2:GuyIcon;
@@ -82,7 +84,9 @@ class BattleScene extends ButtonScene {
         final p1 = Run.inst.room.actors[0];
         final p2 = Run.inst.room.actors[1];
 
-        // entities.push(stepText = makeBitmapText(160, 16, 'Steps: 0'));
+#if debug
+        entities.push(stepText = makeBitmapText(200, 16, 'Steps: 0'));
+#end
 
         entities.push(guy1 = new GuyIcon(16, 72));
         entities.push(guy2 = new GuyIcon(240, 24));
@@ -195,17 +199,29 @@ class BattleScene extends ButtonScene {
         final room = Run.inst.room;
 
         if (speed == -1) {
-            if (room.steps < 48 || room.steps - room.lastHit == 0) {
+            if (room.steps > 2000) {
+                roomSpeed = 1;
+                s = 8;
+            } else if (room.steps > 1500) {
+                roomSpeed = 1;
+                s = 4;
+            }  else if (room.steps > 750) {
+                roomSpeed = 1;
+                s = 2;
+            } else if (room.steps < 48 || room.steps - room.lastHit == 0) {
                 roomSpeed = 5;
                 s = 1;
             } else if (room.steps < 96 || room.steps - room.lastHit < 48) {
                 roomSpeed = 3;
                 s = 1;
             } else if (room.steps - room.lastHit < 96) {
+                roomSpeed = 1;
                 s = 2;
             } else if (room.steps - room.lastHit < 192) {
+                roomSpeed = 1;
                 s = 4;
             } else {
+                roomSpeed = 1;
                 s = 8;
             }
         }
@@ -239,7 +255,9 @@ class BattleScene extends ButtonScene {
             }
         }
 
-        // stepText.setText('Steps: ${room.steps}');
+#if debug
+        stepText.setText('Steps: ${room.steps}');
+#end
 
         hp1.value = Std.int(Math.max(room.actors[0].hp, 0));
         hp2.value = Std.int(Math.max(room.actors[1].hp, 0));

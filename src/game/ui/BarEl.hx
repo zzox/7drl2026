@@ -39,9 +39,9 @@ class BarEl extends UiElement {
             }
         }
 
-        elementSizeX = Math.floor(Math.min(ratio, 1) * fullWidth);
+        elementSizeX = Std.int(Math.max(2, Math.floor(Math.min(ratio, 1) * fullWidth)));
 
-        // visible = elementSizeX >= 2;
+        visible = value > 0;
 
         if (pulseWindows != null) {
             if (ratio > pulseWindows[0][0] && ratio < pulseWindows[0][1]) {

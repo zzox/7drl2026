@@ -27,7 +27,7 @@ class StatsScene extends UiScene {
         entities.push(stats);
 
         entities.push(makeBitmapText(200, 40, 'Music'));
-        entities.push(muteMusic = new UiElement(260, 40, 16, 16, 4, 4, 12, 12, 16, 16, Player.sfx ? 72 : 76, Assets.images.ui, () -> {
+        entities.push(muteMusic = new UiElement(260, 40, 16, 16, 4, 4, 12, 12, 16, 16, Player.music ? 72 : 76, Assets.images.ui, () -> {
             Player.music = !Player.music;
             Game.bgScene.muteMusic();
             muteMusic.baseIndex = Player.music ? 72 : 76;

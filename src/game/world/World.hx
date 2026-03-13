@@ -39,7 +39,8 @@ class World {
         while (pool.length < generation * 4) {
             if (pool.length > 1) {
                 final items = combineDna(pool.shift(), pool.shift(), generation * 2, 8);
-                nextGen = nextGen.concat(items);
+                final f = items.filter(i -> !i.coward);
+                nextGen = nextGen.concat(f);
             } else {
                 break;
             }

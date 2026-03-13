@@ -10,9 +10,9 @@ import game.world.Run;
 import game.world.Thing;
 
 function indexDiff (x:Int, y:Int, rand:() -> Float):Int {
-    if (rand() * 3.0 < 1.0) return 1;
-    if (rand() * 3.0 < 1.0) return 2;
-    if (rand() * 3.0 < 1.0) return 3;
+    if (rand() * 5.0 < 1.0) return 1;
+    if (rand() * 5.0 < 1.0) return 2;
+    if (rand() * 5.0 < 1.0) return 3;
     return 0;
 }
 
