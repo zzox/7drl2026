@@ -51,6 +51,8 @@ class R {
     public var wins:Int = 0;
     public var losses:Int = 0;
     public var skips:Int = 0;
+    public var offspring:Int = 0;
+    public var abandoned:Int = 0;
 
     public var commands:Array<{ day:Int, command: Command }> = [];
 
@@ -154,6 +156,8 @@ class R {
     public function handleNursery () {
         roster = roster.filter(r -> !nursery.parents.contains(r));
         roster = roster.concat(nursery.children);
+        abandoned += 2;
+        offspring += nursery.children.length;
         nursery = null;
         day++;
     }
