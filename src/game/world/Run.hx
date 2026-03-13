@@ -77,6 +77,8 @@ class R {
         rand = new kha.math.Random(seed);
         placeRand = new kha.math.Random(1312);
         Dna.curId = 0;
+
+        trace(seed);
     }
 
     public function init () {

@@ -1,8 +1,6 @@
 import core.Game;
 import game.scenes.ClickFocusScene;
 
-// import game.scenes.SpeedScene;
-
 #if kha_html5
 import js.Browser.document;
 import js.Browser.window;
@@ -13,15 +11,6 @@ import kha.Macros;
 class Main {
     public static function main() {
         setFullWindowCanvas();
-#if harness
-        new Game(
-            '7drl2026',
-            1280, 720,
-            PixelPerfect,
-            new SpeedScene(),
-            320, 180,
-        );
-#else
         new Game(
             '7drl2026',
             1280, 720,
@@ -29,7 +18,6 @@ class Main {
             new ClickFocusScene(),
             320, 180,
         );
-#end
 
         // new Game(
         //     new IntVec2(1300, 750),

@@ -23,9 +23,19 @@ class World {
 
         pool = combineDna(adam, steve, 1, 100);
         cull();
+
+        for (_ in 0...Run.Generations) {
+            gen();
+            cull();
+        }
     }
 
     public function cull () {
+        while (pool.length < (generation + 4) * 4) {
+            pool.push(new Dna());
+            stepdads++;
+        }
+
         while (pool.length >= (generation + 1) * 4) {
             simulateBattle(pool.shift(), pool.shift());
         }

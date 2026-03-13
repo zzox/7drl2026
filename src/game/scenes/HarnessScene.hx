@@ -10,22 +10,23 @@ import game.world.Run;
 import haxe.Timer;
 import kha.input.KeyCode;
 
-class GenScene extends ButtonScene {
+class HarnessScene extends ButtonScene {
     var logTexts:Array<BitmapText> = [];
     override function create () {
         super.create();
 
+        new Run();
+
         logTexts[0] = makeBitmapText(4, 4, '');
-        logTexts[1] = makeBitmapText(180, 4, '');
-        logTexts[2] = makeBitmapText(4, 14, '');
+        logTexts[1] = makeBitmapText(84, 4, '');
+        logTexts[2] = makeBitmapText(164, 4, '');
 
         entities.push(logTexts[0]);
         entities.push(logTexts[1]);
         entities.push(logTexts[2]);
 
-#if debug
         for (i in 0...(Run.Generations + 1)) {
-            timers.addTimer(0.5 + (i * 0.1) * 1.1, () -> {
+            timers.addTimer((i * 0.1) * 1.1, () -> {
                 showGenes(i + 1);
 
                 if (i == Run.Generations) {
@@ -33,19 +34,6 @@ class GenScene extends ButtonScene {
                 }
             });
         }
-#else
-        for (i in 0...(Run.Generations + 1)) {
-            timers.addTimer(1.5 + (i * 0.3) * 1.1, () -> {
-                Run.inst.world.gen();
-                Run.inst.world.cull();
-                showGenes(i + 1);
-
-                if (i == Run.Generations) {
-                    goNextScene();
-                }
-            });
-        }
-#end
 
 #if debug
     Debug.updateTimes = [for (i in 0...300) 0.0]; // ~5 seconds
@@ -56,8 +44,12 @@ class GenScene extends ButtonScene {
 #if debug
         final updateStart = Timer.stamp();
 #end
-        logTexts[0].setText('Creating family trees...');
-        logTexts[1].setText('M: ${Run.inst.world.matches}, G: ${Run.inst.world.generation}, N: ${Run.inst.world.pool.length}');
+        if (Game.keys.justPressed(KeyCode.R)) {
+            new Run();
+            game.changeScene(new HarnessScene());
+        }
+
+        logTexts[0].setText('M: ${Run.inst.world.matches}, S: ${Run.inst.world.stepdads}, N: ${Run.inst.world.pool.length}');
 
         super.update(delta);
 

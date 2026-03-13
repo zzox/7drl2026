@@ -1,10 +1,7 @@
 package game.scenes;
 
 import core.Game;
-import game.ui.GeneSelectWindow.GuyIcon;
-import game.ui.GenesDisplay;
 import game.ui.UiText;
-import game.world.Run;
 
 class ClickFocusScene extends ButtonScene {
     override function create () {
@@ -25,6 +22,10 @@ class ClickFocusScene extends ButtonScene {
     }
 
     public function launchNextScene () {
+#if harness
+        game.changeScene(new HarnessScene());
+#else
         game.changeScene(new MenuScene());
+#end
     }
 }
