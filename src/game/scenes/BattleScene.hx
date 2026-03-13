@@ -129,7 +129,7 @@ class BattleScene extends ButtonScene {
         speed2 = new UiElement(116, 16, 16, 16, 4, 4, 12, 12, 16, 16, 52, Assets.images.ui, () -> { setSpeed(1); });
         speed3 = new UiElement(132, 16, 16, 16, 4, 4, 12, 12, 16, 16, 56, Assets.images.ui, () -> { setSpeed(2); });
         speed4 = new UiElement(148, 16, 16, 16, 4, 4, 12, 12, 16, 16, 60, Assets.images.ui, () -> { setSpeed(3); });
-        auto = new UiElement(192, 16, 32, 16, 4, 4, 14, 30, 32, 16, 112, Assets.images.ui, () -> { setSpeed(-1); });
+        auto = new UiElement(192, 16, 32, 16, 4, 4, 30, 14, 32, 16, 112, Assets.images.ui, () -> { setSpeed(-1); });
 
         entities.push(speed1);
         entities.push(speed2);
