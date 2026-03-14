@@ -10,7 +10,7 @@ class World {
     public var stepdads:Int = 0;
     public var matches:Int = -1;
 
-    public var geneCopies:Array<Dna> = [];
+    public var geneCopies:Array<Array<Dna>> = [];
 
     public function new () {
 
@@ -37,9 +37,9 @@ class World {
         }
 
         while (pool.length >= (generation + 1) * 4) {
-            simulateBattle(pool.shift(), pool.shift());
+            simulateBattleAndAdd(pool.shift(), pool.shift());
         }
-        makeRandomCopy();
+        makeCopies();
     }
 
     public function gen () {
@@ -58,7 +58,7 @@ class World {
         pool = nextGen;
     }
 
-    function simulateBattle (dna1:Dna, dna2:Dna) {
+    function simulateBattleAndAdd (dna1:Dna, dna2:Dna) {
         final room = new Room(dna1, dna2);
 
         while (room.checkDead() == 0 && !room.checkSkip()) {
@@ -126,7 +126,7 @@ class World {
     //     return true;
     // }
 
-    function makeRandomCopy () {
-        geneCopies.push(Run.inst.randomItem(pool));
+    function makeCopies () {
+        geneCopies.push(pool.copy());
     }
 }

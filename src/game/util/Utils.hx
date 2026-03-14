@@ -90,3 +90,8 @@ function getLaunchY (fromY:Int, facing:RotationDir):Int {
         case North: fromY - 1;
     }
 }
+
+// WARN: only used for aesthetics
+function getRandomItem<T> (arr:Array<T>):T {
+    return arr[Math.floor(Math.random() * arr.length)];
+}

@@ -199,13 +199,13 @@ class BattleScene extends ButtonScene {
         final room = Run.inst.room;
 
         if (speed == -1) {
-            if (room.steps > 2000) {
+            if (room.steps > 1920) {
                 roomSpeed = 1;
                 s = 8;
-            } else if (room.steps > 1500) {
+            } else if (room.steps > 960) {
                 roomSpeed = 1;
                 s = 4;
-            }  else if (room.steps > 750) {
+            }  else if (room.steps > 480) {
                 roomSpeed = 1;
                 s = 2;
             } else if (room.steps < 48 || room.steps - room.lastHit == 0) {

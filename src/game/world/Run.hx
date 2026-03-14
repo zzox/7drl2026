@@ -47,6 +47,7 @@ class R {
     public var sale:Null<Sale>;
 
     public var day:Int = 0;
+    public var matches:Int = 0;
     public var money:Int = 100;
     public var wins:Int = 0;
     public var losses:Int = 0;
@@ -58,7 +59,7 @@ class R {
 
     public var roster:Array<Dna> = [];
     public var graveyard:Array<Dna> = [];
-    public var order:Array<Dna> = [];
+    public var order:Array<Array<Dna>> = [];
     public var defeated:Array<Dna> = [];
     public var skipped:Array<Dna> = [];
     public var forSale:Array<Dna> = [];
@@ -89,11 +90,12 @@ class R {
 
         world = new World();
         order = world.geneCopies;
+        // trace(order);
         makeForSale();
     }
 
     public function fightNext (fighter:Dna) {
-        makeRoom(fighter, order[0]);
+        makeRoom(fighter, getNextInOrder());
         // money -= fightNextMoney();
     }
 
@@ -107,7 +109,7 @@ class R {
         }
 
         final dollars = skipNextMoney();
-        skipped.push(order.shift());
+        skipped.push(shiftNextInOrder());
         money -= dollars;
         skips++;
     }
@@ -123,7 +125,6 @@ class R {
 
     public function makeRoom (dna1:Dna, dna2:Dna) {
         room = new Room(dna1, dna2);
-        // matches++;
     }
 
     public function handleRoom () {
@@ -142,16 +143,22 @@ class R {
             room.actors[0].dna.hp = Std.int(Math.max(1, room.actors[0].dna.hp - room.actors[0].dna.rad));
             room.actors[0].dna.rad++;
             money += rewardMoney();
-            defeated.push(order.shift());
+
+            // TEST:
+            final item = getNextInOrder();
+            defeated.push(shiftNextInOrder());
+
+            trace('should be true', item == defeated[defeated.length - 1]);
+
             wins++;
             if (order.length > 0) {
                 makeForSale();
             }
         }
 
-        // room = null;
         day++;
         justAdded = 0;
+        matches++;
     }
 
     public function makeNursery (dna1:Dna, dna2:Dna) {
@@ -251,18 +258,24 @@ class R {
     }
 
     function makeForSale () {
-        forSale = combineDna(new Dna(), new Dna(), order[0].generation / 2, 3);
-    }
-
-    public function establishRun () {
-        order = world.geneCopies.copy();
-        world = null;
+        forSale = combineDna(new Dna(), new Dna(), order[0][0].generation / 2, 3);
     }
 
     public function doCommand (command:Command):Bool {
         if (command.type == TempCommand) {}
         commands.push({ day: day, command: command });
         return true;
+    }
+
+    public function getNextInOrder () {
+        return order[0][matches % order.length];
+    }
+
+    // gets the one we are facing next, then gets rid of the whole order array at [0];
+    function shiftNextInOrder ():Dna {
+        final item = order[0].splice(matches % order.length, 1)[0];
+        order.shift();
+        return item;
     }
 
     public function randomInt (num:Int):Int {

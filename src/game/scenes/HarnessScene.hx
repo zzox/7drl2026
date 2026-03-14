@@ -6,6 +6,7 @@ import core.util.Util;
 import game.ui.GenesDisplay;
 import game.ui.UiText;
 import game.util.Debug;
+import game.util.Utils;
 import game.world.Run;
 import haxe.Timer;
 import kha.input.KeyCode;
@@ -76,7 +77,7 @@ class HarnessScene extends ButtonScene {
     function showGenes (num:Int) {
         entities = entities.slice(0, 3);
         for (i in 0...num) {
-            final gene = Run.inst.world.geneCopies[i];
+            final gene = getRandomItem(Run.inst.world.geneCopies[i]);
             // entities.push(makeBitmapText(4, 76 + 10 * i, i + ''));
             entities.push(new GenesDisplay(12 + i * 2, 20 + 10 * i, gene.genes, 24));
 #if debug
@@ -87,7 +88,6 @@ class HarnessScene extends ButtonScene {
 
     function goNextScene () {
         timers.addTimer(10.0, () -> {
-            Run.inst.establishRun();
             game.changeScene(new PreBattleScene());
         });
     }

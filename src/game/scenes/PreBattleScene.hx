@@ -23,7 +23,7 @@ class PreBattleScene extends UiScene {
 
         makeTopButtons(0);
 
-        final guy = Run.inst.order[0];
+        final guy = Run.inst.getNextInOrder();
 
         entities.push(new UiElement(18, 32, 16, 16, 4, 4, 12, 12, 280, 56, 20, Assets.images.ui));
 
