@@ -14,11 +14,14 @@ class MenuScene extends ButtonScene {
 
         entities.push(new SImage(40, 20, Assets.images.sons1));
 
-        final startButton = makeUiTextButton(140, 100, 40, 16, 16, 'STRT', () -> {
+        buttons.push(makeUiTextButton(140, 100, 40, 16, 16, 'STRT', () -> {
             new Run();
             game.changeScene(new GenScene());
-        });
-        buttons.push(startButton);
+        }));
+
+        buttons.push(makeUiTextButton(140, 124, 40, 16, 16, 'HELP', () -> {
+            game.changeScene(new HelpScene(0));
+        }));
 
         Game.bgScene.set(2);
     }

@@ -35,7 +35,7 @@ class PreBattleScene extends UiScene {
         entities.push(genes);
 
         entities.push(makeBitmapText(66, 36, guy.name));
-        entities.push(makeBitmapText(192, 36, 'Gen: ${guy.generation}'));
+        entities.push(makeBitmapText(192, 36, 'Round: ${Run.inst.defeated.length + Run.inst.skipped.length + 1}'));
 
         windows.push(chooseGuy = new GeneSelectWindow(18, 104, ' Fighter', (num:Int) -> {
             if (num > -1) {}
