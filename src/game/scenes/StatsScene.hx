@@ -1,6 +1,7 @@
 package game.scenes;
 
 import core.Game;
+import game.data.Save;
 import game.ui.NumColumn;
 import game.ui.UiElement;
 import game.ui.UiText;
@@ -31,12 +32,16 @@ class StatsScene extends UiScene {
             Player.music = !Player.music;
             Game.bgScene.muteMusic();
             muteMusic.baseIndex = Player.music ? 72 : 76;
+            Save.settings.music = Player.music;
+            Save.writeSave();
         }));
 
         entities.push(makeBitmapText(200, 60, 'SFX'));
         entities.push(muteSound = new UiElement(260, 60, 16, 16, 4, 4, 12, 12, 16, 16, Player.sfx ? 72 : 76, Assets.images.ui, () -> {
             Player.sfx = !Player.sfx;
             muteSound.baseIndex = Player.sfx ? 72 : 76;
+            Save.settings.sfx = Player.sfx;
+            Save.writeSave();
         }));
 
         entities.push(makeBitmapText(86, 132, 'Quit Run:'));

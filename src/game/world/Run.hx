@@ -26,8 +26,6 @@ class Run {
     public static final Generations:Int = 15; // will fight 1 + Generations since we make one at the start
     public static var inst:R;
 
-    public static var speed:Int = -1;
-
     public function new () {
         inst = new R();
         inst.init();
@@ -268,12 +266,12 @@ class R {
     }
 
     public function getNextInOrder () {
-        return order[0][matches % order.length];
+        return order[0][matches % order[0].length];
     }
 
     // gets the one we are facing next, then gets rid of the whole order array at [0];
     function shiftNextInOrder ():Dna {
-        final item = order[0].splice(matches % order.length, 1)[0];
+        final item = order[0].splice(matches % order[0].length, 1)[0];
         order.shift();
         return item;
     }

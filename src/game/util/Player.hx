@@ -4,8 +4,8 @@ import kha.Assets;
 import kha.audio1.AudioChannel;
 
 class Player {
-    public static var sfx:Bool = true;
-    public static var music:Bool = true;
+    public static var sfx:Bool;
+    public static var music:Bool;
 
     public static function playSound (sound:kha.Sound, volume:Float) {
         if (sfx) {

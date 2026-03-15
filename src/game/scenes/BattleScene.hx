@@ -4,6 +4,7 @@ import core.Game;
 import core.Types;
 import core.gameobjects.BitmapText;
 import core.gameobjects.Sprite;
+import game.data.Save;
 import game.ui.BarEl;
 import game.ui.DamageNumber;
 import game.ui.GeneSelectWindow.GuyIcon;
@@ -155,7 +156,7 @@ class BattleScene extends ButtonScene {
 
         Game.bgScene.set(0);
 
-        setSpeed(Run.speed);
+        setSpeed(Save.settings.speed);
 
 #if debug
         for (i in 0...8) {
@@ -338,6 +339,7 @@ class BattleScene extends ButtonScene {
         timers.addTimer(2.0, () -> {
             // TODO: add a "next" button
             game.changeScene(new BattleResultsScene());
+            Save.writeSave();
         });
 
         if (death) {
@@ -418,6 +420,6 @@ class BattleScene extends ButtonScene {
             roomSpeed = 1;
         }
 
-        Run.speed = speed;
+        Save.settings.speed = speed;
     }
 }

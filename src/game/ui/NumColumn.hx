@@ -52,6 +52,7 @@ class NumColumn extends GameObject {
 
     override function render (g2:Graphics, cam:Camera) {
         var yy = y;
+        textItem.color = color;
         for (i in 0...items.length) {
             textItem.setText(items[i].name);
             textItem.setPosition(x, yy);

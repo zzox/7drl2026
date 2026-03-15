@@ -1,6 +1,7 @@
 package game.scenes;
 
 import game.ui.GeneSelectWindow.GuyIcon;
+import game.ui.NumColumn;
 import game.ui.UiText;
 import game.world.Run;
 
@@ -70,6 +71,16 @@ class OverScene extends ButtonScene {
             buttons.push(makeUiTextButton(140, 160, 40, 16, 16, 'MENU', () -> {
                 game.changeScene(new MenuScene());
             }));
+        });
+
+        timers.addTimer(5.0, () -> {
+            final stats = new NumColumn(8, 132, 100, ['Wins', 'Losses', 'Offspring', 'Abandoned']);
+            stats.color = 0xdae0ea;
+            stats.setStringItem('Wins', '${Run.inst.wins}/${Run.Generations + 1}');
+            stats.setItem('Losses', Run.inst.losses);
+            stats.setItem('Offspring', Run.inst.offspring);
+            stats.setItem('Abandoned', Run.inst.abandoned);
+            entities.push(stats);
         });
     }
 
