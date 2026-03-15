@@ -3,6 +3,7 @@ package game.scenes;
 import game.ui.GeneSelectWindow.GuyIcon;
 import game.ui.NumColumn;
 import game.ui.UiText;
+import game.util.TextUtil;
 import game.world.Run;
 
 class OverScene extends ButtonScene {
@@ -17,9 +18,11 @@ class OverScene extends ButtonScene {
     override function create () {
         super.create();
 
-        final message = won ? 'Victory reached in ${Run.inst.day} days' : 'No more sons';
+        Run.inst.submitRun();
+
+        final message = won ? 'Victory reached in ${Run.inst.day + 1} days' : 'No more sons';
         final subMessage = if (won) {
-            '${Run.inst.defeated.length} wins, ${Run.inst.graveyard.length} losses in ${Run.inst.day + 1} days. you ended with $' + Run.inst.money;
+            '${Run.inst.defeated.length} wins and ${Run.inst.graveyard.length} losses.';
         } else {
             if (Run.inst.graveyard.length == 0) {
                 '';
@@ -74,12 +77,13 @@ class OverScene extends ButtonScene {
         });
 
         timers.addTimer(5.0, () -> {
-            final stats = new NumColumn(8, 132, 100, ['Wins', 'Losses', 'Offspring', 'Abandoned']);
+            final stats = new NumColumn(8, 132, 100, ['Wins', 'Losses', 'Offspring', 'Abandoned', 'Total']);
             stats.color = 0xdae0ea;
             stats.setStringItem('Wins', '${Run.inst.wins}/${Run.Generations + 1}');
             stats.setItem('Losses', Run.inst.losses);
             stats.setItem('Offspring', Run.inst.offspring);
             stats.setItem('Abandoned', Run.inst.abandoned);
+            stats.setStringItem('Total', TextUtil.formatMoney(Run.inst.money));
             entities.push(stats);
         });
     }

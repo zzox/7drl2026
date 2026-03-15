@@ -130,7 +130,7 @@ function generateGenes ():Array<Gene> {
             return genes;
         }
 
-        trace('trying again');
+        // trace('trying again');
     }
 }
 

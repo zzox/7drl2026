@@ -5,6 +5,46 @@ import game.world.Dna;
 import haxe.Json;
 import kha.math.Random;
 
+#if is_ng
+import Keys;
+import io.newgrounds.NG;
+import io.newgrounds.crypto.Cipher;
+#end
+
+#if is_ng
+function unlockMedal (medalNum:Int) {
+    final medal = NG.core.medals.get(medalNum);
+    if (medal != null && !medal.unlocked) {
+        medal.sendUnlock();
+    }
+}
+// function sendScore (scoreBoard:Int, score:Int, force:Bool = false) {
+function sendScore (scoreBoard:Int, score:Int) {
+    final board = NG.core.scoreBoards.get(scoreBoard);
+    trace(board, board.scores);
+    // if (board != null && (force || board.scores == null || board.scores[0].value > score)) {
+    //     board.postScore(score);
+    // }
+    if (board != null) {
+        board.postScore(score);
+    }
+}
+#end
+
+function checkRounds (round:Int) {
+#if is_ng
+    if (round == 4) {
+        unlockMedal(medals[0]);
+    } else if (round == 8) {
+        unlockMedal(medals[1]);
+    } else if (round == 12) {
+        unlockMedal(medals[2]);
+    } else if (round == 16) {
+        unlockMedal(medals[3]);
+    }
+#end
+}
+
 enum abstract CommandType(Int) {
     var TempCommand = 0;
 }
@@ -146,12 +186,14 @@ class R {
             final item = getNextInOrder();
             defeated.push(shiftNextInOrder());
 
-            trace('should be true', item == defeated[defeated.length - 1]);
+            // trace('should be true', item == defeated[defeated.length - 1]);
 
             wins++;
             if (order.length > 0) {
                 makeForSale();
             }
+
+            checkRounds(defeated.length + skipped.length);
         }
 
         day++;
@@ -282,6 +324,13 @@ class R {
 
     public function randomItem <T>(items:Array<T>):T {
         return items[randomInt(items.length)];
+    }
+
+    public function submitRun () {
+#if is_ng
+        sendScore(scores[0], money);
+        sendScore(scores[1], skipped.length + defeated.length);
+#end
     }
 
     inline function sendLogs () {
