@@ -5,6 +5,8 @@ import core.gameobjects.AnimSprite;
 import core.gameobjects.Sprite;
 import core.scene.Scene;
 import game.util.Player;
+import game.world.Run;
+import haxe.Json;
 import kha.Assets;
 import kha.Sound;
 import kha.audio1.AudioChannel;
@@ -87,6 +89,15 @@ class BgScene extends Scene {
         if (Game.keys.justPressed(KeyCode.M)) {
             Player.music = !Player.music;
             muteMusic();
+        }
+
+        if (Game.keys.justPressed(KeyCode.D) && Run.inst != null) {
+            trace(Json.stringify({
+                commands: Run.inst.commands,
+                day: Run.inst.day,
+                seed: Run.inst.seed,
+                sons: Run.inst.roster.length
+            }));
         }
 
         super.update(delta);

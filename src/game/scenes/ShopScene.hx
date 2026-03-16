@@ -49,12 +49,12 @@ class ShopScene extends UiScene {
         }));
 
         buyButton = makeUiTextButton(80, 76, 40, 16, 16, 'BUYY', () -> {
-            Run.inst.doBuy();
+            Run.inst.doCommand(makeShopBuyCommand());
             game.changeScene(new ShopScene());
         });
 
         passButton = makeUiTextButton(200, 76, 40, 16, 16, 'PASS', () -> {
-            Run.inst.doPass();
+            Run.inst.doCommand(makeShopBuyCommand());
             game.changeScene(new ShopScene());
         });
 

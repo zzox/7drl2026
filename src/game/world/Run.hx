@@ -183,7 +183,7 @@ class R {
         makeForSale();
     }
 
-    public function fightNext (fighter:Dna) {
+    function fightNext (fighter:Dna) {
         makeRoom(fighter, getNextInOrder());
         // money -= fightNextMoney();
     }
@@ -192,7 +192,7 @@ class R {
         return Std.int(10 + defeated.length * defeated.length);
     }
 
-    public function skipNext () {
+    function skipNext () {
         if (money < 0) {
             throw 'No Money';
         }
@@ -212,7 +212,7 @@ class R {
         return Std.int(100 + past * past * 5);
     }
 
-    public function makeRoom (dna1:Dna, dna2:Dna) {
+    function makeRoom (dna1:Dna, dna2:Dna) {
         room = new Room(dna1, dna2);
     }
 
@@ -252,7 +252,7 @@ class R {
         matches++;
     }
 
-    public function makeNursery (dna1:Dna, dna2:Dna) {
+    function makeNursery (dna1:Dna, dna2:Dna) {
         nursery = new Nursery(dna1, dna2);
     }
 
@@ -266,11 +266,11 @@ class R {
         day++;
     }
 
-    public function doSale (guy:Dna) {
+    function doSale (guy:Dna) {
         sale = new Sale(guy);
     }
 
-    public function doMix (guy:Dna) {
+    function doMix (guy:Dna) {
         if (mixMoney(guy) > money) {
             throw 'No money';
         }
@@ -279,7 +279,7 @@ class R {
         money -= mixMoney(guy);
     }
 
-    public function doMutate (guy:Dna) {
+    function doMutate (guy:Dna) {
         if (mutateMoney(guy) > money) {
             throw 'No money';
         }
@@ -329,7 +329,7 @@ class R {
         return mutateMoney(forSale[0]);
     }
 
-    public function doBuy () {
+    function doBuy () {
         if (forSale.length == 0 || buyMoney() > money) {
             trace(forSale.length, buyMoney());
             throw 'Cant buy';
@@ -340,7 +340,7 @@ class R {
         justAdded = 1;
     }
 
-    public function doPass () {
+    function doPass () {
         if (forSale.length == 0) {
             throw 'Cant pass';
         }
@@ -376,7 +376,9 @@ class R {
 
         if (sim) {
             if (command.type == Fight) {
-                while (false) {}
+                while (room.checkDead() == 0 && !room.checkSkip()) {
+                    room.step(0);
+                }
                 handleRoom();
             } else if (command.type == SkipFight) {
             } else if (command.type == Sync) {

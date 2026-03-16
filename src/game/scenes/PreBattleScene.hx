@@ -43,14 +43,14 @@ class PreBattleScene extends UiScene {
         }));
 
         fightButton = makeUiTextButton(40, 64, 40, 16, 16, 'BTTL', () -> {
-            Run.inst.fightNext(chooseGuy.selected);
+            Run.inst.doCommand(makeFightCommand(chooseGuy.selected.id));
             game.changeScene(new BattleScene());
         });
         fightButton.disabled = true;
         fightButton.altSound = Assets.sounds.sons_noise1;
 
         skipButton = makeUiTextButton(124, 64, 40, 16, 16, 'SKIP', () -> {
-            Run.inst.skipNext();
+            Run.inst.doCommand(makeSkipFightCommand());
             game.changeScene(new PreBattleScene());
         });
         skipButton.disabled = Run.inst.money < Run.inst.skipNextMoney();

@@ -56,7 +56,7 @@ class SyncScene extends UiScene {
         partner2.visible = false;
 
         syncButton = makeUiTextButton(44, 162, 40, 16, 16, 'SYNC', () -> {
-            Run.inst.makeNursery(partner2.selected, partner1.selected);
+            Run.inst.doCommand(makeSyncCommand(partner1.selected.id, partner2.selected.id));
             game.changeScene(new NurseryScene());
         });
 

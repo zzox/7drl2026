@@ -77,7 +77,7 @@ class OverScene extends ButtonScene {
         });
 
         timers.addTimer(5.0, () -> {
-            final stats = new NumColumn(8, 132, 100, ['Wins', 'Losses', 'Offspring', 'Abandoned', 'Total']);
+            final stats = new NumColumn(8, 124, 100, ['Wins', 'Losses', 'Offspring', 'Abandoned', 'Total']);
             stats.color = 0xdae0ea;
             stats.setStringItem('Wins', '${Run.inst.wins}/${Run.Generations + 1}');
             stats.setItem('Losses', Run.inst.losses);
