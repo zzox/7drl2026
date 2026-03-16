@@ -46,19 +46,70 @@ function checkRounds (round:Int) {
 }
 
 enum abstract CommandType(Int) {
-    var TempCommand = 0;
+    var Fight = 0;
+    var SkipFight = 1;
+    var Sync = 2;
+    var SellGuy = 3;
+    var MixGuy = 4;
+    var MutateGuy = 5;
+    var ShopBuy = 6;
+    var ShopPass = 7;
 }
 
 typedef Command = {
     var type:CommandType;
-    // TODO: turn optional props into union type
     var ?dId:DId;
+    var ?dId1:DId;
+    var ?dId2:DId;
 }
 
-function makeTempCommand (dId:DId):Command {
+function makeFightCommand (dId:DId):Command {
     return {
-        type: TempCommand,
+        type: Fight,
         dId: dId
+    }
+}
+function makeSkipFightCommand ():Command {
+    return {
+        type: SkipFight
+    }
+}
+
+function makeSyncCommand (dId1:DId, dId2:DId):Command {
+    return {
+        type: Sync,
+        dId1: dId1,
+        dId2: dId2
+    }
+}
+
+function makeSellGuyCommand (dId:DId):Command {
+    return {
+        type: SellGuy,
+        dId: dId
+    }
+}
+function makeMixGuyCommand (dId:DId):Command {
+    return {
+        type: MixGuy,
+        dId: dId
+    }
+}
+function makeMutateGuyCommand (dId:DId):Command {
+    return {
+        type: MutateGuy,
+        dId: dId
+    }
+}
+
+function makeShopBuyCommand ():Command {
+    return {
+        type: ShopBuy
+    }
+}
+function makeShopPassCommand ():Command {
+    return {
+        type: ShopPass
     }
 }
 
@@ -301,8 +352,48 @@ class R {
         forSale = combineDna(new Dna(), new Dna(), order[0][0].generation / 2, 3);
     }
 
-    public function doCommand (command:Command):Bool {
-        if (command.type == TempCommand) {}
+    public function doCommand (command:Command, sim:Bool = false):Bool {
+        if (command.type == Fight) {
+            // makeRoom(command.dId)
+            fightNext(getFromRoster(command.dId));
+        } else if (command.type == SkipFight) {
+            skipNext();
+        } else if (command.type == Sync) {
+            makeNursery(getFromRoster(command.dId1), getFromRoster(command.dId2));
+        } else if (command.type == SellGuy) {
+            doSale(getFromRoster(command.dId));
+        } else if (command.type == MixGuy) {
+            doMix(getFromRoster(command.dId));
+        } else if (command.type == MutateGuy) {
+            doMutate(getFromRoster(command.dId));
+        } else if (command.type == ShopBuy) {
+            doBuy();
+        } else if (command.type == ShopPass) {
+            doPass();
+        } else {
+            throw 'Unhandled command type';
+        }
+
+        if (sim) {
+            if (command.type == Fight) {
+                while (false) {}
+                handleRoom();
+            } else if (command.type == SkipFight) {
+            } else if (command.type == Sync) {
+                handleNursery();
+            } else if (command.type == SellGuy) {
+                handleSale();
+            } else if (command.type == MixGuy) {
+                handleMix();
+            } else if (command.type == MutateGuy) {
+                handleMutate();
+            } else if (command.type == ShopBuy) {
+            } else if (command.type == ShopPass) {
+            } else {
+                throw 'Unhandled command type -- sim';
+            }
+        }
+
         commands.push({ day: day, command: command });
         return true;
     }
@@ -316,6 +407,10 @@ class R {
         final item = order[0].splice(matches % order[0].length, 1)[0];
         order.shift();
         return item;
+    }
+
+    function getFromRoster (dId:DId):Dna {
+        return roster.filter(i -> i.id == dId)[0];
     }
 
     public function randomInt (num:Int):Int {
