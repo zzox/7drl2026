@@ -1,9 +1,10 @@
 package game.util;
 
 import core.Types.IntVec2;
+import core.gameobjects.Sprite;
 import core.util.Util;
-import game.world.Actor;
 import game.world.Grid;
+import kha.Assets;
 
 inline function checkEq (x1:Int, y1:Int, x2:Int, y2:Int) {
     return x1 == x2 && y1 == y2;
@@ -94,4 +95,10 @@ function getLaunchY (fromY:Int, facing:RotationDir):Int {
 // WARN: only used for aesthetics
 function getRandomItem<T> (arr:Array<T>):T {
     return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function makeSpritesheetImage (x:Int, y:Int, tileIndex:Int, width:Int = 16, height:Int = 16) {
+    final image = new Sprite(x, y, Assets.images.ui, width, height);
+    image.tileIndex = tileIndex;
+    return image;
 }

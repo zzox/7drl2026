@@ -4,6 +4,8 @@ import core.util.Util;
 import game.world.Dna;
 
 class World {
+    static inline final GenMutationRate:Float = 1.0;
+
     public var pool:Array<Dna> = [];
     public var dnaIndex:Int;
     public var generation:Int = 0;
@@ -49,7 +51,7 @@ class World {
         while (pool.length < generation * 4) {
             if (pool.length > 1) {
                 // ATTN: difficulty here changes by setting to higher generation multiple
-                final items = combineDna(pool.shift(), pool.shift(), generation * 1.5, 8);
+                final items = combineDna(pool.shift(), pool.shift(), generation * GenMutationRate, 8);
                 final f = items.filter(i -> !i.coward);
                 nextGen = nextGen.concat(f);
             } else {
