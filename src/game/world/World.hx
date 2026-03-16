@@ -31,7 +31,7 @@ class World {
     }
 
     public function cull () {
-        while (pool.length < (generation + 4) * 4) {
+        while (pool.length < (generation + 1) * 4) {
             pool.push(new Dna());
             stepdads++;
         }
@@ -48,6 +48,7 @@ class World {
         shuffle(pool, Run.inst.rand);
         while (pool.length < generation * 4) {
             if (pool.length > 1) {
+                // ATTN: difficulty here changes by setting to higher generation multiple
                 final items = combineDna(pool.shift(), pool.shift(), generation * 1.5, 8);
                 final f = items.filter(i -> !i.coward);
                 nextGen = nextGen.concat(f);

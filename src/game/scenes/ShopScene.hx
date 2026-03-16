@@ -1,16 +1,13 @@
 package game.scenes;
 
-import core.Game;
 import core.gameobjects.BitmapText;
 import game.ui.GeneSelectWindow;
 import game.ui.GenesDisplay;
 import game.ui.UiElement;
 import game.ui.UiText;
 import game.util.TextUtil;
-import game.world.Dna;
 import game.world.Run;
 import kha.Assets;
-import kha.input.Mouse;
 
 class ShopScene extends UiScene {
     var icon:GuyIcon;
@@ -54,7 +51,7 @@ class ShopScene extends UiScene {
         });
 
         passButton = makeUiTextButton(200, 76, 40, 16, 16, 'PASS', () -> {
-            Run.inst.doCommand(makeShopBuyCommand());
+            Run.inst.doCommand(makeShopPassCommand());
             game.changeScene(new ShopScene());
         });
 
