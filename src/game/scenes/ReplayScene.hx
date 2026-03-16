@@ -47,7 +47,7 @@ class ReplayScene extends ButtonScene {
         }
 
         if (commands.length > 0) {
-            trace(commands[0]);
+            // trace(commands[0], Run.inst.roster[0].name);
             Run.inst.doCommand(commands.shift().command, true);
         }
 

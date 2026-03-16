@@ -12,6 +12,7 @@ import kha.Assets;
 class StatsScene extends UiScene {
     var muteSound:UiElement;
     var muteMusic:UiElement;
+    var scrollBg:UiElement;
     var stats:NumColumn;
 
     override function create () {
@@ -44,12 +45,34 @@ class StatsScene extends UiScene {
             Save.writeSave();
         }));
 
+        entities.push(makeBitmapText(200, 80, 'BG'));
+        entities.push(scrollBg = new UiElement(260, 80, 16, 16, 4, 4, 12, 12, 16, 16, !Game.bgScene.invisible ? 72 : 76, Assets.images.ui, () -> {
+            if (Game.bgScene.invisible) {
+                Game.bgScene.show();
+            } else {
+                Game.bgScene.clear();
+            }
+
+            Save.settings.bgScroll = !Game.bgScene.invisible;
+            Save.writeSave();
+        }));
+
         entities.push(makeBitmapText(86, 132, 'Quit Run:'));
 
         buttons.push(muteMusic);
         buttons.push(muteSound);
+        buttons.push(scrollBg);
+
         buttons.push(makeUiTextButton(180, 132, 40, 16, 16, 'QUIT', () -> {
             game.changeScene(new QuitScene());
         }));
+    }
+
+    override function update (delta:Float) {
+        super.update(delta);
+
+        muteMusic.baseIndex = Player.music ? 72 : 76;
+        muteSound.baseIndex = Player.sfx ? 72 : 76;
+        scrollBg.baseIndex = !Game.bgScene.invisible ? 72 : 76;
     }
 }

@@ -27,6 +27,7 @@ class Save {
 class SaveSettings {
     public var music:Bool = true;
     public var sfx:Bool = true;
+    public var bgScroll:Bool = true;
     public var speed:Int = -1;
 
     public function new () {}

@@ -365,6 +365,7 @@ class R {
         } else if (command.type == MixGuy) {
             doMix(getFromRoster(command.dId));
         } else if (command.type == MutateGuy) {
+            trace(command, getFromRoster(command.dId));
             doMutate(getFromRoster(command.dId));
         } else if (command.type == ShopBuy) {
             doBuy();
@@ -446,11 +447,12 @@ class R {
         req.request(true);
     }
 
-    inline function getData ():String {
+    public inline function getData ():String {
         return Json.stringify({
-            // gameId: gameId,
+            commands: commands,
+            day: day,
             seed: seed,
-            // commands: world.commands
+            sons: roster.length
         });
     }
 }

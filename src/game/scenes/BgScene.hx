@@ -92,12 +92,7 @@ class BgScene extends Scene {
         }
 
         if (Game.keys.justPressed(KeyCode.D) && Run.inst != null) {
-            trace(Json.stringify({
-                commands: Run.inst.commands,
-                day: Run.inst.day,
-                seed: Run.inst.seed,
-                sons: Run.inst.roster.length
-            }));
+            trace(Run.inst.getData());
         }
 
         super.update(delta);

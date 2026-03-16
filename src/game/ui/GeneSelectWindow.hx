@@ -162,7 +162,6 @@ class GeneSelectWindow {
 
         winText.setText('win: ${item.wins}');
         genText.setText('gen: ${item.generation}');
-        // rdText.setText('rd: ${67}');
 
         // gross!
         nameText.setText(item.name);
