@@ -426,8 +426,8 @@ class R {
 
     public function submitRun () {
 #if is_ng
-        sendScore(scores[0], money);
-        sendScore(scores[1], skipped.length + defeated.length);
+        sendScore(scores[0], skipped.length + defeated.length);
+        sendScore(scores[1], money);
 #end
     }
 

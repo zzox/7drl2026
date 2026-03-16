@@ -5,7 +5,6 @@ import core.scene.Scene;
 import game.ui.UiElement;
 import game.ui.UiText;
 import kha.Assets;
-import kha.input.KeyCode;
 import kha.input.Mouse;
 
 class ButtonScene extends Scene {

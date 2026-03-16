@@ -9,7 +9,6 @@ import game.util.Debug;
 import game.util.Utils;
 import game.world.Run;
 import haxe.Timer;
-import kha.input.KeyCode;
 
 class GenScene extends ButtonScene {
     var logTexts:Array<BitmapText> = [];
@@ -57,7 +56,7 @@ class GenScene extends ButtonScene {
 #if debug
         final updateStart = Timer.stamp();
 #end
-        logTexts[0].setText('Creating family trees...');
+        logTexts[0].setText('Creating family tree...');
         logTexts[1].setText('M: ${Run.inst.world.matches}, G: ${Run.inst.world.generation}, N: ${Run.inst.world.pool.length}');
 
         super.update(delta);

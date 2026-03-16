@@ -46,7 +46,7 @@ class StatsScene extends UiScene {
         }));
 
         entities.push(makeBitmapText(200, 80, 'BG'));
-        entities.push(scrollBg = new UiElement(260, 80, 16, 16, 4, 4, 12, 12, 16, 16, !Game.bgScene.invisible ? 72 : 76, Assets.images.ui, () -> {
+        entities.push(scrollBg = new UiElement(260, 80, 16, 16, 4, 4, 12, 12, 16, 16, !Game.bgScene.invisible ? 88 : 16, Assets.images.ui, () -> {
             if (Game.bgScene.invisible) {
                 Game.bgScene.show();
             } else {
@@ -73,6 +73,6 @@ class StatsScene extends UiScene {
 
         muteMusic.baseIndex = Player.music ? 72 : 76;
         muteSound.baseIndex = Player.sfx ? 72 : 76;
-        scrollBg.baseIndex = !Game.bgScene.invisible ? 72 : 76;
+        scrollBg.baseIndex = !Game.bgScene.invisible ? 88 : 16;
     }
 }
