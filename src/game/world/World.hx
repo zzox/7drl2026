@@ -48,7 +48,7 @@ class World {
         shuffle(pool, Run.inst.rand);
         while (pool.length < generation * 4) {
             if (pool.length > 1) {
-                final items = combineDna(pool.shift(), pool.shift(), generation * 2, 8);
+                final items = combineDna(pool.shift(), pool.shift(), generation * 1.5, 8);
                 final f = items.filter(i -> !i.coward);
                 nextGen = nextGen.concat(f);
             } else {

@@ -117,8 +117,8 @@ class Run {
     public static final Generations:Int = 15; // will fight 1 + Generations since we make one at the start
     public static var inst:R;
 
-    public function new () {
-        inst = new R();
+    public function new (?seed:Int) {
+        inst = new R(seed);
         inst.init();
     }
 }

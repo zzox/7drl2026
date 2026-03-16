@@ -15,6 +15,7 @@ project.addAssets('assets/index.html');
 
 project.addShaders('shaders/**');
 project.addSources('src');
+// project.addDefine('replay');
 // project.addDefine('harness');
 // project.addDefine('logging');
 

@@ -24,7 +24,9 @@ class ClickFocusScene extends ButtonScene {
     }
 
     public function launchNextScene () {
-#if harness
+#if replay
+        game.changeScene(new ReplayScene());
+#elseif harness
         game.changeScene(new HarnessScene());
 #else
         game.changeScene(new MenuScene());
