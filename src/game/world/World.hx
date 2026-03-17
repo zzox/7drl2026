@@ -32,7 +32,7 @@ class World {
         }
     }
 
-    public function cull () {
+    function cull () {
         while (pool.length < (generation + 1) * 4) {
             pool.push(new Dna());
             stepdads++;
@@ -44,7 +44,7 @@ class World {
         makeCopies();
     }
 
-    public function gen () {
+    function gen () {
         generation++;
         var nextGen = [];
         shuffle(pool, Run.inst.rand);

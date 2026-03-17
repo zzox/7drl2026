@@ -116,8 +116,20 @@ function makeShopPassCommand ():Command {
 class Run {
     public static final Generations:Int = 15; // will fight 1 + Generations since we make one at the start
     public static var inst:R;
-
+    
+    public static var ngInit:Bool = false;
     public function new (?seed:Int) {
+#if is_ng
+        if (!ngInit) {
+            NG.create(appId);
+            NG.createAndCheckSession(appId);
+            NG.core.medals.loadList();
+            NG.core.scoreBoards.loadList();
+            NG.core.setupEncryption(encKey);
+            ngInit = true;
+        }
+#end
+
         inst = new R(seed);
         inst.init();
     }
@@ -427,7 +439,7 @@ class R {
     public function submitRun () {
 #if is_ng
         sendScore(scores[0], skipped.length + defeated.length);
-        sendScore(scores[1], money);
+        sendScore(scores[1], money * 100);
 #end
     }
 

@@ -348,7 +348,7 @@ class BattleScene extends ButtonScene {
         if (death) {
             Player.playCry();
         } else {
-            Player.playSound(Assets.sounds.sons_noise2, 0.1);
+            Player.playSound(Assets.sounds.sons_fx_cry4, 0.2);
         }
     }
 

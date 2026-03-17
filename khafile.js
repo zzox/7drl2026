@@ -19,8 +19,8 @@ project.addSources('src');
 // project.addDefine('harness');
 // project.addDefine('logging');
 
-// project.addDefine('is_ng');
-// project.addLibrary('newgrounds');
+project.addDefine('is_ng');
+project.addLibrary('newgrounds');
 
 project.addDefine('kha_html5_disable_automatic_size_adjust');
 

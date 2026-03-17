@@ -35,9 +35,7 @@ class GenScene extends ButtonScene {
         }
 #else
         for (i in 0...(Run.Generations + 1)) {
-            timers.addTimer(1.5 + (i * 0.3) * 1.1, () -> {
-                Run.inst.world.gen();
-                Run.inst.world.cull();
+            timers.addTimer(0.5 + (i * 0.1) * 1.1, () -> {
                 showGenes(i + 1);
 
                 if (i == Run.Generations) {

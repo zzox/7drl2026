@@ -20,12 +20,13 @@ class StatsScene extends UiScene {
 
         entities.push(new UiElement(18, 32, 16, 16, 4, 4, 12, 12, 280, 128, 20, Assets.images.ui));
 
-        final stats = new NumColumn(24, 32, 100, ['Wins', 'Losses', 'Offspring', 'Abandoned']);
+        final stats = new NumColumn(24, 32, 100, ['Wins', 'Losses', 'Offspring', 'Abandoned', 'Seed']);
         stats.setStringItem('Wins', '${Run.inst.wins}/${Run.Generations + 1}');
         stats.setItem('Losses', Run.inst.losses);
         stats.setItem('Losses', Run.inst.losses);
         stats.setItem('Offspring', Run.inst.offspring);
         stats.setItem('Abandoned', Run.inst.abandoned);
+        stats.setItem('Seed', Run.inst.seed);
         entities.push(stats);
 
         entities.push(makeBitmapText(200, 40, 'Music'));
