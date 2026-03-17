@@ -85,6 +85,7 @@ class OverScene extends ButtonScene {
             stats.setItem('Abandoned', Run.inst.abandoned);
             stats.setStringItem('Total', TextUtil.formatMoney(Run.inst.money));
             entities.push(stats);
+            entities.push(makeBitmapText(240, 166, 'Seed: ${Run.inst.seed}'));
         });
     }
 

@@ -23,7 +23,7 @@ class MenuScene extends ButtonScene {
             game.changeScene(new HelpScene(0));
         }));
 
-        entities.push(makeBitmapText(240, 160, 'v0.1.0'));
+        entities.push(makeBitmapText(240, 166, 'v0.1.1'));
 
         Game.bgScene.set(2);
     }

@@ -40,6 +40,7 @@ class BattleScene extends ButtonScene {
 
     var stepCounter:Int = 0;
     var roomSpeed:Int = 20;
+    var frameSpeed:Int = 1;
 
 #if debug
     var stepText:BitmapText;
@@ -184,16 +185,16 @@ class BattleScene extends ButtonScene {
             worldActive = !worldActive;
         }
 
-        var s = 1;
+        frameSpeed = 1;
 #if debug
         if (Game.keys.pressed(KeyCode.J)) {
-            s += 256;
+            frameSpeed += 256;
         } else if (Game.keys.pressed(KeyCode.H)) {
-            s += 64;
+            frameSpeed += 64;
         } else if (Game.keys.pressed(KeyCode.G)) {
-            s += 16;
+            frameSpeed += 16;
         } else if (Game.keys.pressed(KeyCode.F)) {
-            s += 4;
+            frameSpeed += 4;
         }
 #end
 
@@ -202,36 +203,36 @@ class BattleScene extends ButtonScene {
         if (speed == -1) {
             if (room.steps > 1920) {
                 roomSpeed = 1;
-                s = 8;
+                frameSpeed = 8;
             } else if (room.steps > 960) {
                 roomSpeed = 1;
-                s = 4;
+                frameSpeed = 4;
             }  else if (room.steps > 480) {
                 roomSpeed = 1;
-                s = 2;
+                frameSpeed = 2;
             } else if (room.steps < 48 || room.steps - room.lastHit == 0) {
                 roomSpeed = 5;
-                s = 1;
+                frameSpeed = 1;
             } else if (room.steps < 96 || room.steps - room.lastHit < 48) {
                 roomSpeed = 3;
-                s = 1;
+                frameSpeed = 1;
             } else if (room.steps - room.lastHit < 96) {
                 roomSpeed = 1;
-                s = 1;
+                frameSpeed = 1;
             } else if (room.steps - room.lastHit < 192) {
                 roomSpeed = 1;
-                s = 2;
+                frameSpeed = 2;
             } else if (room.steps - room.lastHit < 288) {
                 roomSpeed = 1;
-                s = 4;
+                frameSpeed = 4;
             } else {
                 roomSpeed = 1;
-                s = 8;
+                frameSpeed = 8;
             }
         }
 
         if (worldActive) {
-            stepCounter += s;
+            stepCounter += frameSpeed;
             while (stepCounter > roomSpeed) {
                 room.step(0);
                 updateParticles();
@@ -360,13 +361,13 @@ class BattleScene extends ButtonScene {
             if (e.type == Damage && e.amount != 0) {
                 particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 2, color: 0xffb4202a });
                 showDamage(e.actor.dna, e.thingType, e.amount);
-                if (speed >= 2) {
+                if (roomSpeed <= 5 && frameSpeed == 1) {
                     Player.playSound(Assets.sounds.sons_fx_fast3, 0.05);
-                } else {
+                } else if (roomSpeed > 5) {
                     Player.playSound(Assets.sounds.sons_noise3, 0.1);
                 }
             }
-            if (e.type == Gene && e.gene != None && speed < 2) {
+            if (e.type == Gene && e.gene != None && roomSpeed > 5) {
                 Player.playSound(Assets.sounds.sons_fx_bonus3, 0.015);
             }
             if (e.type == Heart) {
