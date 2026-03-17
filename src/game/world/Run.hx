@@ -116,7 +116,7 @@ function makeShopPassCommand ():Command {
 class Run {
     public static final Generations:Int = 15; // will fight 1 + Generations since we make one at the start
     public static var inst:R;
-    
+
     public static var ngInit:Bool = false;
     public function new (?seed:Int) {
 #if is_ng

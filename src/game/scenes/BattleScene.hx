@@ -362,7 +362,7 @@ class BattleScene extends ButtonScene {
                 particles.push({ tile: -1, x: e.x, y: e.y, number: e.amount, time: 2, color: 0xffb4202a });
                 showDamage(e.actor.dna, e.thingType, e.amount);
                 if (roomSpeed <= 5 && frameSpeed == 1) {
-                    Player.playSound(Assets.sounds.sons_fx_fast3, 0.05);
+                    Player.playSound(Assets.sounds.sons_fx_fast3, 0.1);
                 } else if (roomSpeed > 5) {
                     Player.playSound(Assets.sounds.sons_noise3, 0.1);
                 }
