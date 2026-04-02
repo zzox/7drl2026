@@ -3,6 +3,30 @@ package game.world;
 import core.util.Util;
 import game.world.Dna;
 
+enum BattleResult {
+    Tie;
+    OneWin;
+    TwoWin;
+}
+
+function simulateBattle (dna1:Dna, dna2:Dna):BattleResult {
+    final room = new Room(dna1, dna2);
+
+    while (room.checkDead() == 0 && !room.checkSkip()) {
+        room.step(0);
+    }
+
+    return if (room.checkDead() == 0 || room.checkDead() == 2) {
+        Tie;
+    } else if (room.actors[1].hp <= 0) {
+        OneWin;
+    } else if (room.actors[0].hp <= 0) {
+        TwoWin;
+    } else {
+        throw 'Not Here';
+    }
+}
+
 class World {
     static inline final GenMutationRate:Float = 1.0;
 

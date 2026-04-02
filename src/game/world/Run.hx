@@ -21,7 +21,6 @@ function unlockMedal (medalNum:Int) {
 // function sendScore (scoreBoard:Int, score:Int, force:Bool = false) {
 function sendScore (scoreBoard:Int, score:Int) {
     final board = NG.core.scoreBoards.get(scoreBoard);
-    trace(board, board.scores);
     // if (board != null && (force || board.scores == null || board.scores[0].value > score)) {
     //     board.postScore(score);
     // }
@@ -377,7 +376,6 @@ class R {
         } else if (command.type == MixGuy) {
             doMix(getFromRoster(command.dId));
         } else if (command.type == MutateGuy) {
-            trace(command, getFromRoster(command.dId));
             doMutate(getFromRoster(command.dId));
         } else if (command.type == ShopBuy) {
             doBuy();
