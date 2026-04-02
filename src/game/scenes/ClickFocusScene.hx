@@ -29,9 +29,10 @@ class ClickFocusScene extends ButtonScene {
 #elseif harness
         game.changeScene(new HarnessScene());
 #else
-        game.changeScene(new MenuScene());
+        // game.changeScene(new MenuScene());
         // game.changeScene(new VlogScene1());
         // game.changeScene(new VlogScene2());
+        game.changeScene(new VlogScene3());
 #end
     }
 }
