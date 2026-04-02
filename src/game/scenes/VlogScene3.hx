@@ -4,12 +4,14 @@ import core.Game;
 import core.gameobjects.BitmapText;
 import core.util.Util;
 import game.ui.GenesDisplay;
+import game.ui.UiElement;
 import game.ui.UiText;
 import game.util.Debug;
 import game.world.Dna;
 import game.world.Run;
 import game.world.World.simulateBattle;
 import haxe.Timer;
+import kha.Assets;
 import kha.input.KeyCode;
 
 typedef DnaData = {
@@ -147,15 +149,26 @@ class VlogScene3 extends ButtonScene {
 
     function show () {
         entities = entities.slice(0, 3);
+        buttons.resize(0);
         
         var pos = 0;
         for (i in (page * 12)...((page + 1) * 12)) {
             final gene = dnas[i];
             if (gene != null) {
+                final el = new UiElement(2, 50 + 10 * pos, 16, 16, 3, 3, 13, 13, 12 * 24, 12, 16, Assets.images.ui, () -> {
+                    doSomething(gene.dna);
+                });
+                buttons.push(el);
+                entities.push(el);
                 entities.push(new GenesDisplay(2, 50 + 10 * pos, gene.dna.genes, 24));
                 entities.push(makeBitmapText(204, 46 + 10 * pos, 'p: ${score(gene)}, w/t ${gene.w}/${gene.t}'));
             }
             pos++;
+
         }
+    }
+
+    function doSomething (dna:Dna) {
+        trace(dna);
     }
 }
