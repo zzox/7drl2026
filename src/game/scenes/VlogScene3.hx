@@ -29,6 +29,9 @@ class VlogScene3 extends ButtonScene {
     var page:Int = 0;
     var maxPages:Int = 0;
 
+    var topItem:GenesDisplay;
+    var dna1:Dna;
+
     static var matches:Map<String, Bool> = new Map();
     static var dnas:Null<Array<DnaData>>;
     static var matchNum:Int;
@@ -46,6 +49,7 @@ class VlogScene3 extends ButtonScene {
         entities.push(logTexts[0]);
         entities.push(logTexts[1]);
         entities.push(logTexts[2]);
+        entities.push(topItem = new GenesDisplay(16, 24, [], 24));
 
         if (dnas == null) {
             new Run();
@@ -148,20 +152,20 @@ class VlogScene3 extends ButtonScene {
     }
 
     function show () {
-        entities = entities.slice(0, 3);
+        entities = entities.slice(0, 4);
         buttons.resize(0);
-        
+
         var pos = 0;
         for (i in (page * 12)...((page + 1) * 12)) {
             final gene = dnas[i];
             if (gene != null) {
-                final el = new UiElement(2, 50 + 10 * pos, 16, 16, 3, 3, 13, 13, 12 * 24, 12, 16, Assets.images.ui, () -> {
+                final el = new UiElement(2, 50 + 10 * pos, 16, 16, 3, 3, 13, 13, 8 * 24, 8, 16, Assets.images.ui, () -> {
                     doSomething(gene.dna);
                 });
                 buttons.push(el);
                 entities.push(el);
                 entities.push(new GenesDisplay(2, 50 + 10 * pos, gene.dna.genes, 24));
-                entities.push(makeBitmapText(204, 46 + 10 * pos, 'p: ${score(gene)}, w/t ${gene.w}/${gene.t}'));
+                entities.push(makeBitmapText(204, 46 + 10 * pos, 'p:${score(gene)} ${gene.w}/${gene.t}/${gene.l}'));
             }
             pos++;
 
@@ -169,6 +173,11 @@ class VlogScene3 extends ButtonScene {
     }
 
     function doSomething (dna:Dna) {
-        trace(dna);
+        if (topItem.genes.length > 0) {
+            game.changeScene(new StandaloneBattleScene(dna1, dna));
+        } else {
+            topItem.genes = dna.genes;
+            dna1 = dna;
+        }
     }
 }
