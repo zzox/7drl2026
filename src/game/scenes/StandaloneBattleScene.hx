@@ -347,7 +347,7 @@ class StandaloneBattleScene extends ButtonScene {
         worldActive = false;
         timers.addTimer(2.0, () -> {
             // TODO: add a "next" button
-            game.changeScene(new VlogScene3());
+            game.changeScene(new VlogScene4());
             // Save.writeSave();
         });
 
